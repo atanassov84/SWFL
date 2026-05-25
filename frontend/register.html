@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrieren – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+<div class="auth-wrapper" style="align-items:flex-start;padding:40px 20px">
+  <div class="auth-card" style="max-width:560px">
+    <div class="auth-logo">
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.3rem;color:var(--text)">
+        <div class="logo-icon">🤝</div>
+        Alltags<span style="color:var(--secondary)">Hilfe</span>
+      </a>
+    </div>
+    <h1 class="auth-title">Konto erstellen</h1>
+
+    <!-- Role Toggle -->
+    <div style="display:flex;gap:10px;margin-bottom:24px">
+      <button type="button" class="btn btn-primary btn-sm" id="btn-customer" onclick="setRole('customer')">🙋 Ich suche Hilfe</button>
+      <button type="button" class="btn btn-outline btn-sm" id="btn-helper" onclick="setRole('helper')">💪 Ich möchte helfen</button>
+    </div>
+
+    <div id="error-msg" class="form-error hidden" style="background:#FDEAEA;padding:12px;border-radius:8px;margin-bottom:16px"></div>
+
+    <form id="register-form">
+      <input type="hidden" id="role" value="customer"/>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Vorname *</label>
+          <input type="text" id="first_name" required placeholder="Vorname"/>
+        </div>
+        <div class="form-group">
+          <label>Nachname *</label>
+          <input type="text" id="last_name" required placeholder="Nachname"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>E-Mail *</label>
+        <input type="email" id="email" required placeholder="ihre@email.de"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Passwort *</label>
+          <input type="password" id="password" required placeholder="Mindestens 8 Zeichen"/>
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" id="phone" placeholder="z.B. 0176 12345678"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Straße & Hausnummer</label>
+        <input type="text" id="street" placeholder="Musterstraße 12"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>PLZ *</label>
+          <input type="text" id="postal_code" maxlength="5" placeholder="12345"/>
+        </div>
+        <div class="form-group">
+          <label>Ort</label>
+          <input type="text" id="city" placeholder="München"/>
+        </div>
+      </div>
+
+      <!-- Kundenspezifisch -->
+      <div id="customer-fields">
+        <div class="info-banner" style="margin-bottom:18px">
+          <div class="icon">ℹ️</div>
+          <div>
+            <h4>Krankenkassen-Abrechnung</h4>
+            <p>Mit Pflegegrad können Sie bis zu 125 €/Monat über §45b SGB XI abrechnen lassen.</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Pflegegrad (optional)</label>
+            <select id="pflegegrad">
+              <option value="">Kein Pflegegrad</option>
+              <option value="1">Pflegegrad 1</option>
+              <option value="2">Pflegegrad 2</option>
+              <option value="3">Pflegegrad 3</option>
+              <option value="4">Pflegegrad 4</option>
+              <option value="5">Pflegegrad 5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Krankenkasse (optional)</label>
+            <input type="text" id="krankenkasse" placeholder="z.B. AOK Bayern"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Versichertennummer (optional)</label>
+          <input type="text" id="versichertennummer" placeholder="z.B. A123456789"/>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn">Konto erstellen</button>
+      <p class="form-note">* Pflichtfelder. Ihre Daten werden vertraulich nach DSGVO behandelt.</p>
+    </form>
+
+    <div class="auth-footer">
+      Bereits registriert? <a href="login.html" style="color:var(--primary);font-weight:600">Jetzt anmelden</a>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+function setRole(role) {
+  document.getElementById("role").value = role;
+  document.getElementById("btn-customer").className = role === "customer" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  document.getElementById("btn-helper").className = role === "helper" ? "btn btn-primary btn-sm" : "btn btn-outline btn-sm";
+  document.getElementById("customer-fields").style.display = role === "customer" ? "block" : "none";
+}
+
+// Pre-select from URL
+const params = new URLSearchParams(location.search);
+if (params.get("role") === "helper") setRole("helper");
+
+document.getElementById("register-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("submit-btn");
+  const errEl = document.getElementById("error-msg");
+  btn.disabled = true;
+  btn.textContent = "Wird erstellt…";
+  errEl.classList.add("hidden");
+
+  const role = document.getElementById("role").value;
+  const pflegegrad = document.getElementById("pflegegrad")?.value;
+
+  const payload = {
+    email:              document.getElementById("email").value,
+    password:           document.getElementById("password").value,
+    role,
+    first_name:         document.getElementById("first_name").value,
+    last_name:          document.getElementById("last_name").value,
+    phone:              document.getElementById("phone").value || null,
+    street:             document.getElementById("street").value || null,
+    postal_code:        document.getElementById("postal_code").value || null,
+    city:               document.getElementById("city").value || null,
+    pflegegrad:         pflegegrad ? parseInt(pflegegrad) : null,
+    krankenkasse:       document.getElementById("krankenkasse")?.value || null,
+    versichertennummer: document.getElementById("versichertennummer")?.value || null,
+  };
+
+  try {
+    const data = await api.register(payload);
+    setAuth(data);
+    window.location.href = role === "helper" ? "/dashboard-helfer.html" : "/dashboard-kunde.html";
+  } catch(err) {
+    errEl.textContent = err.message;
+    errEl.classList.remove("hidden");
+    btn.disabled = false;
+    btn.textContent = "Konto erstellen";
+  }
+});
+</script>
+</body>
+</html>

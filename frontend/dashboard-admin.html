@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="/" style="display:flex;align-items:center;gap:8px;color:#fff;font-weight:800;font-size:1.1rem">
+        <div class="logo-icon" style="background:rgba(255,255,255,.15)">🤝</div>
+        Alltags<span style="color:#7ED56F">Hilfe</span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active" onclick="showSection('overview')" id="nav-overview">
+        <span class="nav-icon">📊</span> Übersicht
+      </a>
+      <a href="#" onclick="showSection('users')" id="nav-users">
+        <span class="nav-icon">👥</span> Benutzer
+      </a>
+      <a href="#" onclick="showSection('bookings')" id="nav-bookings">
+        <span class="nav-icon">📅</span> Buchungen
+      </a>
+      <a href="#" onclick="showSection('invoices')" id="nav-invoices">
+        <span class="nav-icon">🧾</span> Rechnungen
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="color:rgba(255,255,255,.5);font-size:.75rem;margin-bottom:8px">Admin-Bereich</div>
+      <a href="/" style="color:rgba(255,255,255,.6);font-size:.85rem" onclick="clearAuth()">← Abmelden</a>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <div>
+        <span style="font-weight:700">Admin-Dashboard</span>
+        <span style="color:var(--text-muted);font-size:.85rem;margin-left:8px">AlltagsHilfe Verwaltung</span>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+
+      <!-- Übersicht -->
+      <div id="section-overview">
+        <div class="page-title">Systemübersicht</div>
+        <div class="page-sub">Aktuelle Zahlen auf einen Blick</div>
+        <div class="stats-grid" id="admin-stats"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px">
+          <div>
+            <h3 style="font-weight:700;margin-bottom:16px">Letzte Buchungen</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Datum</th><th>Leistung</th><th>Status</th></tr></thead>
+                <tbody id="recent-bookings"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-weight:700;margin-bottom:16px">Letzte Rechnungen</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Nummer</th><th>Betrag</th><th>Status</th></tr></thead>
+                <tbody id="recent-invoices"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benutzer -->
+      <div id="section-users" class="hidden">
+        <div class="page-title">Benutzerverwaltung</div>
+        <div class="page-sub">Alle registrierten Benutzer</div>
+        <div style="display:flex;gap:10px;margin-bottom:16px">
+          <input type="text" id="user-search" placeholder="Name oder E-Mail suchen…" oninput="filterUsers()" style="padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:.9rem;width:300px"/>
+          <select id="user-role-filter" onchange="filterUsers()" style="padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:.9rem">
+            <option value="">Alle Rollen</option>
+            <option value="customer">Kunden</option>
+            <option value="helper">Helfer</option>
+            <option value="admin">Admins</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>E-Mail</th><th>Rolle</th><th>PLZ</th><th>Pflegegrad</th><th>Krankenkasse</th><th>Aktiv</th><th>Aktionen</th></tr>
+            </thead>
+            <tbody id="users-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Buchungen -->
+      <div id="section-bookings" class="hidden">
+        <div class="page-title">Alle Buchungen</div>
+        <div class="page-sub">Übersicht aller Buchungen im System</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Datum</th><th>Kunde</th><th>Helfer</th><th>Leistung</th><th>Dauer</th><th>Status</th><th>KK</th><th>Nachweis</th></tr>
+            </thead>
+            <tbody id="all-bookings-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Rechnungen -->
+      <div id="section-invoices" class="hidden">
+        <div class="page-title">Rechnungen & KK-Abrechnung</div>
+        <div class="page-sub">Krankenkassen-Abrechnungen erstellen und verwalten</div>
+
+        <div class="card" style="margin-bottom:24px">
+          <h3 style="font-weight:700;margin-bottom:16px">Neue Rechnung erstellen</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group">
+              <label>Kunde</label>
+              <select id="inv-customer"></select>
+            </div>
+            <div class="form-group">
+              <label>Zeitraum von</label>
+              <input type="date" id="inv-start"/>
+            </div>
+            <div class="form-group">
+              <label>Zeitraum bis</label>
+              <input type="date" id="inv-end"/>
+            </div>
+            <div class="form-group">
+              <label>Notizen</label>
+              <input type="text" id="inv-notes" placeholder="Optional"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Buchungen (abgeschlossen)</label>
+            <div id="inv-bookings-list" style="max-height:200px;overflow-y:auto;border:1.5px solid var(--border);border-radius:var(--radius);padding:10px"></div>
+          </div>
+          <button class="btn btn-primary" onclick="createInvoice()">Rechnung erstellen</button>
+        </div>
+
+        <h3 style="font-weight:700;margin-bottom:16px">Bestehende Rechnungen</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Nummer</th><th>Zeitraum</th><th>Stunden</th><th>Gesamt</th><th>KK-Anteil</th><th>Krankenkasse</th><th>Status</th><th>Aktionen</th></tr>
+            </thead>
+            <tbody id="invoices-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+if (!isLoggedIn() || getUserRole() !== "admin") window.location.href = "/login.html";
+
+let allUsers = [];
+let allBookings = [];
+let allInvoices = [];
+
+function showSection(name) {
+  ["overview","users","bookings","invoices"].forEach(s => {
+    document.getElementById(`section-${s}`).classList.toggle("hidden", s !== name);
+    document.getElementById(`nav-${s}`)?.classList.toggle("active", s === name);
+  });
+  if (name === "users") loadUsers();
+  if (name === "bookings") loadAllBookings();
+  if (name === "invoices") loadInvoices();
+}
+
+async function loadDashboard() {
+  try {
+    const stats = await api.dashboard();
+    document.getElementById("admin-stats").innerHTML = `
+      <div class="stat-card primary"><div class="stat-card-icon">👥</div><div class="stat-card-label">Benutzer gesamt</div><div class="stat-card-value">${stats.total_users}</div></div>
+      <div class="stat-card"><div class="stat-card-icon">💪</div><div class="stat-card-label">Helfer</div><div class="stat-card-value">${stats.total_helpers}</div></div>
+      <div class="stat-card"><div class="stat-card-icon">🙋</div><div class="stat-card-label">Kunden</div><div class="stat-card-value">${stats.total_customers}</div></div>
+      <div class="stat-card accent"><div class="stat-card-icon">⏳</div><div class="stat-card-label">Offene Buchungen</div><div class="stat-card-value">${stats.pending_bookings}</div></div>
+      <div class="stat-card secondary"><div class="stat-card-icon">✅</div><div class="stat-card-label">Abgeschlossen</div><div class="stat-card-value">${stats.completed_bookings}</div></div>
+      <div class="stat-card primary"><div class="stat-card-icon">💶</div><div class="stat-card-label">Umsatz (Monat)</div><div class="stat-card-value">${stats.revenue_this_month.toFixed(0)}€</div></div>
+    `;
+
+    allBookings = await api.adminBookings();
+    const recent = allBookings.slice(0, 5);
+    document.getElementById("recent-bookings").innerHTML = recent.map(b => `
+      <tr><td>${fmtDate(b.booking_date)}</td><td>${b.service_name}</td><td>${statusBadge(b.status)}</td></tr>
+    `).join("") || "<tr><td colspan='3' style='text-align:center;color:var(--text-muted)'>Keine</td></tr>";
+
+    allInvoices = await api.adminInvoices();
+    const recentInv = allInvoices.slice(0, 5);
+    document.getElementById("recent-invoices").innerHTML = recentInv.map(i => `
+      <tr><td>${i.invoice_number}</td><td>${i.total_amount.toFixed(2)}€</td><td>${statusBadge(i.status)}</td></tr>
+    `).join("") || "<tr><td colspan='3' style='text-align:center;color:var(--text-muted)'>Keine</td></tr>";
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function loadUsers() {
+  const tbody = document.getElementById("users-table");
+  tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;padding:24px'>Lädt…</td></tr>";
+  try {
+    allUsers = await api.adminUsers();
+    renderUsers(allUsers);
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+function renderUsers(users) {
+  const tbody = document.getElementById("users-table");
+  const roleMap = { customer: "Kunde", helper: "Helfer", admin: "Admin" };
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td><strong>${u.first_name} ${u.last_name}</strong></td>
+      <td>${u.email}</td>
+      <td><span class="badge ${u.role === 'admin' ? 'badge-confirmed' : u.role === 'helper' ? 'badge-completed' : 'badge-pending'}">${roleMap[u.role]}</span></td>
+      <td>${u.postal_code || "–"}</td>
+      <td>${u.pflegegrad ? `PG ${u.pflegegrad}` : "–"}</td>
+      <td>${u.krankenkasse || "–"}</td>
+      <td><span style="color:${u.active ? 'var(--secondary)' : 'var(--danger)'}">● ${u.active ? "Aktiv" : "Gesperrt"}</span></td>
+      <td>
+        <button class="btn btn-sm ${u.active ? 'btn-danger' : 'btn-secondary'}" onclick="toggleUser(${u.id})">
+          ${u.active ? "Sperren" : "Aktivieren"}
+        </button>
+      </td>
+    </tr>
+  `).join("") || "<tr><td colspan='8' style='text-align:center;color:var(--text-muted)'>Keine Benutzer</td></tr>";
+}
+
+function filterUsers() {
+  const search = document.getElementById("user-search").value.toLowerCase();
+  const role   = document.getElementById("user-role-filter").value;
+  const filtered = allUsers.filter(u => {
+    const matchSearch = !search || `${u.first_name} ${u.last_name} ${u.email}`.toLowerCase().includes(search);
+    const matchRole   = !role || u.role === role;
+    return matchSearch && matchRole;
+  });
+  renderUsers(filtered);
+}
+
+async function toggleUser(id) {
+  try {
+    const res = await api.toggleUserActive(id);
+    showToast(res.active ? "Benutzer aktiviert" : "Benutzer gesperrt", "success");
+    loadUsers();
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function loadAllBookings() {
+  const tbody = document.getElementById("all-bookings-table");
+  tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;padding:24px'>Lädt…</td></tr>";
+  try {
+    allBookings = await api.adminBookings();
+    tbody.innerHTML = allBookings.map(b => `
+      <tr>
+        <td>${fmtDate(b.booking_date)}</td>
+        <td>${b.customer_name}</td>
+        <td>${b.helper_name}</td>
+        <td>${b.service_name}</td>
+        <td>${b.duration_hours}h</td>
+        <td>${statusBadge(b.status)}</td>
+        <td>${b.krankenkasse_billing ? '<span style="color:var(--secondary)">✓ KK</span>' : '–'}</td>
+        <td>${b.has_documentation ? (b.customer_confirmed ? '<span style="color:var(--secondary)">✓ Bestätigt</span>' : '<span style="color:var(--warn)">⏳ Offen</span>') : '–'}</td>
+      </tr>
+    `).join("") || "<tr><td colspan='8' style='text-align:center;color:var(--text-muted)'>Keine Buchungen</td></tr>";
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function loadInvoices() {
+  try {
+    [allUsers, allBookings, allInvoices] = await Promise.all([
+      api.adminUsers(), api.adminBookings(), api.adminInvoices()
+    ]);
+
+    // Kundenauswahl
+    const sel = document.getElementById("inv-customer");
+    sel.innerHTML = '<option value="">Kunden auswählen…</option>';
+    allUsers.filter(u => u.role === "customer").forEach(u => {
+      sel.innerHTML += `<option value="${u.id}">${u.first_name} ${u.last_name}</option>`;
+    });
+    sel.onchange = () => loadCustomerBookings(parseInt(sel.value));
+
+    // Rechnungen Tabelle
+    renderInvoices();
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+function loadCustomerBookings(customerId) {
+  const completedBookings = allBookings.filter(b =>
+    b.status === "completed" && b.krankenkasse_billing
+  );
+  const div = document.getElementById("inv-bookings-list");
+  if (!customerId) { div.innerHTML = "<em>Kunden auswählen</em>"; return; }
+  const customerBookings = completedBookings.filter(b => {
+    const u = allUsers.find(u => u.id === customerId);
+    return u && b.customer_name === `${u.first_name} ${u.last_name}`;
+  });
+  if (customerBookings.length === 0) { div.innerHTML = "<em style='color:var(--text-muted)'>Keine abgeschlossenen Buchungen</em>"; return; }
+  div.innerHTML = customerBookings.map(b => `
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;border-bottom:1px solid var(--border)">
+      <input type="checkbox" value="${b.id}" checked/>
+      ${fmtDate(b.booking_date)} – ${b.service_name} (${b.duration_hours}h) – ${b.helper_name}
+    </label>
+  `).join("");
+}
+
+async function createInvoice() {
+  const customerId = parseInt(document.getElementById("inv-customer").value);
+  if (!customerId) { showToast("Bitte Kunden auswählen", "error"); return; }
+  const start = document.getElementById("inv-start").value;
+  const end   = document.getElementById("inv-end").value;
+  if (!start || !end) { showToast("Bitte Zeitraum angeben", "error"); return; }
+  const bookingIds = Array.from(document.querySelectorAll("#inv-bookings-list input:checked")).map(el => parseInt(el.value));
+  if (bookingIds.length === 0) { showToast("Bitte Buchungen auswählen", "error"); return; }
+  try {
+    const inv = await api.createInvoice({
+      customer_id: customerId, period_start: start, period_end: end,
+      booking_ids: bookingIds, notes: document.getElementById("inv-notes").value || null,
+    });
+    showToast(`Rechnung ${inv.invoice_number} erstellt ✓`, "success");
+    loadInvoices();
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+function renderInvoices() {
+  const tbody = document.getElementById("invoices-table");
+  tbody.innerHTML = allInvoices.map(i => `
+    <tr>
+      <td><strong>${i.invoice_number}</strong></td>
+      <td>${fmtDate(i.period_start)} – ${fmtDate(i.period_end)}</td>
+      <td>${i.total_hours.toFixed(1)}h</td>
+      <td>${i.total_amount.toFixed(2)} €</td>
+      <td style="color:var(--secondary)">${i.krankenkasse_amount.toFixed(2)} €</td>
+      <td>${i.krankenkasse_name || "–"}</td>
+      <td>${statusBadge(i.status)}</td>
+      <td>
+        <select onchange="updateInvoiceStatus(${i.id}, this.value)" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:.82rem">
+          <option value="draft" ${i.status==='draft'?'selected':''}>Entwurf</option>
+          <option value="sent" ${i.status==='sent'?'selected':''}>Gesendet</option>
+          <option value="paid" ${i.status==='paid'?'selected':''}>Bezahlt</option>
+          <option value="rejected" ${i.status==='rejected'?'selected':''}>Abgelehnt</option>
+        </select>
+      </td>
+    </tr>
+  `).join("") || "<tr><td colspan='8' style='text-align:center;color:var(--text-muted)'>Keine Rechnungen</td></tr>";
+}
+
+async function updateInvoiceStatus(id, status) {
+  try {
+    await apiFetch(`/admin/invoices/${id}/status?status=${status}`, { method: "PATCH" });
+    showToast("Status aktualisiert ✓", "success");
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mein Bereich – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="/" style="display:flex;align-items:center;gap:8px;color:#fff;font-weight:800;font-size:1.1rem">
+        <div class="logo-icon" style="background:rgba(255,255,255,.15)">🤝</div>
+        Alltags<span style="color:#7ED56F">Hilfe</span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active" onclick="showSection('overview')" id="nav-overview">
+        <span class="nav-icon">🏠</span> Übersicht
+      </a>
+      <a href="#" onclick="showSection('bookings')" id="nav-bookings">
+        <span class="nav-icon">📅</span> Meine Buchungen
+      </a>
+      <a href="helfer-suche.html">
+        <span class="nav-icon">🔍</span> Helfer finden
+      </a>
+      <a href="#" onclick="showSection('profile')" id="nav-profile">
+        <span class="nav-icon">👤</span> Mein Profil
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/" style="color:rgba(255,255,255,.6);font-size:.85rem" onclick="clearAuth()">← Abmelden</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <div>
+        <span id="header-greeting" style="font-weight:700">Guten Tag!</span>
+        <span style="color:var(--text-muted);font-size:.85rem;margin-left:8px">Willkommen in Ihrem Bereich</span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="helfer-suche.html" class="btn btn-primary btn-sm">+ Helfer buchen</a>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+
+      <!-- Übersicht -->
+      <div id="section-overview">
+        <div class="page-title">Übersicht</div>
+        <div class="page-sub">Ihre aktuellen Aktivitäten auf einen Blick</div>
+
+        <div class="stats-grid" id="customer-stats"></div>
+
+        <div class="info-banner" id="kk-banner" style="display:none">
+          <div class="icon">💡</div>
+          <div>
+            <h4>Krankenkassen-Abrechnung verfügbar</h4>
+            <p>Mit Ihrem Pflegegrad haben Sie Anspruch auf bis zu <strong>125 €/Monat</strong> Entlastungsbetrag (§45b SGB XI). Wir rechnen direkt mit Ihrer Krankenkasse ab.</p>
+          </div>
+        </div>
+
+        <h3 style="font-weight:700;margin-bottom:16px">Nächste Termine</h3>
+        <div id="upcoming-bookings" class="grid-3"></div>
+      </div>
+
+      <!-- Buchungen -->
+      <div id="section-bookings" class="hidden">
+        <div class="page-title">Meine Buchungen</div>
+        <div class="page-sub">Alle Ihre Buchungen im Überblick</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Datum</th><th>Helfer</th><th>Leistung</th>
+                <th>Dauer</th><th>Status</th><th>KK</th><th>Aktionen</th>
+              </tr>
+            </thead>
+            <tbody id="bookings-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Profil -->
+      <div id="section-profile" class="hidden">
+        <div class="page-title">Mein Profil</div>
+        <div class="page-sub">Persönliche Daten und Krankenkassen-Informationen</div>
+        <div style="max-width:560px">
+          <form id="profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Vorname</label>
+                <input type="text" id="pf-first_name"/>
+              </div>
+              <div class="form-group">
+                <label>Nachname</label>
+                <input type="text" id="pf-last_name"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="tel" id="pf-phone"/>
+            </div>
+            <div class="form-group">
+              <label>Straße & Hausnummer</label>
+              <input type="text" id="pf-street"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>PLZ</label>
+                <input type="text" id="pf-postal_code" maxlength="5"/>
+              </div>
+              <div class="form-group">
+                <label>Ort</label>
+                <input type="text" id="pf-city"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Pflegegrad</label>
+                <select id="pf-pflegegrad">
+                  <option value="">Kein Pflegegrad</option>
+                  <option value="1">Pflegegrad 1</option>
+                  <option value="2">Pflegegrad 2</option>
+                  <option value="3">Pflegegrad 3</option>
+                  <option value="4">Pflegegrad 4</option>
+                  <option value="5">Pflegegrad 5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Krankenkasse</label>
+                <input type="text" id="pf-krankenkasse"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Versichertennummer</label>
+              <input type="text" id="pf-versichertennummer"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Speichern</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Review Modal -->
+<div class="modal-overlay hidden" id="review-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Helfer bewerten</h2>
+      <button class="modal-close" onclick="closeModal('review-modal')">✕</button>
+    </div>
+    <input type="hidden" id="review-booking-id"/>
+    <input type="hidden" id="review-helper-id"/>
+    <div class="form-group">
+      <label>Bewertung (1–5 Sterne)</label>
+      <div id="star-picker" style="display:flex;gap:8px;font-size:2rem;cursor:pointer">
+        <span onclick="setStar(1)">☆</span><span onclick="setStar(2)">☆</span>
+        <span onclick="setStar(3)">☆</span><span onclick="setStar(4)">☆</span>
+        <span onclick="setStar(5)">☆</span>
+      </div>
+      <input type="hidden" id="review-rating" value="0"/>
+    </div>
+    <div class="form-group">
+      <label>Kommentar (optional)</label>
+      <textarea id="review-comment" placeholder="Ihre Erfahrung beschreiben…"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="submitReview()">Bewertung abgeben</button>
+  </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+if (!isLoggedIn() || getUserRole() === "admin") {
+  window.location.href = getUserRole() === "admin" ? "/dashboard-admin.html" : "/login.html";
+}
+if (getUserRole() === "helper") window.location.href = "/dashboard-helfer.html";
+
+let bookings = [];
+
+function showSection(name) {
+  ["overview","bookings","profile"].forEach(s => {
+    document.getElementById(`section-${s}`).classList.toggle("hidden", s !== name);
+    document.getElementById(`nav-${s}`)?.classList.toggle("active", s === name);
+  });
+  if (name === "bookings") loadBookings();
+  if (name === "profile") loadProfile();
+}
+
+async function loadDashboard() {
+  document.getElementById("header-greeting").textContent = `Guten Tag, ${getUserName()}!`;
+  try {
+    bookings = await api.listBookings();
+    const pending  = bookings.filter(b => b.status === "pending").length;
+    const confirmed = bookings.filter(b => b.status === "confirmed").length;
+    const completed = bookings.filter(b => b.status === "completed").length;
+
+    document.getElementById("customer-stats").innerHTML = `
+      <div class="stat-card primary"><div class="stat-card-icon">📅</div><div class="stat-card-label">Offene Anfragen</div><div class="stat-card-value">${pending}</div></div>
+      <div class="stat-card secondary"><div class="stat-card-icon">✅</div><div class="stat-card-label">Bestätigt</div><div class="stat-card-value">${confirmed}</div></div>
+      <div class="stat-card accent"><div class="stat-card-icon">🏆</div><div class="stat-card-label">Abgeschlossen</div><div class="stat-card-value">${completed}</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📋</div><div class="stat-card-label">Gesamt</div><div class="stat-card-value">${bookings.length}</div></div>
+    `;
+
+    const me = await api.me();
+    if (me.pflegegrad) document.getElementById("kk-banner").style.display = "flex";
+
+    const upcoming = bookings
+      .filter(b => b.status !== "cancelled" && b.status !== "completed" && b.booking_date >= new Date().toISOString().split("T")[0])
+      .slice(0, 3);
+
+    const grid = document.getElementById("upcoming-bookings");
+    if (upcoming.length === 0) {
+      grid.innerHTML = '<div class="card" style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted)"><div style="font-size:2rem">📅</div><p style="margin-top:10px">Keine anstehenden Termine.<br/><a href="helfer-suche.html">Jetzt Helfer buchen →</a></p></div>';
+    } else {
+      grid.innerHTML = upcoming.map(b => `
+        <div class="card" style="border-left:4px solid var(--primary)">
+          <div style="font-weight:700">${b.service_name}</div>
+          <div style="color:var(--text-muted);font-size:.85rem;margin:6px 0">📅 ${fmtDate(b.booking_date)} · ⏰ ${b.start_time} · ${b.duration_hours}h</div>
+          <div style="font-size:.85rem">Helfer: <strong>${b.helper_name}</strong></div>
+          ${statusBadge(b.status)}
+        </div>
+      `).join("");
+    }
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function loadBookings() {
+  const tbody = document.getElementById("bookings-table");
+  tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;padding:24px'>Lädt…</td></tr>";
+  try {
+    bookings = await api.listBookings();
+    if (bookings.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;padding:24px;color:var(--text-muted)'>Noch keine Buchungen</td></tr>";
+      return;
+    }
+    tbody.innerHTML = bookings.map(b => `
+      <tr>
+        <td>${fmtDate(b.booking_date)}<br/><small style="color:var(--text-muted)">${b.start_time}</small></td>
+        <td>${b.helper_name}</td>
+        <td>${b.service_name}</td>
+        <td>${b.duration_hours}h</td>
+        <td>${statusBadge(b.status)}</td>
+        <td>${b.krankenkasse_billing ? '<span style="color:var(--secondary);font-size:.85rem">✓ KK</span>' : '–'}</td>
+        <td>
+          ${b.status === "pending" ? `<button class="btn btn-danger btn-sm" onclick="cancelBooking(${b.id})">Stornieren</button>` : ""}
+          ${b.status === "completed" && !b.review ? `<button class="btn btn-outline btn-sm" onclick="openReview(${b.id},${b.helper_id})">Bewerten</button>` : ""}
+          ${b.status === "completed" ? `<button class="btn btn-ghost btn-sm" onclick="confirmDoc(${b.id})">✓ Bestätigen</button>` : ""}
+        </td>
+      </tr>
+    `).join("");
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function cancelBooking(id) {
+  if (!confirm("Buchung wirklich stornieren?")) return;
+  try {
+    await api.updateBookingStatus(id, "cancelled");
+    showToast("Buchung storniert", "success");
+    loadBookings();
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function confirmDoc(id) {
+  try {
+    await api.confirmDocumentation(id);
+    showToast("Leistungsnachweis bestätigt ✓", "success");
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+function openReview(bookingId, helperId) {
+  document.getElementById("review-booking-id").value = bookingId;
+  document.getElementById("review-helper-id").value = helperId;
+  setStar(0);
+  document.getElementById("review-comment").value = "";
+  openModal("review-modal");
+}
+
+function setStar(n) {
+  document.getElementById("review-rating").value = n;
+  document.querySelectorAll("#star-picker span").forEach((el, i) => {
+    el.textContent = i < n ? "★" : "☆";
+    el.style.color = i < n ? "#F39C12" : "#ccc";
+  });
+}
+
+async function submitReview() {
+  const rating = parseInt(document.getElementById("review-rating").value);
+  if (rating < 1) { showToast("Bitte Bewertung auswählen", "error"); return; }
+  try {
+    await api.addReview(document.getElementById("review-booking-id").value, {
+      booking_id: parseInt(document.getElementById("review-booking-id").value),
+      reviewee_id: parseInt(document.getElementById("review-helper-id").value),
+      rating,
+      comment: document.getElementById("review-comment").value || null,
+    });
+    closeModal("review-modal");
+    showToast("Bewertung abgegeben ✓", "success");
+    loadBookings();
+  } catch(e) { showToast(e.message, "error"); }
+}
+
+async function loadProfile() {
+  try {
+    const me = await api.me();
+    ["first_name","last_name","phone","street","postal_code","city","krankenkasse","versichertennummer"].forEach(f => {
+      const el = document.getElementById(`pf-${f}`);
+      if (el) el.value = me[f] || "";
+    });
+    if (me.pflegegrad) document.getElementById("pf-pflegegrad").value = me.pflegegrad;
+  } catch(e) {}
+}
+
+document.getElementById("profile-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const pflegegrad = document.getElementById("pf-pflegegrad").value;
+  const data = {};
+  ["first_name","last_name","phone","street","postal_code","city","krankenkasse","versichertennummer"].forEach(f => {
+    data[f] = document.getElementById(`pf-${f}`).value || null;
+  });
+  data.pflegegrad = pflegegrad ? parseInt(pflegegrad) : null;
+  try {
+    await api.updateMe(data);
+    showToast("Profil gespeichert ✓", "success");
+  } catch(e) { showToast(e.message, "error"); }
+});
+
+loadDashboard();
+</script>
+</body>
+</html>

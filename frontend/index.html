@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Alltagshilfe – Professionelle Unterstützung im Alltag, abrechenbar über Ihre Krankenkasse (§45b SGB XI)."/>
+  <title>Alltagshilfe – Hilfe im Alltag, über Krankenkasse abrechenbar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">🤝</div>
+      <div class="logo-text">Alltags<span>Hilfe</span></div>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#services">Leistungen</a>
+      <a href="#how-it-works">So funktioniert's</a>
+      <a href="helfer-suche.html">Helfer finden</a>
+      <a href="login.html" id="nav-login" class="btn btn-outline btn-sm">Anmelden</a>
+      <a href="#" id="nav-logout" class="btn btn-ghost btn-sm hidden">Abmelden</a>
+      <a href="/dashboard-kunde.html" id="nav-dashboard" class="btn btn-primary btn-sm hidden">Dashboard</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menü"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">✅ §45b SGB XI – Krankenkasse zahlt mit</div>
+      <h1 class="hero-title">
+        Professionelle Hilfe<br/>im Alltag –<br/><span class="hl">bezahlbar für jeden</span>
+      </h1>
+      <p class="hero-sub">
+        Wir verbinden Sie mit zuverlässigen Alltagshelferinnen und -helfern in Ihrer Nähe.
+        Für Menschen mit Pflegegrad übernimmt die Krankenkasse bis zu <strong>125 €/Monat</strong>.
+      </p>
+      <div class="hero-cta">
+        <a href="helfer-suche.html" class="btn btn-accent btn-lg">Helfer jetzt finden</a>
+        <a href="register.html?role=helper" class="btn btn-outline btn-lg" style="color:#fff;border-color:rgba(255,255,255,.6)">Als Helfer anmelden</a>
+      </div>
+      <div class="hero-stats">
+        <div><span class="stat-num">500+</span><span class="stat-label">Aktive Helfer</span></div>
+        <div><span class="stat-num">2.400+</span><span class="stat-label">Geleistete Stunden</span></div>
+        <div><span class="stat-num">95%</span><span class="stat-label">Zufriedene Kunden</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KRANKENKASSE HINWEIS -->
+<div class="container" style="margin-top:0">
+  <div class="search-bar">
+    <p style="font-weight:700;font-size:1.05rem;margin-bottom:16px">Helfer in Ihrer Nähe finden</p>
+    <div class="search-row">
+      <div class="form-group">
+        <label>Postleitzahl</label>
+        <input type="text" id="search-plz" placeholder="z.B. 80331" maxlength="5"/>
+      </div>
+      <div class="form-group">
+        <label>Leistung</label>
+        <select id="search-service">
+          <option value="">Alle Leistungen</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Max. Stundenlohn (€)</label>
+        <input type="number" id="search-rate" placeholder="z.B. 15" min="10" max="50"/>
+      </div>
+      <div class="form-group" style="align-self:flex-end">
+        <button class="btn btn-primary btn-full" onclick="doSearch()">🔍 Suchen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Unsere Leistungen</span>
+      <h2 class="section-title">Was unsere Helfer anbieten</h2>
+      <p class="section-sub">Alle markierten Leistungen können über den §45b SGB XI Entlastungsbetrag abgerechnet werden.</p>
+    </div>
+    <div id="service-categories" class="grid-4"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works" style="background:#fff">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">So einfach geht's</span>
+      <h2 class="section-title">In 4 Schritten zur Alltagshilfe</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Registrieren</h3>
+        <p>Kostenlos anmelden und Pflegegrad sowie Krankenkasse angeben.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Helfer finden</h3>
+        <p>Passenden Helfer nach PLZ und Leistung suchen & Profil ansehen.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Termin buchen</h3>
+        <p>Wunschtermin wählen und Buchung mit einem Klick bestätigen.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Abrechnung</h3>
+        <p>Wir kümmern uns um die Abrechnung mit Ihrer Krankenkasse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KK INFO -->
+<section class="section" style="background:linear-gradient(135deg,#1B6CA8,#14517F);color:#fff">
+  <div class="container" style="max-width:800px;text-align:center">
+    <h2 style="font-size:2rem;font-weight:800;margin-bottom:16px">§45b SGB XI – Entlastungsbetrag</h2>
+    <p style="opacity:.9;font-size:1.05rem;margin-bottom:28px">
+      Menschen mit einem anerkannten Pflegegrad (1–5) haben Anspruch auf bis zu <strong>125 € monatlich</strong>
+      für Entlastungsleistungen wie Alltagshilfe, Begleitung oder Haushaltshilfe.
+      Nicht genutzte Beträge können bis zu 12 Monate übertragen werden!
+    </p>
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:20px 28px">
+        <div style="font-size:2rem;font-weight:800">125€</div>
+        <div style="opacity:.8;font-size:.9rem">monatlicher Anspruch</div>
+      </div>
+      <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:20px 28px">
+        <div style="font-size:2rem;font-weight:800">1.500€</div>
+        <div style="opacity:.8;font-size:.9rem">jährlicher Anspruch</div>
+      </div>
+      <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:20px 28px">
+        <div style="font-size:2rem;font-weight:800">12 Monate</div>
+        <div style="opacity:.8;font-size:.9rem">Übertragungszeitraum</div>
+      </div>
+    </div>
+    <a href="register.html" class="btn btn-accent btn-lg" style="margin-top:32px">Jetzt kostenlos registrieren</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Kundenstimmen</span>
+      <h2 class="section-title">Was unsere Kunden sagen</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">„Meine Mutter freut sich jedes Mal wenn ihre Helferin kommt. Die Begleitung zum Arzt hat uns als Familie so viel Stress abgenommen."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">M.S.</div>
+          <div><strong>M. Schmidt</strong><br/><span style="color:var(--text-muted);font-size:.85rem">Tochter, München</span></div>
+        </div>
+      </div>
+      <div class="card testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">„Endlich jemand der hilft und die Krankenkasse zahlt fast alles. Die Abrechnung läuft unkompliziert über AlltagsHilfe."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">K.M.</div>
+          <div><strong>K. Müller</strong><br/><span style="color:var(--text-muted);font-size:.85rem">Pflegegrad 2, Hamburg</span></div>
+        </div>
+      </div>
+      <div class="card testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">„Als Helfer bin ich begeistert von der App. Buchungen, Dokumentation, alles an einem Ort. Super einfach."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">T.K.</div>
+          <div><strong>T. Köhler</strong><br/><span style="color:var(--text-muted);font-size:.85rem">Alltagshelfer, Berlin</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo logo--light" style="color:#fff">
+          <div class="logo-icon">🤝</div>
+          <div style="font-weight:800;font-size:1.1rem">Alltags<span style="color:#7ED56F">Hilfe</span></div>
+        </div>
+        <p>Professionelle Alltagsunterstützung – abrechenbar über die Krankenkasse nach §45b SGB XI.</p>
+      </div>
+      <div class="footer-col">
+        <strong>Leistungen</strong>
+        <a href="#services">Einkaufshilfe</a>
+        <a href="#services">Haushaltshilfe</a>
+        <a href="#services">Begleitung</a>
+        <a href="#services">Fahrdienst</a>
+      </div>
+      <div class="footer-col">
+        <strong>Unternehmen</strong>
+        <a href="#">Über uns</a>
+        <a href="helfer-suche.html">Helfer finden</a>
+        <a href="register.html?role=helper">Als Helfer arbeiten</a>
+      </div>
+      <div class="footer-col">
+        <strong>Rechtliches</strong>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+        <a href="#">§45b SGB XI Info</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <span>© 2025 AlltagsHilfe. Alle Rechte vorbehalten.</span>
+      <span>Anerkannter Entlastungsleistungsanbieter nach §45b SGB XI</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+async function loadCategories() {
+  try {
+    const cats = await api.serviceCategories();
+    const sel = document.getElementById("search-service");
+    const grid = document.getElementById("service-categories");
+    cats.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c.id; opt.textContent = c.name;
+      sel.appendChild(opt);
+
+      const card = document.createElement("div");
+      card.className = "card service-cat-card";
+      card.innerHTML = `
+        <div class="service-cat-icon">${c.icon || "🔧"}</div>
+        <div class="service-cat-name">${c.name}</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-top:6px">${c.description || ""}</div>
+        ${c.krankenkasse_eligible ? '<div class="kk-badge" style="margin-top:10px">KK-fähig ✓</div>' : ''}
+      `;
+      card.addEventListener("click", () => {
+        sel.value = c.id;
+        document.querySelector("#services").scrollIntoView({behavior:"smooth"});
+      });
+      grid.appendChild(card);
+    });
+  } catch(e) { /* API nicht erreichbar */ }
+}
+
+function doSearch() {
+  const plz     = document.getElementById("search-plz").value;
+  const service = document.getElementById("search-service").value;
+  const rate    = document.getElementById("search-rate").value;
+  const params  = new URLSearchParams();
+  if (plz)     params.set("postal_code", plz);
+  if (service) params.set("service_id", service);
+  if (rate)    params.set("max_rate", rate);
+  window.location.href = `helfer-suche.html?${params.toString()}`;
+}
+
+loadCategories();
+</script>
+</body>
+</html>

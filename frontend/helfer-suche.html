@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helfer finden – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">🤝</div>
+      <div class="logo-text">Alltags<span>Hilfe</span></div>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="/">Startseite</a>
+      <a href="helfer-suche.html" class="active">Helfer finden</a>
+      <a href="login.html" id="nav-login" class="btn btn-outline btn-sm">Anmelden</a>
+      <a href="#" id="nav-logout" class="btn btn-ghost btn-sm hidden">Abmelden</a>
+      <a href="#" id="nav-dashboard" class="btn btn-primary btn-sm hidden">Dashboard</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div style="background:#fff;border-bottom:1px solid var(--border);padding:20px 0">
+  <div class="container">
+    <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:16px">Helfer in Ihrer Nähe finden</h1>
+    <div class="search-row">
+      <div class="form-group" style="margin:0">
+        <input type="text" id="filter-plz" placeholder="PLZ eingeben…" maxlength="5"/>
+      </div>
+      <div class="form-group" style="margin:0">
+        <select id="filter-service">
+          <option value="">Alle Leistungen</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin:0">
+        <input type="number" id="filter-rate" placeholder="Max. €/Std." min="10" max="50"/>
+      </div>
+      <button class="btn btn-primary" onclick="loadHelpers()">🔍 Suchen</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="padding-top:32px;padding-bottom:60px">
+  <div id="result-info" style="color:var(--text-muted);font-size:.9rem;margin-bottom:20px"></div>
+  <div id="helpers-grid" class="grid-3">
+    <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">
+      <div style="font-size:2rem;margin-bottom:12px">🔍</div>
+      Suche lädt…
+    </div>
+  </div>
+</div>
+
+<!-- Buchungs-Modal -->
+<div class="modal-overlay hidden" id="booking-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Termin buchen</h2>
+      <button class="modal-close" onclick="closeModal('booking-modal')">✕</button>
+    </div>
+    <div id="booking-helper-info" style="display:flex;gap:12px;align-items:center;margin-bottom:20px;padding:14px;background:#F7F9FC;border-radius:10px"></div>
+    <form id="booking-form">
+      <input type="hidden" id="booking-helper-id"/>
+      <div class="form-group">
+        <label>Leistung *</label>
+        <select id="booking-service" required></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Datum *</label>
+          <input type="date" id="booking-date" required/>
+        </div>
+        <div class="form-group">
+          <label>Uhrzeit *</label>
+          <input type="time" id="booking-time" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dauer (Stunden) *</label>
+        <select id="booking-duration" required>
+          <option value="1">1 Stunde</option>
+          <option value="1.5">1,5 Stunden</option>
+          <option value="2">2 Stunden</option>
+          <option value="3">3 Stunden</option>
+          <option value="4">4 Stunden</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Adresse</label>
+        <input type="text" id="booking-address" placeholder="Einsatzadresse"/>
+      </div>
+      <div class="form-group">
+        <label>Hinweise (optional)</label>
+        <textarea id="booking-notes" placeholder="Besondere Wünsche oder Hinweise…"></textarea>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="booking-kk" checked/>
+          Über Krankenkasse abrechnen (§45b SGB XI)
+        </label>
+      </div>
+      <div id="booking-cost" style="background:#E8F0F8;border-radius:8px;padding:12px;margin-bottom:16px;font-size:.9rem"></div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="booking-submit">Buchung anfragen</button>
+    </form>
+  </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+let allServices = [];
+let currentHelper = null;
+
+async function initPage() {
+  const urlParams = new URLSearchParams(location.search);
+  const plz = urlParams.get("postal_code");
+  const sid = urlParams.get("service_id");
+  const rate = urlParams.get("max_rate");
+  if (plz)  document.getElementById("filter-plz").value = plz;
+  if (rate) document.getElementById("filter-rate").value = rate;
+
+  try {
+    allServices = await api.serviceCategories();
+    const sel = document.getElementById("filter-service");
+    const bsel = document.getElementById("booking-service");
+    allServices.forEach(s => {
+      const o1 = new Option(s.name, s.id);
+      const o2 = new Option(s.name, s.id);
+      sel.appendChild(o1);
+      bsel.appendChild(o2);
+    });
+    if (sid) sel.value = sid;
+  } catch(e) {}
+
+  await loadHelpers();
+}
+
+async function loadHelpers() {
+  const grid = document.getElementById("helpers-grid");
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted)">Wird geladen…</div>';
+
+  const params = {};
+  const plz  = document.getElementById("filter-plz").value;
+  const sid  = document.getElementById("filter-service").value;
+  const rate = document.getElementById("filter-rate").value;
+  if (plz)  params.postal_code = plz;
+  if (sid)  params.service_id = sid;
+  if (rate) params.max_rate = rate;
+
+  try {
+    const helpers = await api.listHelpers(params);
+    document.getElementById("result-info").textContent = `${helpers.length} Helfer gefunden`;
+
+    if (helpers.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)"><div style="font-size:2.5rem;margin-bottom:12px">😔</div>Keine Helfer gefunden. Bitte Filter anpassen.</div>';
+      return;
+    }
+
+    grid.innerHTML = helpers.map(h => `
+      <div class="card helper-card">
+        <div class="helper-card-header">
+          <div class="helper-avatar">${h.first_name[0]}${h.last_name[0]}</div>
+          <div>
+            <div class="helper-name">${h.first_name} ${h.last_name}</div>
+            <div class="helper-location">📍 ${h.city || ""} ${h.postal_code || ""}</div>
+            <div class="helper-rating">
+              <span class="stars">${renderStars(h.rating)}</span>
+              <span style="font-size:.82rem;color:var(--text-muted)">(${h.rating_count})</span>
+            </div>
+          </div>
+        </div>
+        ${h.bio ? `<p style="font-size:.88rem;color:var(--text-muted)">${h.bio}</p>` : ""}
+        <div class="helper-services">
+          ${h.services.map(s => `<span class="service-tag">${s}</span>`).join("")}
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${h.insurance_certified ? '<span class="kk-badge">✓ Versicherungszertifiziert</span>' : ""}
+          ${h.pflegegrad_experience ? '<span class="kk-badge">✓ Pflegeerfahrung</span>' : ""}
+        </div>
+        <div class="helper-footer">
+          <div class="helper-rate">${h.hourly_rate.toFixed(2)} €/Std.</div>
+          <div style="display:flex;gap:8px">
+            <a href="helfer-profil.html?id=${h.id}" class="btn btn-ghost btn-sm">Profil</a>
+            <button class="btn btn-primary btn-sm" onclick='openBooking(${JSON.stringify(h)})'>Buchen</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--danger)">Fehler: ${e.message}</div>`;
+  }
+}
+
+function openBooking(helper) {
+  if (!isLoggedIn()) { window.location.href = "/login.html"; return; }
+  if (getUserRole() === "helper") { showToast("Helfer können keine Buchungen vornehmen", "error"); return; }
+  currentHelper = helper;
+  document.getElementById("booking-helper-id").value = helper.id;
+  document.getElementById("booking-helper-info").innerHTML = `
+    <div class="helper-avatar">${helper.first_name[0]}${helper.last_name[0]}</div>
+    <div>
+      <strong>${helper.first_name} ${helper.last_name}</strong><br/>
+      <span style="color:var(--text-muted);font-size:.85rem">${helper.hourly_rate.toFixed(2)} €/Std. • ${helper.city || ""}</span>
+    </div>
+  `;
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("booking-date").min = today;
+  updateCost();
+  openModal("booking-modal");
+}
+
+function updateCost() {
+  if (!currentHelper) return;
+  const duration = parseFloat(document.getElementById("booking-duration").value) || 1;
+  const cost = duration * currentHelper.hourly_rate;
+  const kk = document.getElementById("booking-kk").checked;
+  const el = document.getElementById("booking-cost");
+  el.innerHTML = `
+    <strong>Geschätzte Kosten:</strong> ${cost.toFixed(2)} €
+    ${kk ? `<br/><span style="color:var(--secondary)">✓ Bis zu 125 €/Monat über Krankenkasse erstattungsfähig (§45b SGB XI)</span>` : ""}
+  `;
+}
+
+document.getElementById("booking-duration").addEventListener("change", updateCost);
+document.getElementById("booking-kk").addEventListener("change", updateCost);
+
+document.getElementById("booking-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("booking-submit");
+  btn.disabled = true;
+  btn.textContent = "Wird gebucht…";
+  try {
+    await api.createBooking({
+      helper_id: parseInt(document.getElementById("booking-helper-id").value),
+      service_category_id: parseInt(document.getElementById("booking-service").value),
+      booking_date: document.getElementById("booking-date").value,
+      start_time: document.getElementById("booking-time").value,
+      duration_hours: parseFloat(document.getElementById("booking-duration").value),
+      address: document.getElementById("booking-address").value || null,
+      notes: document.getElementById("booking-notes").value || null,
+      krankenkasse_billing: document.getElementById("booking-kk").checked,
+    });
+    closeModal("booking-modal");
+    showToast("Buchung erfolgreich angefragt! ✓", "success");
+    setTimeout(() => window.location.href = "/dashboard-kunde.html", 1500);
+  } catch(err) {
+    showToast(err.message, "error");
+    btn.disabled = false;
+    btn.textContent = "Buchung anfragen";
+  }
+});
+
+initPage();
+</script>
+</body>
+</html>

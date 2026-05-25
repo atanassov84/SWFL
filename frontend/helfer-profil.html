@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helfer-Profil – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">🤝</div>
+      <div class="logo-text">Alltags<span>Hilfe</span></div>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="helfer-suche.html">← Zurück zur Suche</a>
+      <a href="login.html" id="nav-login" class="btn btn-outline btn-sm">Anmelden</a>
+      <a href="#" id="nav-logout" class="btn btn-ghost btn-sm hidden">Abmelden</a>
+      <a href="#" id="nav-dashboard" class="btn btn-primary btn-sm hidden">Dashboard</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="container" style="padding:40px 20px;max-width:900px">
+
+  <div id="profile-content">
+    <div style="text-align:center;padding:60px;color:var(--text-muted)">Wird geladen…</div>
+  </div>
+
+</div>
+
+<!-- Buchungs-Modal -->
+<div class="modal-overlay hidden" id="booking-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Termin buchen</h2>
+      <button class="modal-close" onclick="closeModal('booking-modal')">✕</button>
+    </div>
+    <form id="booking-form">
+      <input type="hidden" id="booking-helper-id"/>
+      <div class="form-group">
+        <label>Leistung *</label>
+        <select id="booking-service" required></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Datum *</label>
+          <input type="date" id="booking-date" required/>
+        </div>
+        <div class="form-group">
+          <label>Uhrzeit *</label>
+          <input type="time" id="booking-time" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dauer (Stunden) *</label>
+        <select id="booking-duration" required>
+          <option value="1">1 Stunde</option>
+          <option value="1.5">1,5 Stunden</option>
+          <option value="2">2 Stunden</option>
+          <option value="3">3 Stunden</option>
+          <option value="4">4 Stunden</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Adresse</label>
+        <input type="text" id="booking-address" placeholder="Einsatzadresse"/>
+      </div>
+      <div class="form-group">
+        <label>Hinweise</label>
+        <textarea id="booking-notes" placeholder="Besondere Wünsche…"></textarea>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="booking-kk" checked/>
+          Über Krankenkasse abrechnen (§45b SGB XI)
+        </label>
+      </div>
+      <div id="booking-cost" style="background:#E8F0F8;border-radius:8px;padding:12px;margin-bottom:16px;font-size:.9rem"></div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg">Buchung anfragen</button>
+    </form>
+  </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+let helperData = null;
+let allServices = [];
+
+async function loadProfile() {
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) { window.location.href = "/helfer-suche.html"; return; }
+
+  try {
+    [helperData, allServices] = await Promise.all([api.getHelper(id), api.serviceCategories()]);
+    renderProfile();
+  } catch(e) {
+    document.getElementById("profile-content").innerHTML = `<div class="card" style="text-align:center;padding:48px"><p style="color:var(--danger)">Helfer nicht gefunden.</p><a href="helfer-suche.html" class="btn btn-primary" style="margin-top:16px">Zurück zur Suche</a></div>`;
+  }
+}
+
+function renderProfile() {
+  const h = helperData;
+  document.title = `${h.first_name} ${h.last_name} – AlltagsHilfe`;
+
+  const reviewsHtml = h.reviews.length > 0
+    ? h.reviews.map(r => `
+      <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:14px">
+        <div style="color:#F39C12">${renderStars(r.rating)}</div>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-top:6px">${r.comment || ""}</p>
+        <small style="color:var(--text-muted)">${fmtDate(r.created_at)}</small>
+      </div>
+    `).join("")
+    : "<p style='color:var(--text-muted)'>Noch keine Bewertungen</p>";
+
+  document.getElementById("profile-content").innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start">
+      <div>
+        <div class="card" style="margin-bottom:24px">
+          <div style="display:flex;gap:20px;align-items:center;margin-bottom:20px">
+            <div class="helper-avatar" style="width:80px;height:80px;font-size:2rem">${h.first_name[0]}${h.last_name[0]}</div>
+            <div>
+              <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:4px">${h.first_name} ${h.last_name}</h1>
+              <div style="color:var(--text-muted)">📍 ${h.city || ""} ${h.postal_code ? "(" + h.postal_code + ")" : ""}</div>
+              <div class="helper-rating" style="margin-top:6px">
+                <span class="stars">${renderStars(h.rating)}</span>
+                <span style="color:var(--text-muted);font-size:.9rem">(${h.rating_count} Bewertungen)</span>
+              </div>
+            </div>
+          </div>
+          ${h.bio ? `<p style="color:var(--text-muted);line-height:1.7">${h.bio}</p>` : ""}
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            ${h.insurance_certified ? '<span class="kk-badge" style="font-size:.85rem;padding:5px 14px">✓ Versicherungszertifiziert</span>' : ""}
+            ${h.pflegegrad_experience ? '<span class="kk-badge" style="font-size:.85rem;padding:5px 14px">✓ Pflegeerfahrung</span>' : ""}
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:24px">
+          <h3 style="font-weight:700;margin-bottom:14px">Angebotene Leistungen</h3>
+          <div class="helper-services">
+            ${h.services.map(s => `<span class="service-tag" style="font-size:.9rem;padding:6px 14px">${s.icon || "🔧"} ${s.name}</span>`).join("")}
+          </div>
+        </div>
+
+        ${h.qualifications ? `
+        <div class="card" style="margin-bottom:24px">
+          <h3 style="font-weight:700;margin-bottom:10px">Qualifikationen</h3>
+          <p style="color:var(--text-muted)">${h.qualifications}</p>
+        </div>` : ""}
+
+        <div class="card">
+          <h3 style="font-weight:700;margin-bottom:14px">Bewertungen</h3>
+          ${reviewsHtml}
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="position:sticky;top:84px">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--primary);margin-bottom:4px">${h.hourly_rate.toFixed(2)} €<span style="font-size:1rem;font-weight:400;color:var(--text-muted)">/Stunde</span></div>
+          <div style="color:var(--text-muted);font-size:.85rem;margin-bottom:20px">Bis zu ${h.max_hours_per_week}h/Woche • ${h.radius_km} km Radius</div>
+
+          <div class="info-banner" style="margin-bottom:16px">
+            <div class="icon">💡</div>
+            <div>
+              <h4>KK-Abrechnung</h4>
+              <p>Bis zu <strong>125 €/Monat</strong> über §45b SGB XI erstattungsfähig.</p>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-full btn-lg" onclick="openBookingModal()">Jetzt buchen</button>
+          <p class="form-note text-center" style="margin-top:12px">Kostenlose Buchungsanfrage • Keine Vorauszahlung</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Buchungs-Modal vorbereiten
+  document.getElementById("booking-helper-id").value = h.id;
+  const sel = document.getElementById("booking-service");
+  sel.innerHTML = "";
+  h.services.forEach(s => {
+    const found = allServices.find(c => c.name === s.name);
+    if (found) sel.innerHTML += `<option value="${found.id}">${s.name}</option>`;
+  });
+  updateCost();
+}
+
+function openBookingModal() {
+  if (!isLoggedIn()) { window.location.href = "/login.html"; return; }
+  if (getUserRole() !== "customer") { showToast("Nur Kunden können buchen", "error"); return; }
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("booking-date").min = today;
+  openModal("booking-modal");
+}
+
+function updateCost() {
+  if (!helperData) return;
+  const duration = parseFloat(document.getElementById("booking-duration").value) || 1;
+  const cost = duration * helperData.hourly_rate;
+  document.getElementById("booking-cost").innerHTML = `
+    <strong>Geschätzte Kosten:</strong> ${cost.toFixed(2)} €
+    ${document.getElementById("booking-kk").checked ? `<br/><span style="color:var(--secondary)">✓ KK-erstattungsfähig nach §45b SGB XI</span>` : ""}
+  `;
+}
+
+document.getElementById("booking-duration").addEventListener("change", updateCost);
+document.getElementById("booking-kk").addEventListener("change", updateCost);
+
+document.getElementById("booking-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = e.submitter;
+  btn.disabled = true; btn.textContent = "Wird gebucht…";
+  try {
+    await api.createBooking({
+      helper_id: parseInt(document.getElementById("booking-helper-id").value),
+      service_category_id: parseInt(document.getElementById("booking-service").value),
+      booking_date: document.getElementById("booking-date").value,
+      start_time: document.getElementById("booking-time").value,
+      duration_hours: parseFloat(document.getElementById("booking-duration").value),
+      address: document.getElementById("booking-address").value || null,
+      notes: document.getElementById("booking-notes").value || null,
+      krankenkasse_billing: document.getElementById("booking-kk").checked,
+    });
+    closeModal("booking-modal");
+    showToast("Buchung erfolgreich angefragt! ✓", "success");
+    setTimeout(() => window.location.href = "/dashboard-kunde.html", 1500);
+  } catch(err) {
+    showToast(err.message, "error");
+    btn.disabled = false; btn.textContent = "Buchung anfragen";
+  }
+});
+
+loadProfile();
+</script>
+</body>
+</html>

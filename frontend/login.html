@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anmelden – AlltagsHilfe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <a href="/" style="display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.3rem;color:var(--text)">
+        <div class="logo-icon">🤝</div>
+        Alltags<span style="color:var(--secondary)">Hilfe</span>
+      </a>
+    </div>
+    <h1 class="auth-title">Willkommen zurück</h1>
+    <p class="auth-sub">Melden Sie sich mit Ihrem Konto an.</p>
+
+    <div id="error-msg" class="form-error hidden" style="background:#FDEAEA;padding:12px;border-radius:8px;margin-bottom:16px"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">E-Mail-Adresse</label>
+        <input type="email" id="email" required placeholder="ihre@email.de" autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label for="password">Passwort</label>
+        <input type="password" id="password" required placeholder="Ihr Passwort" autocomplete="current-password"/>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="submit-btn">Anmelden</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Noch kein Konto? <a href="register.html" style="color:var(--primary);font-weight:600">Jetzt registrieren</a></p>
+      <p style="margin-top:12px;font-size:.8rem;color:var(--text-muted)">
+        Demo Admin: admin@alltagshilfe.de / Admin2025!
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+if (isLoggedIn()) {
+  const role = getUserRole();
+  window.location.href = role === "admin" ? "/dashboard-admin.html"
+    : role === "helper" ? "/dashboard-helfer.html" : "/dashboard-kunde.html";
+}
+
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("submit-btn");
+  const errEl = document.getElementById("error-msg");
+  btn.disabled = true;
+  btn.textContent = "Wird angemeldet…";
+  errEl.classList.add("hidden");
+
+  try {
+    const data = await api.login(
+      document.getElementById("email").value,
+      document.getElementById("password").value
+    );
+    setAuth(data);
+    const role = data.role;
+    window.location.href = role === "admin" ? "/dashboard-admin.html"
+      : role === "helper" ? "/dashboard-helfer.html" : "/dashboard-kunde.html";
+  } catch(err) {
+    errEl.textContent = err.message;
+    errEl.classList.remove("hidden");
+    btn.disabled = false;
+    btn.textContent = "Anmelden";
+  }
+});
+</script>
+</body>
+</html>
