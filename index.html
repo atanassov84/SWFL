@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ATLAS Consulting – Ihr Experte für Atlassian-Produkte, Jira, Confluence, Agile Coaching und Product Management." />
-  <title>ATLAS Consulting – Atlassian Expertise</title>
+  <meta name="description" content="Alexander Atanassov – IT Product Owner, Atlassian Expert, AI Architect & Freelance Consultant." />
+  <title>Alexander Atanassov – IT Consultant & Product Owner</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -16,359 +16,242 @@
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="#hero" class="logo">
-        <span class="logo-mark">A</span>
-        <span class="logo-text">ATLAS<span class="logo-accent">Consulting</span></span>
+        <span class="logo-mark">AA</span>
       </a>
       <nav class="nav-links" id="nav-links">
-        <a href="#leistungen">Leistungen</a>
-        <a href="#about">Über uns</a>
-        <a href="#referenzen">Referenzen</a>
-        <a href="#kontakt" class="btn btn-primary">Kontakt</a>
+        <a href="#leistungen" data-de="Leistungen" data-en="Services">Leistungen</a>
+        <a href="#about" data-de="Über mich" data-en="About">Über mich</a>
+        <a href="#kontakt" data-de="Kontakt" data-en="Contact">Kontakt</a>
+        <button class="lang-toggle" id="lang-toggle" aria-label="Sprache wechseln">EN</button>
+        <a href="#kontakt" class="btn btn-primary" data-de="Anfrage stellen" data-en="Get in touch">Anfrage stellen</a>
       </nav>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Menü öffnen">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions-mobile">
+        <button class="lang-toggle" id="lang-toggle-mobile" aria-label="Sprache wechseln">EN</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menü öffnen">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="hero">
     <div class="container hero-inner">
-      <div class="hero-badge">Atlassian Certified Partner</div>
-      <h1 class="hero-title">
-        Atlassian-Expertise,<br />
-        die Ihr Team <span class="highlight">wirklich weiterbringt</span>
-      </h1>
-      <p class="hero-sub">
-        Wir optimieren Ihre Jira- und Confluence-Umgebungen, etablieren agile Prozesse und
-        begleiten Ihr Team auf dem Weg zu effizienterem Arbeiten.
-      </p>
-      <div class="hero-cta">
-        <a href="#kontakt" class="btn btn-primary btn-lg">Kostenlos beraten lassen</a>
-        <a href="#leistungen" class="btn btn-ghost btn-lg">Leistungen ansehen</a>
+      <div class="hero-content">
+        <p class="hero-eyebrow" data-de="Freelance IT Consultant" data-en="Freelance IT Consultant">Freelance IT Consultant</p>
+        <h1 class="hero-title">Alexander<br><span class="accent">Atanassov</span></h1>
+        <p class="hero-tagline" data-de="IT Product Owner · Atlassian Expert · AI Architect · Business Analyst · Project Manager" data-en="IT Product Owner · Atlassian Expert · AI Architect · Business Analyst · Project Manager">IT Product Owner · Atlassian Expert · AI Architect · Business Analyst · Project Manager</p>
+        <p class="hero-desc" data-de="Ich helfe Unternehmen, digitale Produkte zu strukturieren, Prozesse zu optimieren und moderne Technologien strategisch einzusetzen." data-en="I help companies structure digital products, optimise processes, and deploy modern technologies strategically.">Ich helfe Unternehmen, digitale Produkte zu strukturieren, Prozesse zu optimieren und moderne Technologien strategisch einzusetzen.</p>
+        <div class="hero-cta">
+          <a href="#kontakt" class="btn btn-primary btn-lg" data-de="Zusammenarbeiten" data-en="Work with me">Zusammenarbeiten</a>
+          <a href="#leistungen" class="btn btn-ghost btn-lg" data-de="Leistungen ansehen" data-en="View services">Leistungen ansehen</a>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">50+</span>
-          <span class="stat-label">Projekte</span>
+      <div class="hero-visual">
+        <div class="avatar-ring">
+          <div class="avatar-initials">AA</div>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">8+</span>
-          <span class="stat-label">Jahre Erfahrung</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-num">30+</span>
-          <span class="stat-label">Zufriedene Kunden</span>
+        <div class="hero-badges">
+          <div class="badge badge-1">
+            <span class="badge-icon">⚡</span>
+            <span data-de="Atlassian Certified" data-en="Atlassian Certified">Atlassian Expert</span>
+          </div>
+          <div class="badge badge-2">
+            <span class="badge-icon">🤖</span>
+            <span data-de="AI Architecture" data-en="AI Architecture">AI Architecture</span>
+          </div>
+          <div class="badge badge-3">
+            <span class="badge-icon">📋</span>
+            <span data-de="Product Owner" data-en="Product Owner">Product Owner</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="hero-bg-shape"></div>
+    <div class="hero-scroll">
+      <div class="scroll-indicator"></div>
+    </div>
   </section>
 
-  <!-- ===== LOGOS / TRUST ===== -->
-  <section class="trust-bar">
-    <div class="container">
-      <p class="trust-label">Technologien, mit denen wir arbeiten</p>
-      <div class="trust-logos">
-        <div class="trust-logo">
-          <svg viewBox="0 0 24 24" aria-label="Jira"><path d="M11.53 2c0 2.4 1.97 4.35 4.35 4.35h1.81v1.75c0 2.4 1.97 4.35 4.35 4.35V2.78a.78.78 0 00-.78-.78zM6.77 6.09c0 2.4 1.97 4.35 4.35 4.35h1.81v1.76c0 2.4 1.97 4.34 4.35 4.34V6.87a.78.78 0 00-.78-.78zM2 10.18c0 2.4 1.97 4.35 4.35 4.35h1.81v1.76a4.35 4.35 0 004.35 4.35v-9.68a.78.78 0 00-.78-.78z" fill="#2684FF"/></svg>
-          <span>Jira Software</span>
-        </div>
-        <div class="trust-logo">
-          <svg viewBox="0 0 24 24" aria-label="Confluence"><path d="M2.07 17.48c-.28.45-.6.98-.84 1.36a.83.83 0 00.28 1.16l3.85 2.36a.84.84 0 001.17-.32c.22-.37.51-.87.82-1.4 2.16-3.64 4.35-3.19 8.28-1.38l3.82 1.79a.84.84 0 001.11-.42l1.87-4.17a.84.84 0 00-.42-1.11c-.89-.41-2.67-1.24-4.27-2c-6.32-2.99-11.68-2.56-15.67 4.13zm19.86-10.96c.28-.45.6-.98.84-1.36a.83.83 0 00-.28-1.16L18.64 1.64a.84.84 0 00-1.17.32c-.22.37-.51.87-.82 1.4-2.16 3.64-4.35 3.19-8.28 1.38L4.55 3.01a.84.84 0 00-1.11.42L1.57 7.6a.84.84 0 00.42 1.11c.89.41 2.67 1.24 4.27 2 6.32 2.99 11.68 2.56 15.67-4.13v.04z" fill="#2684FF"/></svg>
-          <span>Confluence</span>
-        </div>
-        <div class="trust-logo">
-          <svg viewBox="0 0 24 24" aria-label="Jira Service Management"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z" fill="#2684FF"/></svg>
-          <span>Jira Service Mgmt.</span>
-        </div>
-        <div class="trust-logo">
-          <svg viewBox="0 0 24 24" aria-label="Agile"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z" fill="#2684FF"/></svg>
-          <span>Agile / Scrum</span>
-        </div>
-        <div class="trust-logo">
-          <svg viewBox="0 0 24 24" aria-label="Atlassian Cloud"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="#2684FF"/></svg>
-          <span>Atlassian Cloud</span>
-        </div>
+  <!-- ===== STATS BAR ===== -->
+  <section class="stats-bar">
+    <div class="container stats-inner">
+      <div class="stat">
+        <span class="stat-num">10+</span>
+        <span class="stat-label" data-de="Jahre Erfahrung" data-en="Years experience">Jahre Erfahrung</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">50+</span>
+        <span class="stat-label" data-de="Projekte abgeschlossen" data-en="Projects delivered">Projekte abgeschlossen</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">30+</span>
+        <span class="stat-label" data-de="Zufriedene Kunden" data-en="Satisfied clients">Zufriedene Kunden</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">5</span>
+        <span class="stat-label" data-de="Kernkompetenzen" data-en="Core competencies">Kernkompetenzen</span>
       </div>
     </div>
   </section>
 
-  <!-- ===== LEISTUNGEN ===== -->
-  <section class="section" id="leistungen">
+  <!-- ===== LEISTUNGEN / SERVICES ===== -->
+  <section class="services" id="leistungen">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Was wir tun</span>
-        <h2 class="section-title">Unsere Leistungen</h2>
-        <p class="section-sub">Von der Einrichtung bis zur kontinuierlichen Optimierung – wir decken alle Bereiche der Atlassian-Welt ab.</p>
+        <p class="section-eyebrow" data-de="Was ich anbiete" data-en="What I offer">Was ich anbiete</p>
+        <h2 class="section-title" data-de="Leistungen" data-en="Services">Leistungen</h2>
+        <p class="section-desc" data-de="Von der Strategie bis zur Umsetzung – ich begleite euch in jeder Phase eurer digitalen Transformation." data-en="From strategy to execution – I accompany you at every stage of your digital transformation.">Von der Strategie bis zur Umsetzung – ich begleite euch in jeder Phase eurer digitalen Transformation.</p>
       </div>
       <div class="services-grid">
 
         <div class="service-card">
-          <div class="service-icon service-icon--blue">
-            <svg viewBox="0 0 24 24"><path d="M11.53 2c0 2.4 1.97 4.35 4.35 4.35h1.81v1.75c0 2.4 1.97 4.35 4.35 4.35V2.78a.78.78 0 00-.78-.78zM6.77 6.09c0 2.4 1.97 4.35 4.35 4.35h1.81v1.76c0 2.4 1.97 4.34 4.35 4.34V6.87a.78.78 0 00-.78-.78zM2 10.18c0 2.4 1.97 4.35 4.35 4.35h1.81v1.76a4.35 4.35 0 004.35 4.35v-9.68a.78.78 0 00-.78-.78z" fill="currentColor"/></svg>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
           </div>
-          <h3>Jira Einrichtung &amp; Optimierung</h3>
-          <p>Professionelles Setup, Workflow-Design, Berechtigungskonzepte, Dashboards und JQL-Abfragen – maßgeschneidert für Ihre Organisation.</p>
+          <h3 data-de="IT Product Ownership" data-en="IT Product Ownership">IT Product Ownership</h3>
+          <p data-de="Ich übernehme die Rolle des Product Owners und gestalte digitale Produkte von der Vision bis zum Release – mit klarer Priorisierung, Stakeholder-Alignment und agiler Steuerung." data-en="I take on the Product Owner role and shape digital products from vision to release – with clear prioritisation, stakeholder alignment and agile governance.">Ich übernehme die Rolle des Product Owners und gestalte digitale Produkte von der Vision bis zum Release – mit klarer Priorisierung, Stakeholder-Alignment und agiler Steuerung.</p>
           <ul class="service-list">
-            <li>Projektstrukturierung &amp; Workflows</li>
-            <li>Berechtigungen &amp; Rollen</li>
-            <li>Custom Fields &amp; Screens</li>
-            <li>Dashboards &amp; Reports</li>
+            <li data-de="Backlog-Management & Priorisierung" data-en="Backlog management & prioritisation">Backlog-Management & Priorisierung</li>
+            <li data-de="User Story Mapping" data-en="User Story Mapping">User Story Mapping</li>
+            <li data-de="Stakeholder-Kommunikation" data-en="Stakeholder communication">Stakeholder-Kommunikation</li>
+            <li data-de="Sprint-Planung & Reviews" data-en="Sprint planning & reviews">Sprint-Planung & Reviews</li>
+          </ul>
+        </div>
+
+        <div class="service-card service-card--featured">
+          <div class="service-featured-label" data-de="Kern-Expertise" data-en="Core Expertise">Kern-Expertise</div>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 data-de="Atlassian Toolchain" data-en="Atlassian Toolchain">Atlassian Toolchain</h3>
+          <p data-de="Jira, Confluence, Jira Service Management – ich konzipiere, administriere und optimiere euren gesamten Atlassian-Stack für maximale Effizienz." data-en="Jira, Confluence, Jira Service Management – I design, administer and optimise your entire Atlassian stack for maximum efficiency.">Jira, Confluence, Jira Service Management – ich konzipiere, administriere und optimiere euren gesamten Atlassian-Stack für maximale Effizienz.</p>
+          <ul class="service-list">
+            <li data-de="Jira-Konfiguration & Workflows" data-en="Jira configuration & workflows">Jira-Konfiguration & Workflows</li>
+            <li data-de="Confluence-Strukturierung" data-en="Confluence structuring">Confluence-Strukturierung</li>
+            <li data-de="JSM / ITSM Setup" data-en="JSM / ITSM setup">JSM / ITSM Setup</li>
+            <li data-de="Cloud-Migration" data-en="Cloud migration">Cloud-Migration</li>
           </ul>
         </div>
 
         <div class="service-card">
-          <div class="service-icon service-icon--teal">
-            <svg viewBox="0 0 24 24"><path d="M2.07 17.48c-.28.45-.6.98-.84 1.36a.83.83 0 00.28 1.16l3.85 2.36a.84.84 0 001.17-.32c.22-.37.51-.87.82-1.4 2.16-3.64 4.35-3.19 8.28-1.38l3.82 1.79a.84.84 0 001.11-.42l1.87-4.17a.84.84 0 00-.42-1.11c-.89-.41-2.67-1.24-4.27-2c-6.32-2.99-11.68-2.56-15.67 4.13zm19.86-10.96c.28-.45.6-.98.84-1.36a.83.83 0 00-.28-1.16L18.64 1.64a.84.84 0 00-1.17.32c-.22.37-.51.87-.82 1.4-2.16 3.64-4.35 3.19-8.28 1.38L4.55 3.01a.84.84 0 00-1.11.42L1.57 7.6a.84.84 0 00.42 1.11c.89.41 2.67 1.24 4.27 2 6.32 2.99 11.68 2.56 15.67-4.13v.04z" fill="currentColor"/></svg>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
           </div>
-          <h3>Confluence Aufbau &amp; Dokumentation</h3>
-          <p>Wir strukturieren Ihren Confluence-Workspace, erstellen Templates und helfen Ihrem Team, Wissen effektiv zu teilen und zu pflegen.</p>
+          <h3 data-de="AI Architecture & Strategy" data-en="AI Architecture & Strategy">AI Architecture & Strategy</h3>
+          <p data-de="Ich entwickle KI-Strategien und -Architekturen, die in bestehende Systeme integriert werden können – pragmatisch, skalierbar und am Business-Nutzen ausgerichtet." data-en="I develop AI strategies and architectures that can be integrated into existing systems – pragmatic, scalable and aligned with business value.">Ich entwickle KI-Strategien und -Architekturen, die in bestehende Systeme integriert werden können – pragmatisch, skalierbar und am Business-Nutzen ausgerichtet.</p>
           <ul class="service-list">
-            <li>Space-Architektur &amp; Struktur</li>
-            <li>Templates &amp; Blueprints</li>
-            <li>Makros &amp; Automatisierungen</li>
-            <li>Benutzer &amp; Berechtigungen</li>
+            <li data-de="KI-Potenzialanalyse" data-en="AI potential analysis">KI-Potenzialanalyse</li>
+            <li data-de="LLM-Integration & Prompting" data-en="LLM integration & prompting">LLM-Integration & Prompting</li>
+            <li data-de="AI-gestützte Automatisierung" data-en="AI-driven automation">AI-gestützte Automatisierung</li>
+            <li data-de="Tooling & Plattform-Auswahl" data-en="Tooling & platform selection">Tooling & Plattform-Auswahl</li>
           </ul>
         </div>
 
         <div class="service-card">
-          <div class="service-icon service-icon--purple">
-            <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" fill="currentColor"/></svg>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
           </div>
-          <h3>Agile Coaching &amp; Scrum</h3>
-          <p>Wir begleiten Ihre Teams bei der Einführung und Vertiefung agiler Methoden – von Sprint Planning bis Retrospektive.</p>
+          <h3 data-de="Business Analysis" data-en="Business Analysis">Business Analysis</h3>
+          <p data-de="Ich analysiere Geschäftsprozesse, erhebe und strukturiere Anforderungen und schaffe die Verbindung zwischen Business und Technologie." data-en="I analyse business processes, elicit and structure requirements and create the bridge between business and technology.">Ich analysiere Geschäftsprozesse, erhebe und strukturiere Anforderungen und schaffe die Verbindung zwischen Business und Technologie.</p>
           <ul class="service-list">
-            <li>Sprint-Planung &amp; Refinement</li>
-            <li>Backlog Management</li>
-            <li>Retrospektiven &amp; Reviews</li>
-            <li>Definition of Done &amp; Ready</li>
+            <li data-de="Anforderungserhebung & -dokumentation" data-en="Requirements elicitation & documentation">Anforderungserhebung & -dokumentation</li>
+            <li data-de="Prozessmodellierung (BPMN)" data-en="Process modelling (BPMN)">Prozessmodellierung (BPMN)</li>
+            <li data-de="GAP-Analysen" data-en="GAP analyses">GAP-Analysen</li>
+            <li data-de="As-is / To-be Mapping" data-en="As-is / To-be mapping">As-is / To-be Mapping</li>
           </ul>
         </div>
 
         <div class="service-card">
-          <div class="service-icon service-icon--orange">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
           </div>
-          <h3>Product Management</h3>
-          <p>Von der Vision zur Roadmap: Wir unterstützen Product Owner bei Anforderungsanalyse, Priorisierung und Stakeholder-Kommunikation.</p>
+          <h3 data-de="Projektmanagement" data-en="Project Management">Projektmanagement</h3>
+          <p data-de="Ich steuere IT-Projekte von der Initiierung bis zum Go-live – sowohl agil (Scrum/Kanban) als auch klassisch, immer mit klarem Fokus auf Lieferfähigkeit." data-en="I steer IT projects from initiation to go-live – both agile (Scrum/Kanban) and classic, always with a clear focus on deliverability.">Ich steuere IT-Projekte von der Initiierung bis zum Go-live – sowohl agil (Scrum/Kanban) als auch klassisch, immer mit klarem Fokus auf Lieferfähigkeit.</p>
           <ul class="service-list">
-            <li>Product Roadmaps</li>
-            <li>Stakeholder Management</li>
-            <li>User Story Mapping</li>
-            <li>OKR-Frameworks</li>
+            <li data-de="Projektplanung & -steuerung" data-en="Project planning & control">Projektplanung & -steuerung</li>
+            <li data-de="Risiko- & Change-Management" data-en="Risk & change management">Risiko- & Change-Management</li>
+            <li data-de="Scrum Master / Agile Coach" data-en="Scrum Master / Agile Coach">Scrum Master / Agile Coach</li>
+            <li data-de="Reporting & Statusberichte" data-en="Reporting & status updates">Reporting & Statusberichte</li>
           </ul>
         </div>
 
-        <div class="service-card">
-          <div class="service-icon service-icon--green">
-            <svg viewBox="0 0 24 24"><path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z" fill="currentColor"/></svg>
+        <div class="service-card service-card--cta">
+          <div class="service-cta-content">
+            <h3 data-de="Ihr Projekt ist einzigartig?" data-en="Your project is unique?">Ihr Projekt ist einzigartig?</h3>
+            <p data-de="Lassen Sie uns sprechen – ich finde den richtigen Ansatz für Ihre spezifische Herausforderung." data-en="Let's talk – I'll find the right approach for your specific challenge.">Lassen Sie uns sprechen – ich finde den richtigen Ansatz für Ihre spezifische Herausforderung.</p>
+            <a href="#kontakt" class="btn btn-primary" data-de="Jetzt kontaktieren" data-en="Get in touch">Jetzt kontaktieren</a>
           </div>
-          <h3>Atlassian Cloud Migration</h3>
-          <p>Sichere und strukturierte Migration von Server oder Data Center in die Atlassian Cloud – mit minimalem Ausfallrisiko.</p>
-          <ul class="service-list">
-            <li>Migrations-Assessment</li>
-            <li>Daten-Transfer &amp; Validierung</li>
-            <li>App-Kompatibilität</li>
-            <li>Hypercare &amp; Nachbetreuung</li>
-          </ul>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon service-icon--red">
-            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" fill="currentColor"/></svg>
-          </div>
-          <h3>Schulungen &amp; Workshops</h3>
-          <p>Individuelle Trainings für Ihr Team – von Jira-Grundlagen bis zu fortgeschrittenen Atlassian-Strategien und agilen Frameworks.</p>
-          <ul class="service-list">
-            <li>Jira &amp; Confluence Basics</li>
-            <li>Für Power User &amp; Admins</li>
-            <li>Agile Methoden</li>
-            <li>Remote &amp; Vor-Ort</li>
-          </ul>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ===== ÜBER UNS ===== -->
-  <section class="section about-section" id="about">
+  <!-- ===== ÜBER MICH / ABOUT ===== -->
+  <section class="about" id="about">
     <div class="container about-inner">
       <div class="about-visual">
-        <div class="about-card">
-          <div class="about-card-icon">🎯</div>
-          <strong>Unser Ansatz</strong>
-          <p>Wir verstehen Ihre Organisation zuerst – dann konfigurieren wir die Tools.</p>
+        <div class="about-avatar">
+          <div class="about-avatar-inner">AA</div>
         </div>
-        <div class="about-card about-card--offset">
-          <div class="about-card-icon">⚡</div>
-          <strong>Schnell &amp; effektiv</strong>
-          <p>Kein langes Drumherum – pragmatische Lösungen, die sofort Wirkung zeigen.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon">🤝</div>
-          <strong>Langfristige Partnerschaft</strong>
-          <p>Wir bleiben an Ihrer Seite – auch nach dem Projektabschluss.</p>
+        <div class="about-skills">
+          <div class="skill-tag">Jira</div>
+          <div class="skill-tag">Confluence</div>
+          <div class="skill-tag">Scrum</div>
+          <div class="skill-tag">Kanban</div>
+          <div class="skill-tag">AI / LLM</div>
+          <div class="skill-tag">BPMN</div>
+          <div class="skill-tag">JSM</div>
+          <div class="skill-tag">Product Roadmap</div>
+          <div class="skill-tag">OKR</div>
+          <div class="skill-tag">Cloud Migration</div>
         </div>
       </div>
       <div class="about-content">
-        <span class="section-tag">Wer wir sind</span>
-        <h2 class="section-title">Atlassian-Expertise aus der Praxis</h2>
-        <p>ATLAS Consulting steht für praxisnahe Beratung im Atlassian-Ökosystem. Mit jahrelanger Erfahrung in der Einrichtung, Optimierung und strategischen Nutzung von Jira, Confluence und weiteren Atlassian-Produkten helfen wir Unternehmen dabei, ihre Prozesse zu modernisieren.</p>
-        <p>Unser Fokus liegt nicht auf theoretischen Konzepten, sondern auf echten Ergebnissen: funktionierende Workflows, motivierte Teams und messbar bessere Produktivität.</p>
+        <p class="section-eyebrow" data-de="Über mich" data-en="About me">Über mich</p>
+        <h2 class="section-title" data-de="Erfahrung trifft Strategie" data-en="Experience meets strategy">Erfahrung trifft Strategie</h2>
+        <p class="about-text" data-de="Mit über 10 Jahren Erfahrung in der IT-Beratung verbinde ich technisches Know-how mit unternehmerischem Denken. Meine Leidenschaft gilt der Schnittstelle zwischen Mensch, Prozess und Technologie." data-en="With over 10 years of experience in IT consulting, I combine technical know-how with entrepreneurial thinking. My passion lies at the intersection of people, process and technology.">Mit über 10 Jahren Erfahrung in der IT-Beratung verbinde ich technisches Know-how mit unternehmerischem Denken. Meine Leidenschaft gilt der Schnittstelle zwischen Mensch, Prozess und Technologie.</p>
+        <p class="about-text" data-de="Als freiberuflicher Consultant unterstütze ich Unternehmen – von Startups bis zu Konzernen – bei der Einführung und Optimierung von Atlassian-Produkten, der Entwicklung digitaler Produktstrategien und der Integration moderner KI-Lösungen in bestehende Prozesse." data-en="As a freelance consultant, I support companies – from startups to enterprises – in introducing and optimising Atlassian products, developing digital product strategies and integrating modern AI solutions into existing processes.">Als freiberuflicher Consultant unterstütze ich Unternehmen – von Startups bis zu Konzernen – bei der Einführung und Optimierung von Atlassian-Produkten, der Entwicklung digitaler Produktstrategien und der Integration moderner KI-Lösungen in bestehende Prozesse.</p>
         <div class="about-highlights">
-          <div class="highlight-item">
-            <svg viewBox="0 0 24 24" class="check-icon"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>
-            Zertifizierte Atlassian-Expertise
-          </div>
-          <div class="highlight-item">
-            <svg viewBox="0 0 24 24" class="check-icon"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>
-            Erfahrung mit KMUs und Konzernen
-          </div>
-          <div class="highlight-item">
-            <svg viewBox="0 0 24 24" class="check-icon"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>
-            Schnelle Reaktionszeiten
-          </div>
-          <div class="highlight-item">
-            <svg viewBox="0 0 24 24" class="check-icon"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>
-            Remote &amp; vor Ort deutschlandweit
-          </div>
-        </div>
-        <a href="#kontakt" class="btn btn-primary">Jetzt Gespräch vereinbaren</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== PROZESS ===== -->
-  <section class="section process-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Wie wir arbeiten</span>
-        <h2 class="section-title">Unser Vorgehen</h2>
-      </div>
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-num">01</div>
-          <h3>Analyse &amp; Kennenlernen</h3>
-          <p>Wir verstehen Ihre aktuelle Situation, Ziele und Herausforderungen in einem unverbindlichen Erstgespräch.</p>
-        </div>
-        <div class="process-arrow">→</div>
-        <div class="process-step">
-          <div class="step-num">02</div>
-          <h3>Konzept &amp; Planung</h3>
-          <p>Auf Basis der Analyse entwickeln wir eine maßgeschneiderte Lösung mit klaren Meilensteinen.</p>
-        </div>
-        <div class="process-arrow">→</div>
-        <div class="process-step">
-          <div class="step-num">03</div>
-          <h3>Umsetzung</h3>
-          <p>Wir setzen die Lösung um – iterativ, transparent und immer in enger Abstimmung mit Ihrem Team.</p>
-        </div>
-        <div class="process-arrow">→</div>
-        <div class="process-step">
-          <div class="step-num">04</div>
-          <h3>Übergabe &amp; Support</h3>
-          <p>Nach der Übergabe stehen wir für Fragen, Schulungen und Weiterentwicklungen zur Verfügung.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== REFERENZEN ===== -->
-  <section class="section" id="referenzen">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Erfahrungen aus der Praxis</span>
-        <h2 class="section-title">Referenzen &amp; Projekte</h2>
-        <p class="section-sub">Einblicke in ausgewählte Projekte – anonymisiert aus Gründen des Datenschutzes.</p>
-      </div>
-      <div class="refs-grid">
-
-        <div class="ref-card">
-          <div class="ref-tag">E-Commerce | ~200 MA</div>
-          <h3>Jira-Neueinführung &amp; Prozessdesign</h3>
-          <p>Vollständige Neuaufstellung der Projektlandschaft für ein Entwicklungsteam: Epics, Stories, Bugs strukturiert nach SAFe-Prinzipien. Inklusive Schulung aller Teams.</p>
-          <div class="ref-results">
-            <div class="ref-result"><span class="ref-result-num">40%</span> weniger Planungsaufwand</div>
-            <div class="ref-result"><span class="ref-result-num">3×</span> bessere Sprint-Vorhersagbarkeit</div>
-          </div>
-        </div>
-
-        <div class="ref-card">
-          <div class="ref-tag">Finanzdienstleistung | ~500 MA</div>
-          <h3>Confluence Knowledge-Base Aufbau</h3>
-          <p>Aufbau einer zentralen Wissensdatenbank für ein reguliertes Umfeld. Strukturiertes Dokumentationssystem, Vorlagen und Freigabeprozesse für Compliance-Anforderungen.</p>
-          <div class="ref-results">
-            <div class="ref-result"><span class="ref-result-num">70%</span> weniger Suche nach Infos</div>
-            <div class="ref-result"><span class="ref-result-num">100%</span> Compliance-konform</div>
-          </div>
-        </div>
-
-        <div class="ref-card">
-          <div class="ref-tag">IT-Dienstleister | ~80 MA</div>
-          <h3>Atlassian Cloud Migration</h3>
-          <p>Migration von Jira und Confluence Server in die Atlassian Cloud. Vollständige Datenmigration, App-Bewertung und Hypercare-Phase ohne Produktionsausfall.</p>
-          <div class="ref-results">
-            <div class="ref-result"><span class="ref-result-num">0</span> Ausfallstunden</div>
-            <div class="ref-result"><span class="ref-result-num">25%</span> Kosteneinsparung</div>
-          </div>
-        </div>
-
-        <div class="ref-card">
-          <div class="ref-tag">Industrieunternehmen | ~1.200 MA</div>
-          <h3>Agile Transformation begleiten</h3>
-          <p>Coaching von 8 Scrum-Teams über 12 Monate: Einführung von Scrum, OKRs und PI-Planning. Jira als zentrales Steuerungstool für alle Produktteams.</p>
-          <div class="ref-results">
-            <div class="ref-result"><span class="ref-result-num">8</span> Teams transformiert</div>
-            <div class="ref-result"><span class="ref-result-num">60%</span> kürzere Time-to-Market</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== TESTIMONIALS ===== -->
-  <section class="section testimonials-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Kundenstimmen</span>
-        <h2 class="section-title">Was Kunden sagen</h2>
-      </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">„Die Zusammenarbeit mit ATLAS Consulting hat unsere Jira-Nutzung komplett transformiert. Endlich weiß jeder, wie die Tools zu nutzen sind – und wir sehen echte Ergebnisse."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">T.M.</div>
+          <div class="highlight">
+            <div class="highlight-icon">✓</div>
             <div>
-              <strong>T. Maier</strong>
-              <span>Head of Engineering, E-Commerce Startup</span>
+              <strong data-de="Atlassian Ecosystem" data-en="Atlassian Ecosystem">Atlassian Ecosystem</strong>
+              <span data-de=" – Jira, Confluence, JSM, Bitbucket" data-en=" – Jira, Confluence, JSM, Bitbucket"> – Jira, Confluence, JSM, Bitbucket</span>
             </div>
           </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">„Besonders beeindruckt hat uns die strukturierte Herangehensweise. Die Migration war reibungslos und das Team war zu jeder Zeit gut informiert."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">S.K.</div>
+          <div class="highlight">
+            <div class="highlight-icon">✓</div>
             <div>
-              <strong>S. Klein</strong>
-              <span>IT-Leiterin, Finanzdienstleister</span>
+              <strong data-de="Agile Frameworks" data-en="Agile Frameworks">Agile Frameworks</strong>
+              <span data-de=" – Scrum, Kanban, SAFe" data-en=" – Scrum, Kanban, SAFe"> – Scrum, Kanban, SAFe</span>
             </div>
           </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">„Als Sparringspartner für unsere Product Owner war ATLAS Consulting genau das Richtige. Pragmatisch, schnell und immer auf Augenhöhe."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">R.B.</div>
+          <div class="highlight">
+            <div class="highlight-icon">✓</div>
             <div>
-              <strong>R. Bauer</strong>
-              <span>Agile Coach, Industrieunternehmen</span>
+              <strong data-de="AI & Automation" data-en="AI & Automation">AI & Automation</strong>
+              <span data-de=" – LLMs, Prompt Engineering, AI Workflows" data-en=" – LLMs, Prompt Engineering, AI Workflows"> – LLMs, Prompt Engineering, AI Workflows</span>
+            </div>
+          </div>
+          <div class="highlight">
+            <div class="highlight-icon">✓</div>
+            <div>
+              <strong data-de="Remote-first" data-en="Remote-first">Remote-first</strong>
+              <span data-de=" – Deutschlandweit & international verfügbar" data-en=" – Available Germany-wide & internationally"> – Deutschlandweit & international verfügbar</span>
             </div>
           </div>
         </div>
@@ -376,65 +259,49 @@
     </div>
   </section>
 
-  <!-- ===== KONTAKT ===== -->
-  <section class="section contact-section" id="kontakt">
+  <!-- ===== KONTAKT / CONTACT ===== -->
+  <section class="contact" id="kontakt">
     <div class="container contact-inner">
-      <div class="contact-info">
-        <span class="section-tag">Lassen Sie uns sprechen</span>
-        <h2 class="section-title">Kontakt aufnehmen</h2>
-        <p>Haben Sie ein Projekt im Kopf oder wollen Sie einfach mehr erfahren? Schreiben Sie uns – wir melden uns in der Regel innerhalb von 24 Stunden.</p>
-        <div class="contact-items">
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
-            <a href="mailto:info@atlas-consulting.de">info@atlas-consulting.de</a>
-          </div>
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/></svg>
-            <span>Deutschland</span>
-          </div>
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="currentColor"/></svg>
-            <span>Remote &amp; vor Ort</span>
-          </div>
+      <div class="contact-content">
+        <p class="section-eyebrow" data-de="Kontakt" data-en="Contact">Kontakt</p>
+        <h2 class="section-title" data-de="Lassen Sie uns sprechen" data-en="Let's talk">Lassen Sie uns sprechen</h2>
+        <p class="section-desc" data-de="Sie haben ein Projekt oder suchen Unterstützung? Ich freue mich auf Ihre Anfrage." data-en="You have a project or need support? I look forward to hearing from you.">Sie haben ein Projekt oder suchen Unterstützung? Ich freue mich auf Ihre Anfrage.</p>
+        <div class="contact-info">
+          <a href="mailto:atanassov.alexander@gmail.com" class="contact-link">
+            <span class="contact-link-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </span>
+            atanassov.alexander@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/alexander-atanassov" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-link-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </span>
+            LinkedIn
+          </a>
         </div>
       </div>
-      <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form class="contact-form" id="contact-form" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="name">Name *</label>
-            <input type="text" id="name" name="name" required placeholder="Ihr vollständiger Name" />
+            <label for="name" data-de="Name" data-en="Name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Max Mustermann" />
           </div>
           <div class="form-group">
-            <label for="email">E-Mail *</label>
-            <input type="email" id="email" name="email" required placeholder="ihre@email.de" />
+            <label for="email" data-de="E-Mail" data-en="Email">E-Mail</label>
+            <input type="email" id="email" name="email" required placeholder="max@beispiel.de" />
           </div>
         </div>
         <div class="form-group">
-          <label for="company">Unternehmen</label>
-          <input type="text" id="company" name="company" placeholder="Ihr Unternehmen (optional)" />
+          <label for="subject" data-de="Betreff" data-en="Subject">Betreff</label>
+          <input type="text" id="subject" name="subject" data-placeholder-de="Ihr Anliegen" data-placeholder-en="Your subject" placeholder="Ihr Anliegen" />
         </div>
         <div class="form-group">
-          <label for="subject">Betreff *</label>
-          <select id="subject" name="subject" required>
-            <option value="" disabled selected>Worum geht es?</option>
-            <option value="Jira">Jira Einrichtung / Optimierung</option>
-            <option value="Confluence">Confluence Aufbau</option>
-            <option value="Agile">Agile Coaching</option>
-            <option value="Migration">Cloud Migration</option>
-            <option value="Schulung">Schulung / Workshop</option>
-            <option value="Sonstiges">Sonstiges</option>
-          </select>
+          <label for="message" data-de="Nachricht" data-en="Message">Nachricht</label>
+          <textarea id="message" name="message" rows="5" required data-placeholder-de="Beschreiben Sie Ihr Projekt oder Ihre Anfrage…" data-placeholder-en="Describe your project or request…" placeholder="Beschreiben Sie Ihr Projekt oder Ihre Anfrage…"></textarea>
         </div>
-        <div class="form-group">
-          <label for="message">Nachricht *</label>
-          <textarea id="message" name="message" required rows="5" placeholder="Beschreiben Sie kurz Ihr Anliegen..."></textarea>
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" id="privacy" name="privacy" required />
-          <label for="privacy">Ich habe die <a href="#datenschutz">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu. *</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg btn-full">Nachricht senden</button>
-        <p class="form-note">* Pflichtfelder. Ihre Daten werden vertraulich behandelt.</p>
+        <button type="submit" class="btn btn-primary btn-full" data-de="Nachricht senden" data-en="Send message">Nachricht senden</button>
+        <p class="form-success" id="form-success" data-de="Vielen Dank! Ich melde mich so schnell wie möglich bei Ihnen." data-en="Thank you! I'll get back to you as soon as possible."></p>
       </form>
     </div>
   </section>
@@ -442,38 +309,14 @@
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="#hero" class="logo logo--light">
-          <span class="logo-mark">A</span>
-          <span class="logo-text">ATLAS<span class="logo-accent">Consulting</span></span>
-        </a>
-        <p>Ihr Partner für Atlassian-Lösungen, agile Prozesse und Product Management.</p>
-      </div>
+      <a href="#hero" class="logo logo--footer">
+        <span class="logo-mark">AA</span>
+        <span class="logo-text">Alexander Atanassov</span>
+      </a>
+      <p class="footer-copy" data-de="© 2024 Alexander Atanassov. Alle Rechte vorbehalten." data-en="© 2024 Alexander Atanassov. All rights reserved.">© 2024 Alexander Atanassov. Alle Rechte vorbehalten.</p>
       <div class="footer-links">
-        <div class="footer-col">
-          <strong>Leistungen</strong>
-          <a href="#leistungen">Jira</a>
-          <a href="#leistungen">Confluence</a>
-          <a href="#leistungen">Agile Coaching</a>
-          <a href="#leistungen">Cloud Migration</a>
-        </div>
-        <div class="footer-col">
-          <strong>Unternehmen</strong>
-          <a href="#about">Über uns</a>
-          <a href="#referenzen">Referenzen</a>
-          <a href="#kontakt">Kontakt</a>
-        </div>
-        <div class="footer-col">
-          <strong>Rechtliches</strong>
-          <a href="#impressum">Impressum</a>
-          <a href="#datenschutz">Datenschutz</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <p>© 2025 ATLAS Consulting. Alle Rechte vorbehalten.</p>
-        <p>Diese Website ist nicht Teil der Atlassian Corporation Plc.</p>
+        <a href="#" data-de="Impressum" data-en="Imprint">Impressum</a>
+        <a href="#" data-de="Datenschutz" data-en="Privacy">Datenschutz</a>
       </div>
     </div>
   </footer>
