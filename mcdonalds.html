@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GoldenBite – Ich liebe es!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  color: #27251F;
+  background: #fff;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ============================================================
+   CSS VARIABLES
+============================================================ */
+:root {
+  --red:       #DA291C;
+  --red-dark:  #b51f15;
+  --gold:      #FFC72C;
+  --dark:      #27251F;
+  --dark2:     #3D3935;
+  --white:     #ffffff;
+  --gray-bg:   #F4F4F4;
+  --gray-mid:  #E0E0E0;
+  --muted:     #6B6B6B;
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --pill:      999px;
+  --shadow:    0 2px 12px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.18);
+  --trans:     .25s ease;
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+============================================================ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-size: clamp(26px, 3.8vw, 42px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--dark);
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.link-all {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: gap var(--trans);
+}
+.link-all:hover { gap: 10px; }
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+============================================================ */
+.ann-bar {
+  background: var(--gold);
+  color: var(--dark);
+  text-align: center;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.ann-bar a {
+  text-decoration: underline;
+  font-weight: 800;
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--dark);
+  transition: box-shadow var(--trans);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  gap: 28px;
+  padding: 0 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.nav-logo svg { width: 42px; height: 42px; }
+.nav-logo-name {
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+.nav-links a {
+  display: block;
+  padding: 8px 13px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,.85);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: background var(--trans), color var(--trans);
+}
+.nav-links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+/* Actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.nav-icon {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.8);
+  transition: background var(--trans);
+}
+.nav-icon:hover { background: rgba(255,255,255,.1); color: #fff; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-order {
+  display: inline-flex; align-items: center;
+  padding: 9px 20px;
+  background: var(--red);
+  color: #fff;
+  font-size: 14px; font-weight: 700;
+  border-radius: var(--pill);
+  white-space: nowrap;
+  transition: background var(--trans), transform var(--trans);
+}
+.btn-order:hover { background: var(--red-dark); transform: scale(1.03); }
+
+/* Hamburger */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.nav-burger span {
+  display: block; height: 2px;
+  background: #fff; border-radius: 2px;
+  transition: var(--trans);
+}
+
+/* Mobile drawer */
+.mob-menu {
+  display: none;
+  position: fixed;
+  inset: 64px 0 0 0;
+  background: var(--dark);
+  z-index: 999;
+  padding: 16px 20px;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+.mob-menu.open { display: flex; }
+.mob-menu a {
+  display: block;
+  padding: 14px 16px;
+  color: rgba(255,255,255,.85);
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  transition: color var(--trans);
+}
+.mob-menu a:hover { color: var(--gold); }
+.mob-menu .mob-order {
+  margin-top: 16px;
+  display: block;
+  text-align: center;
+  padding: 14px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  border-radius: var(--pill);
+}
+
+/* ============================================================
+   HERO SLIDER
+============================================================ */
+.hero {
+  position: relative;
+  height: clamp(400px, 60vh, 620px);
+  overflow: hidden;
+  background: #1a1a1a;
+}
+.hero-track {
+  display: flex;
+  height: 100%;
+  transition: transform .65s cubic-bezier(.25,.46,.45,.94);
+  will-change: transform;
+}
+.hero-slide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.hero-slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(0,0,0,.68) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.05) 100%);
+}
+.hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px max(48px, 6vw);
+  z-index: 2;
+  max-width: 680px;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--pill);
+  margin-bottom: 18px;
+  width: fit-content;
+}
+.hero-title {
+  font-size: clamp(32px, 5.5vw, 62px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.03;
+  margin-bottom: 14px;
+  text-shadow: 0 3px 12px rgba(0,0,0,.35);
+}
+.hero-title em { color: var(--gold); font-style: normal; }
+.hero-text {
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: rgba(255,255,255,.88);
+  line-height: 1.55;
+  margin-bottom: 30px;
+  max-width: 420px;
+}
+.btn-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--red);
+  color: #fff;
+  font-size: 15px; font-weight: 700;
+  border-radius: var(--pill);
+  width: fit-content;
+  transition: background var(--trans), transform var(--trans);
+}
+.btn-hero:hover { background: var(--red-dark); transform: scale(1.04); }
+.btn-hero-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  border: 2px solid rgba(255,255,255,.8);
+  color: #fff;
+  font-size: 15px; font-weight: 700;
+  border-radius: var(--pill);
+  width: fit-content;
+  transition: all var(--trans);
+}
+.btn-hero-ghost:hover { background: #fff; color: var(--dark); border-color: #fff; }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Hero navigation */
+.hero-nav {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+}
+.hero-arrow {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.22);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: background var(--trans);
+}
+.hero-arrow:hover { background: rgba(255,255,255,.38); }
+.hero-dots { display: flex; align-items: center; gap: 7px; }
+.hero-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.45);
+  border: none;
+  transition: all var(--trans);
+}
+.hero-dot.active {
+  width: 26px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* ============================================================
+   CURRENT DEALS
+============================================================ */
+.deals {
+  background: var(--white);
+  padding: 64px 0 52px;
+}
+.deals-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+.deals-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+.deals-scroll::-webkit-scrollbar { display: none; }
+
+.deal-card {
+  flex-shrink: 0;
+  width: 228px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--gray-mid);
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: transform var(--trans), box-shadow var(--trans);
+}
+.deal-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.deal-img {
+  position: relative;
+  height: 155px;
+  overflow: hidden;
+  background: var(--gray-bg);
+}
+.deal-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+.deal-card:hover .deal-img img { transform: scale(1.07); }
+.deal-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px; font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--pill);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.deal-badge--gold { background: var(--dark); color: var(--gold); }
+.deal-body { padding: 14px 14px 16px; }
+.deal-name {
+  font-size: 14.5px; font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.deal-price {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+.deal-price strong { color: var(--red); font-size: 18px; font-weight: 900; }
+.btn-deal {
+  display: block;
+  text-align: center;
+  padding: 9px;
+  background: var(--red);
+  color: #fff;
+  font-size: 13px; font-weight: 700;
+  border-radius: var(--pill);
+  transition: background var(--trans);
+}
+.btn-deal:hover { background: var(--red-dark); }
+
+/* ============================================================
+   MENU CATEGORIES
+============================================================ */
+.categories {
+  background: var(--gray-bg);
+  padding: 64px 0 72px;
+}
+.categories-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* First card spans 2 columns */
+.cat-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  height: 270px;
+  cursor: pointer;
+  display: block;
+}
+.cat-card--wide {
+  grid-column: span 2;
+  height: 270px;
+}
+.cat-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+.cat-card:hover img { transform: scale(1.07); }
+.cat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.1) 55%, transparent 100%);
+  transition: opacity var(--trans);
+}
+.cat-card:hover .cat-overlay { opacity: .95; }
+.cat-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 18px 18px 20px;
+  z-index: 2;
+}
+.cat-label h3 {
+  color: #fff;
+  font-size: 18px; font-weight: 800;
+  margin-bottom: 6px;
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+.cat-label .cat-cta {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: var(--gold);
+  font-size: 13px; font-weight: 700;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity var(--trans), transform var(--trans);
+}
+.cat-card:hover .cat-cta { opacity: 1; transform: translateY(0); }
+.cat-card--wide .cat-label h3 { font-size: 24px; }
+
+/* ============================================================
+   DELIVERY BANNER
+============================================================ */
+.delivery {
+  background: var(--red);
+  overflow: hidden;
+}
+.delivery-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 400px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.delivery-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 56px 60px 24px;
+  color: #fff;
+}
+.delivery-eyebrow {
+  font-size: 11px; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.delivery-title {
+  font-size: clamp(28px, 3.8vw, 46px);
+  font-weight: 900;
+  line-height: 1.07;
+  margin-bottom: 16px;
+}
+.delivery-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 28px;
+  max-width: 360px;
+}
+.delivery-platforms {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.delivery-platform {
+  padding: 8px 16px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: var(--pill);
+  color: #fff;
+  font-size: 13px; font-weight: 700;
+}
+.btn-delivery {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 15px; font-weight: 800;
+  border-radius: var(--pill);
+  width: fit-content;
+  transition: all var(--trans);
+}
+.btn-delivery:hover { background: #fff; transform: scale(1.03); }
+.delivery-image {
+  position: relative;
+  overflow: hidden;
+}
+.delivery-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.delivery-image::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 90px;
+  background: linear-gradient(to right, var(--red), transparent);
+  z-index: 2;
+}
+
+/* ============================================================
+   APP SECTION
+============================================================ */
+.app-section {
+  background: var(--white);
+  padding: 88px 0;
+}
+.app-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+}
+.app-visual {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.app-phone {
+  width: 252px; height: 510px;
+  border-radius: 38px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,.22), 0 0 0 3px var(--dark);
+  position: relative;
+}
+.app-phone img { width: 100%; height: 100%; object-fit: cover; }
+.app-badge {
+  position: absolute;
+  bottom: -14px; right: -28px;
+  background: var(--gold);
+  color: var(--dark);
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.app-badge small { font-size: 11px; font-weight: 600; display: block; margin-top: 2px; }
+
+.app-content {}
+.app-eyebrow {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 11px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--pill);
+  margin-bottom: 16px;
+}
+.app-benefits {
+  margin: 24px 0 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.app-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.benefit-icon {
+  width: 44px; height: 44px;
+  background: var(--gold);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.benefit-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.benefit-text p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.app-stores { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-store {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  background: var(--dark);
+  color: #fff;
+  border-radius: var(--radius);
+  transition: all var(--trans);
+}
+.btn-store:hover { background: #3d3935; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-store svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+.btn-store-label small { display: block; font-size: 10px; color: rgba(255,255,255,.65); line-height: 1; }
+.btn-store-label span { display: block; font-size: 14px; font-weight: 700; line-height: 1.4; }
+
+/* ============================================================
+   RESTAURANT FINDER
+============================================================ */
+.finder {
+  position: relative;
+  background: var(--dark);
+  padding: 88px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.finder-bg {
+  position: absolute;
+  inset: 0;
+  opacity: .12;
+}
+.finder-bg img { width: 100%; height: 100%; object-fit: cover; }
+.finder-inner { position: relative; z-index: 2; }
+.finder .section-title { color: #fff; margin-bottom: 12px; }
+.finder .section-sub { color: rgba(255,255,255,.65); margin-bottom: 36px; }
+.finder-bar {
+  display: flex;
+  max-width: 560px;
+  margin: 0 auto 20px;
+  background: #fff;
+  border-radius: var(--pill);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.35);
+}
+.finder-bar input {
+  flex: 1;
+  border: none; outline: none;
+  padding: 16px 24px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--dark);
+}
+.finder-bar input::placeholder { color: #aaa; }
+.btn-find {
+  padding: 12px 22px;
+  background: var(--red);
+  color: #fff;
+  font-size: 14px; font-weight: 700;
+  border-radius: 0 var(--pill) var(--pill) 0;
+  display: flex; align-items: center; gap: 7px;
+  white-space: nowrap;
+  transition: background var(--trans);
+}
+.btn-find:hover { background: var(--red-dark); }
+.btn-find svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.finder-chips {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.finder-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: var(--pill);
+  color: #fff;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.finder-chip:hover { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.4); }
+
+/* ============================================================
+   PROMO BANNER (full-width red stripe)
+============================================================ */
+.promo-stripe {
+  background: var(--dark);
+  padding: 52px 0;
+}
+.promo-stripe-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.promo-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: 240px;
+  cursor: pointer;
+}
+.promo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.promo-card:hover img { transform: scale(1.05); }
+.promo-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(218,41,28,.85) 0%, rgba(218,41,28,.3) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px;
+}
+.promo-card-overlay h3 { color: #fff; font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+.promo-card-overlay p { color: rgba(255,255,255,.85); font-size: 14px; margin-bottom: 18px; }
+.btn-promo {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 20px;
+  background: #fff;
+  color: var(--red);
+  font-size: 13px; font-weight: 800;
+  border-radius: var(--pill);
+  width: fit-content;
+  transition: all var(--trans);
+}
+.btn-promo:hover { background: var(--gold); color: var(--dark); }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer { background: var(--dark); }
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding: 60px 24px 52px;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.footer-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.footer-brand-name {
+  font-size: 18px; font-weight: 900;
+  color: var(--gold);
+}
+.footer-brand-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 210px;
+}
+.footer-socials { display: flex; gap: 9px; }
+.social-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.75);
+  transition: all var(--trans);
+}
+.social-btn:hover { background: var(--gold); color: var(--dark); }
+.social-btn svg { width: 15px; height: 15px; fill: currentColor; }
+
+.footer-col h4 {
+  color: #fff;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.footer-col ul { display: flex; flex-direction: column; gap: 11px; }
+.footer-col ul a {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  transition: color var(--trans);
+}
+.footer-col ul a:hover { color: var(--gold); }
+
+.footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-copy { font-size: 13px; color: rgba(255,255,255,.35); }
+.footer-legal { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer-legal a {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  transition: color var(--trans);
+}
+.footer-legal a:hover { color: rgba(255,255,255,.7); }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 1024px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-card--wide { grid-column: span 2; }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .promo-stripe-inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .delivery-inner { grid-template-columns: 1fr; }
+  .delivery-image { height: 300px; }
+  .delivery-image::before { display: none; }
+  .delivery-content { padding: 48px 24px 40px; }
+  .app-inner { grid-template-columns: 1fr; }
+  .app-visual { margin-bottom: 40px; }
+}
+@media (max-width: 768px) {
+  .nav-links, .nav-actions { display: none; }
+  .nav-burger { display: flex; }
+  .hero-content { padding: 32px 24px; }
+  .hero-title { font-size: 30px; }
+  .deals-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .cat-card--wide { grid-column: span 2; }
+  .footer-main { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .hero { height: clamp(380px, 75vw, 520px); }
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .cat-card, .cat-card--wide { height: 200px; }
+  .app-phone { width: 210px; height: 420px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ANNOUNCEMENT BAR ===== -->
+<div class="ann-bar">
+  🔥 Jetzt die <a href="#">GoldenBite App</a> downloaden &amp; exklusive Deals sichern!
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+
+    <!-- Logo -->
+    <a href="#" class="nav-logo">
+      <!-- Custom flame/bite logo - NOT golden arches -->
+      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="GoldenBite Logo">
+        <circle cx="21" cy="21" r="21" fill="#FFC72C"/>
+        <!-- Stylized flame shape -->
+        <path d="M21 6
+          C18 10 14 14 15 19
+          C15.8 22 15 24.5 13 25.5
+          C15.5 26 17.5 24.5 18 22
+          C19 24.5 18.5 27.5 16.5 29.5
+          C19.5 28.5 22.5 26 22 22
+          C23.5 24.5 23.5 27.5 21.5 30
+          C25 28 28 24.5 26 19.5
+          C25 17 26 14.5 29 13
+          C25 13.5 22 16 22 20
+          C21 16 22 11 21 6Z"
+          fill="#DA291C"/>
+        <!-- Small circle highlight -->
+        <circle cx="21" cy="21" r="4" fill="rgba(255,199,44,0.25)"/>
+      </svg>
+      <span class="nav-logo-name">GoldenBite</span>
+    </a>
+
+    <!-- Desktop links -->
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#menu">Menü</a></li>
+        <li><a href="#finder">Restaurants</a></li>
+        <li><a href="#delivery">Lieferung</a></li>
+        <li><a href="#app">App</a></li>
+        <li><a href="#deals">Angebote</a></li>
+      </ul>
+    </nav>
+
+    <!-- Desktop actions -->
+    <div class="nav-actions">
+      <button class="nav-icon" aria-label="Suche">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="nav-icon" aria-label="Profil">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <a href="#" class="btn-order">Jetzt bestellen</a>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="nav-burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<nav class="mob-menu" id="mobMenu" aria-label="Mobile Navigation">
+  <a href="#menu">Menü</a>
+  <a href="#finder">Restaurants</a>
+  <a href="#delivery">Lieferung</a>
+  <a href="#app">App</a>
+  <a href="#deals">Angebote</a>
+  <a href="#" class="mob-order">Jetzt bestellen</a>
+</nav>
+
+<!-- ===== HERO SLIDER ===== -->
+<section class="hero" id="hero" aria-label="Promotionen">
+  <div class="hero-track" id="heroTrack">
+
+    <!-- Slide 1: Classic Burger -->
+    <div class="hero-slide" role="group" aria-label="Slide 1">
+      <img
+        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1400&q=85&auto=format&fit=crop"
+        alt="Klassischer Burger"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="hero-content">
+        <div class="hero-tag">Jetzt im Angebot</div>
+        <h1 class="hero-title">
+          Der Klassiker.<br>
+          <em>Unschlagbar gut.</em>
+        </h1>
+        <p class="hero-text">
+          Saftiges Rindfleisch, frischer Salat, reife Tomaten und unsere Haussoße –
+          der Original BurgerBite jetzt für kurze Zeit ab 3,99&nbsp;€.
+        </p>
+        <div class="hero-cta">
+          <a href="#" class="btn-hero">Jetzt bestellen</a>
+          <a href="#menu" class="btn-hero-ghost">Zum Menü</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Spicy Chicken -->
+    <div class="hero-slide" role="group" aria-label="Slide 2">
+      <img
+        src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=1400&q=85&auto=format&fit=crop"
+        alt="Spicy Chicken Sandwich"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="hero-content">
+        <div class="hero-tag">Neu im Menü</div>
+        <h1 class="hero-title">
+          Spicy Chicken.<br>
+          <em>Feel the Heat.</em>
+        </h1>
+        <p class="hero-text">
+          Knuspriges Hähnchenfilet, scharfe Jalapeños und cremige Avocado-Soße –
+          das perfekte Sandwich für alle, die es heiß mögen.
+        </p>
+        <div class="hero-cta">
+          <a href="#" class="btn-hero">Mehr entdecken</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Breakfast -->
+    <div class="hero-slide" role="group" aria-label="Slide 3">
+      <img
+        src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=1400&q=85&auto=format&fit=crop"
+        alt="Frühstück"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="hero-content">
+        <div class="hero-tag">Frühstück bis 11:00 Uhr</div>
+        <h1 class="hero-title">
+          Guten Morgen.<br>
+          <em>Guter Start.</em>
+        </h1>
+        <p class="hero-text">
+          Starte deinen Tag mit unserem Morning-Menü – fluffige Pancakes,
+          herzhafte Eier-Muffins und frisch gebrühtem Kaffee.
+        </p>
+        <div class="hero-cta">
+          <a href="#" class="btn-hero">Zum Frühstück</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation dots + arrows -->
+  <div class="hero-nav">
+    <button class="hero-arrow" id="heroPrev" aria-label="Vorheriges Bild">&#8592;</button>
+    <div class="hero-dots" role="tablist" aria-label="Slide Navigation">
+      <button class="hero-dot active" data-index="0" role="tab" aria-label="Slide 1" aria-selected="true"></button>
+      <button class="hero-dot" data-index="1" role="tab" aria-label="Slide 2" aria-selected="false"></button>
+      <button class="hero-dot" data-index="2" role="tab" aria-label="Slide 3" aria-selected="false"></button>
+    </div>
+    <button class="hero-arrow" id="heroNext" aria-label="Nächstes Bild">&#8594;</button>
+  </div>
+</section>
+
+<!-- ===== CURRENT DEALS ===== -->
+<section class="deals" id="deals">
+  <div class="container">
+    <div class="deals-head">
+      <div>
+        <h2 class="section-title">Aktuelle Angebote</h2>
+        <p class="section-sub">Nur für kurze Zeit – hol dir die besten Deals!</p>
+      </div>
+      <a href="#" class="link-all">Alle Angebote &rarr;</a>
+    </div>
+
+    <div class="deals-scroll">
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&q=80&auto=format&fit=crop" alt="BigBite Double" loading="lazy" />
+          <span class="deal-badge">−30&nbsp;%</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">BigBite Double</p>
+          <p class="deal-price">Nur <strong>3,99&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?w=400&q=80&auto=format&fit=crop" alt="Crispy Fries" loading="lazy" />
+          <span class="deal-badge deal-badge--gold">Neu</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Crispy Fries L + Getränk</p>
+          <p class="deal-price">Nur <strong>2,49&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=80&auto=format&fit=crop" alt="Chicken Box" loading="lazy" />
+          <span class="deal-badge">−20&nbsp;%</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Chicken Box 8 Stück</p>
+          <p class="deal-price">Nur <strong>6,99&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400&q=80&auto=format&fit=crop" alt="Breakfast Combo" loading="lazy" />
+          <span class="deal-badge">Nur morgens</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Breakfast Combo</p>
+          <p class="deal-price">Nur <strong>4,49&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1576226796222-1be0b6f0d99a?w=400&q=80&auto=format&fit=crop" alt="SoftSwirl" loading="lazy" />
+          <span class="deal-badge deal-badge--gold">Sommer-Deal</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">SoftSwirl Eiskrem</p>
+          <p class="deal-price">Nur <strong>1,49&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80&auto=format&fit=crop" alt="Menü des Tages" loading="lazy" />
+          <span class="deal-badge">Sparmenü</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Menü des Tages</p>
+          <p class="deal-price">Nur <strong>7,49&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80&auto=format&fit=crop" alt="Kaffee + Muffin" loading="lazy" />
+          <span class="deal-badge deal-badge--gold">App-Deal</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Kaffee + Muffin</p>
+          <p class="deal-price">Nur <strong>2,99&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-img">
+          <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&q=80&auto=format&fit=crop" alt="Happy Box" loading="lazy" />
+          <span class="deal-badge">Kinder</span>
+        </div>
+        <div class="deal-body">
+          <p class="deal-name">Happy Box Kids</p>
+          <p class="deal-price">Nur <strong>5,49&nbsp;€</strong></p>
+          <a href="#" class="btn-deal">Zum Angebot</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENU CATEGORIES ===== -->
+<section class="categories" id="menu">
+  <div class="container">
+    <div class="categories-head">
+      <h2 class="section-title">Was darf es heute sein?</h2>
+      <p class="section-sub">Entdecke unser vielfältiges Menü</p>
+    </div>
+    <div class="cat-grid">
+
+      <!-- Wide card: Burger -->
+      <a href="#" class="cat-card cat-card--wide">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80&auto=format&fit=crop" alt="Burger" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Burger</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Chicken -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80&auto=format&fit=crop" alt="Chicken" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Chicken</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Beilagen -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600&q=80&auto=format&fit=crop" alt="Beilagen" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Snacks &amp; Beilagen</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Frühstück -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=80&auto=format&fit=crop" alt="Frühstück" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Frühstück</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Salate -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80&auto=format&fit=crop" alt="Salate" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Salate</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Desserts -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1576226796222-1be0b6f0d99a?w=600&q=80&auto=format&fit=crop" alt="Desserts" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Desserts &amp; Shakes</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- GoldenCafé -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80&auto=format&fit=crop" alt="Kaffee" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>GoldenCafé</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Happy Box -->
+      <a href="#" class="cat-card">
+        <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80&auto=format&fit=crop" alt="Happy Box" loading="lazy" />
+        <div class="cat-overlay"></div>
+        <div class="cat-label">
+          <h3>Happy Box</h3>
+          <span class="cat-cta">Jetzt entdecken &rarr;</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== DELIVERY SECTION ===== -->
+<section class="delivery" id="delivery">
+  <div class="delivery-inner">
+    <div class="delivery-content">
+      <p class="delivery-eyebrow">GoldenBite Lieferung</p>
+      <h2 class="delivery-title">
+        Lass dir dein<br>Lieblingsessen liefern.
+      </h2>
+      <p class="delivery-desc">
+        Bestell bequem von zu Hause – wir liefern frisch und heiß direkt
+        an deine Tür. In der Regel in unter 30&nbsp;Minuten.
+      </p>
+      <div class="delivery-platforms">
+        <span class="delivery-platform">Lieferando</span>
+        <span class="delivery-platform">Uber Eats</span>
+        <span class="delivery-platform">Direktbestellung</span>
+      </div>
+      <a href="#" class="btn-delivery">Jetzt bestellen</a>
+    </div>
+    <div class="delivery-image">
+      <img
+        src="https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&q=80&auto=format&fit=crop"
+        alt="Lieferservice"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROMO STRIPE ===== -->
+<section class="promo-stripe">
+  <div class="container">
+    <div class="promo-stripe-inner">
+      <a href="#" class="promo-card">
+        <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=700&q=80&auto=format&fit=crop" alt="Aktionsmenü" loading="lazy" />
+        <div class="promo-card-overlay">
+          <h3>Das Aktionsmenü</h3>
+          <p>Burger + Fries + Getränk deiner Wahl</p>
+          <span class="btn-promo">Ab 8,99&nbsp;€ &rarr;</span>
+        </div>
+      </a>
+      <a href="#" class="promo-card">
+        <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=700&q=80&auto=format&fit=crop" alt="Frühstück" loading="lazy" />
+        <div class="promo-card-overlay">
+          <h3>Frühstück the golden way</h3>
+          <p>Täglich von 6:00 bis 11:00 Uhr</p>
+          <span class="btn-promo">Zum Frühstück &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APP SECTION ===== -->
+<section class="app-section" id="app">
+  <div class="container">
+    <div class="app-inner">
+
+      <div class="app-visual">
+        <div class="app-phone">
+          <img
+            src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80&auto=format&fit=crop"
+            alt="GoldenBite App"
+            loading="lazy"
+          />
+        </div>
+        <div class="app-badge">
+          &#11088; 4.8 / 5<br>
+          <small>250 000+ Bewertungen</small>
+        </div>
+      </div>
+
+      <div class="app-content">
+        <span class="app-eyebrow">MyGoldenBite App</span>
+        <h2 class="section-title">
+          Hol dir mehr<br>mit der App.
+        </h2>
+        <p class="section-sub">
+          Exklusive Angebote, schnelles Bestellen und Punkte für jeden Einkauf.
+        </p>
+        <div class="app-benefits">
+          <div class="app-benefit">
+            <div class="benefit-icon">&#127873;</div>
+            <div class="benefit-text">
+              <strong>Gratis-Produkt zur Begrüßung</strong>
+              <p>Registriere dich und erhalte sofort ein Gratisprodukt deiner Wahl.</p>
+            </div>
+          </div>
+          <div class="app-benefit">
+            <div class="benefit-icon">&#128293;</div>
+            <div class="benefit-text">
+              <strong>Exklusive App-Deals</strong>
+              <p>Tägliche Angebote nur für App-Nutzer – bis zu 40&nbsp;% Rabatt.</p>
+            </div>
+          </div>
+          <div class="app-benefit">
+            <div class="benefit-icon">&#11088;</div>
+            <div class="benefit-text">
+              <strong>GoldPoints sammeln</strong>
+              <p>Jeder Kauf bringt Punkte – tausche sie gegen Gratis-Produkte ein.</p>
+            </div>
+          </div>
+          <div class="app-benefit">
+            <div class="benefit-icon">&#9889;</div>
+            <div class="benefit-text">
+              <strong>Mobil vorbestellen &amp; bezahlen</strong>
+              <p>Restaurant wählen, bestellen, kurz warten – direkt abholen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="app-stores">
+          <a href="#" class="btn-store">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="btn-store-label">
+              <small>Laden im</small>
+              <span>App Store</span>
+            </div>
+          </a>
+          <a href="#" class="btn-store">
+            <svg viewBox="0 0 24 24"><path d="M3.18 23.76c.37.21.8.22 1.2.03l11.62-6.53-2.5-2.5L3.18 23.76zM20.54 9.39 18.1 8.04l-2.79 2.76 2.82 2.82 2.41-1.36c.68-.39.68-1.48 0-1.87zM1.02 1.61C.98 1.77.96 1.94.96 2.12v19.76c0 .18.02.35.06.51l11.7-11.72L1.02 1.61zM4.38.2C3.98.01 3.55.02 3.18.23l10.3 10.3 2.82-2.83L4.38.2z"/></svg>
+            <div class="btn-store-label">
+              <small>Jetzt bei</small>
+              <span>Google Play</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESTAURANT FINDER ===== -->
+<section class="finder" id="finder">
+  <div class="finder-bg">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=60&auto=format&fit=crop" alt="" role="presentation" loading="lazy" />
+  </div>
+  <div class="container finder-inner">
+    <h2 class="section-title">Restaurant in deiner Nähe</h2>
+    <p class="section-sub">Über 1.400 GoldenBite Restaurants in ganz Deutschland</p>
+    <div class="finder-bar">
+      <input type="text" placeholder="Stadt, PLZ oder Adresse eingeben …" aria-label="Standort suchen" />
+      <button class="btn-find">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Suchen
+      </button>
+    </div>
+    <div class="finder-chips">
+      <button class="finder-chip">&#128205; Meinen Standort nutzen</button>
+      <button class="finder-chip">Drive-In</button>
+      <button class="finder-chip">24h geöffnet</button>
+      <button class="finder-chip">Mit Lieferung</button>
+      <button class="finder-chip">GoldenCafé</button>
+      <button class="finder-chip">Spielplatz</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-main">
+
+    <!-- Brand column -->
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <svg width="34" height="34" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <circle cx="21" cy="21" r="21" fill="#FFC72C"/>
+          <path d="M21 6C18 10 14 14 15 19C15.8 22 15 24.5 13 25.5C15.5 26 17.5 24.5 18 22C19 24.5 18.5 27.5 16.5 29.5C19.5 28.5 22.5 26 22 22C23.5 24.5 23.5 27.5 21.5 30C25 28 28 24.5 26 19.5C25 17 26 14.5 29 13C25 13.5 22 16 22 20C21 16 22 11 21 6Z" fill="#DA291C"/>
+        </svg>
+        <span class="footer-brand-name">GoldenBite</span>
+      </div>
+      <p class="footer-brand-desc">
+        Wir machen jeden Tag ein bisschen leckerer –
+        frisch, schnell und mit Liebe zubereitet.
+      </p>
+      <div class="footer-socials">
+        <!-- Instagram -->
+        <a href="#" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" class="social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <!-- X / Twitter -->
+        <a href="#" class="social-btn" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <!-- TikTok -->
+        <a href="#" class="social-btn" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Column 2: Unternehmen -->
+    <div class="footer-col">
+      <h4>Unternehmen</h4>
+      <ul>
+        <li><a href="#">Über GoldenBite</a></li>
+        <li><a href="#">Nachhaltigkeit</a></li>
+        <li><a href="#">Karriere</a></li>
+        <li><a href="#">Franchise</a></li>
+        <li><a href="#">Presse</a></li>
+        <li><a href="#">Investor Relations</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Service -->
+    <div class="footer-col">
+      <h4>Service</h4>
+      <ul>
+        <li><a href="#">Kontakt</a></li>
+        <li><a href="#">Restaurant finden</a></li>
+        <li><a href="#">Allergene &amp; Nährwerte</a></li>
+        <li><a href="#">Qualität &amp; Herkunft</a></li>
+        <li><a href="#">Gutscheine</a></li>
+        <li><a href="#">GoldenBite für Gruppen</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Rechtliches -->
+    <div class="footer-col">
+      <h4>Rechtliches</h4>
+      <ul>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+        <li><a href="#">Cookie-Einstellungen</a></li>
+        <li><a href="#">AGB</a></li>
+        <li><a href="#">Nutzungsbedingungen</a></li>
+        <li><a href="#">Barrierefreiheit</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2025 GoldenBite Deutschland GmbH. Alle Rechte vorbehalten.</p>
+    <nav class="footer-legal" aria-label="Rechtliche Links">
+      <a href="#">Datenschutz</a>
+      <a href="#">Impressum</a>
+      <a href="#">AGB</a>
+      <a href="#">Cookie-Einstellungen</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+/* ---- Hero Slider ---- */
+const track  = document.getElementById('heroTrack');
+const dots   = document.querySelectorAll('.hero-dot');
+const TOTAL  = 3;
+let current  = 0;
+let timer;
+
+function slideTo(index) {
+  current = ((index % TOTAL) + TOTAL) % TOTAL;
+  track.style.transform = `translateX(-${current * 100}%)`;
+  dots.forEach((d, i) => {
+    const active = i === current;
+    d.classList.toggle('active', active);
+    d.setAttribute('aria-selected', active);
+  });
+}
+
+function startAutoplay() {
+  timer = setInterval(() => slideTo(current + 1), 5000);
+}
+function stopAutoplay() {
+  clearInterval(timer);
+}
+
+document.getElementById('heroNext').addEventListener('click', () => {
+  stopAutoplay(); slideTo(current + 1); startAutoplay();
+});
+document.getElementById('heroPrev').addEventListener('click', () => {
+  stopAutoplay(); slideTo(current - 1); startAutoplay();
+});
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    stopAutoplay(); slideTo(parseInt(dot.dataset.index, 10)); startAutoplay();
+  });
+});
+
+// Keyboard support for slider
+document.querySelector('.hero').addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { stopAutoplay(); slideTo(current + 1); startAutoplay(); }
+  if (e.key === 'ArrowLeft')  { stopAutoplay(); slideTo(current - 1); startAutoplay(); }
+});
+
+// Touch/swipe support
+let touchStartX = 0;
+track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    stopAutoplay();
+    slideTo(dx < 0 ? current + 1 : current - 1);
+    startAutoplay();
+  }
+}, { passive: true });
+
+startAutoplay();
+
+/* ---- Mobile menu ---- */
+const burger   = document.getElementById('navBurger');
+const mobMenu  = document.getElementById('mobMenu');
+
+burger.addEventListener('click', () => {
+  const open = mobMenu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(open));
+});
+mobMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobMenu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+/* ---- Navbar shadow on scroll ---- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.style.boxShadow = window.scrollY > 8
+    ? '0 4px 24px rgba(0,0,0,.4)'
+    : '';
+}, { passive: true });
+
+/* ---- Active nav link highlight ---- */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
