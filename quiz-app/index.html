@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
+  <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
+</head>
+<body>
+
+<!-- SVG Defs for ring gradient (hidden) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ── App Shell ─────────────────────────────────────────────── -->
+<div class="app-shell">
+
+  <!-- ── Sidebar ───────────────────────────────────────────── -->
+  <nav class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <a class="sidebar-brand" href="#" onclick="navigateTo('dashboard');return false;">
+      <div class="brand-icon">🎯</div>
+      <span class="brand-name">SkillPilot</span>
+    </a>
+
+    <!-- Nav -->
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Hauptmenü</div>
+
+      <button class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">🏠</span>
+        <span>Zentrale</span>
+      </button>
+
+      <button class="nav-item" data-page="quiz">
+        <span class="nav-icon">🧠</span>
+        <span>Training</span>
+        <span class="nav-badge">22</span>
+      </button>
+
+      <button class="nav-item" data-page="leaderboard">
+        <span class="nav-icon">🏆</span>
+        <span>Liga</span>
+      </button>
+
+      <div class="nav-section-label" style="margin-top:8px">Konto</div>
+
+      <button class="nav-item" data-page="billing">
+        <span class="nav-icon">💳</span>
+        <span>Abo</span>
+      </button>
+
+      <button class="nav-item" data-page="account">
+        <span class="nav-icon">👤</span>
+        <span>Konto</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleBtn">
+        <span class="nav-icon" id="themeIcon">🌙</span>
+        <span>Dark Mode</span>
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      </button>
+      <div style="padding:8px 12px;font-size:11px;color:var(--text-3)">
+        <span class="live-dot"></span>&nbsp;Prüfung in <strong id="cdDaysSmall">–</strong> Tagen
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main ──────────────────────────────────────────────── -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü">☰</button>
+      <div class="topbar-title" id="topbarTitle">Zentrale</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="Benachrichtigungen">🔔</button>
+        <button class="topbar-btn" title="Suche">🔍</button>
+        <div class="avatar" onclick="navigateTo('account')" title="Konto" id="topbarAvatar">AM</div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Dashboard                                         -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page active" id="page-dashboard">
+
+      <!-- Hero -->
+      <div class="dash-hero">
+        <div class="hero-greeting">Willkommen zurück 👋</div>
+        <h1 class="hero-title">Bereit für deine Prüfung, Alex?</h1>
+        <p class="hero-sub">Du bist auf einem guten Weg. Weiter so – die Prüfung kommt näher!</p>
+        <div class="hero-actions">
+          <button class="btn btn-white" onclick="navigateTo('quiz')">Training starten →</button>
+          <button class="btn btn-ghost-white" onclick="navigateTo('leaderboard')">Rangliste ansehen</button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="grid-4 mb-6">
+
+        <!-- XP Card -->
+        <div class="card stat-card card-gradient-border">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Gesamt XP</div>
+              <div class="stat-value" id="dashXp">1.240</div>
+            </div>
+            <div class="stat-icon" style="background:var(--blue-dim)">⚡</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="progress-wrap" style="flex:1"><div class="progress-bar" style="width:62%"></div></div>
+            <span class="stat-delta up">+120</span>
+          </div>
+          <div class="text-xs text-muted">Level 5 · 760 XP bis Level 6</div>
+        </div>
+
+        <!-- Richtig -->
+        <div class="card stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Richtige Antworten</div>
+              <div class="stat-value" id="dashCorrect">0</div>
+            </div>
+            <div class="stat-icon" style="background:var(--green-dim)">✓</div>
+          </div>
+          <div class="text-xs text-muted">Gesamt beantwortet: <span id="dashAnswered">0</span></div>
+        </div>
+
+        <!-- Genauigkeit -->
+        <div class="card stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Trefferquote</div>
+              <div class="stat-value" id="dashAccuracy">0%</div>
+            </div>
+            <div class="stat-icon" style="background:var(--violet-dim)">🎯</div>
+          </div>
+          <div class="progress-wrap mt-2"><div class="progress-bar" id="accuracyBar" style="width:0%"></div></div>
+        </div>
+
+        <!-- Streak -->
+        <div class="card stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Lern-Streak</div>
+              <div class="stat-value"><span id="streakCount">7</span></div>
+            </div>
+            <div class="stat-icon" style="background:var(--amber-dim);font-size:22px;animation:fire 1.2s ease infinite">🔥</div>
+          </div>
+          <div class="streak-badge">
+            <span class="streak-fire">🔥</span>
+            <span id="streakCount2">7</span> Tage in Folge
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Middle row: Radar + Ring + Countdown -->
+      <div class="grid-3 mb-6">
+
+        <!-- Radar chart -->
+        <div class="card" style="grid-column: span 1">
+          <div class="section-header">
+            <span class="section-title">Kapitel-Übersicht</span>
+            <span class="live-dot"></span>
+          </div>
+          <div class="radar-wrap" id="radarChart">
+            <!-- Built by JS -->
+          </div>
+        </div>
+
+        <!-- Progress ring -->
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+          <div class="section-title">Fortschritt</div>
+          <div class="progress-ring-wrap">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              <circle class="ring-track" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill" cx="60" cy="60" r="50" id="ringFill"
+                stroke-dasharray="314" stroke-dashoffset="314"
+                style="transition: stroke-dashoffset 1.2s ease"/>
+            </svg>
+            <div class="progress-ring-label">
+              <span class="val" id="ringLabel">0%</span>
+              <span class="sub">korrekt</span>
+            </div>
+          </div>
+          <div class="text-sm text-muted" style="text-align:center">
+            Basierend auf deinen letzten Antworten
+          </div>
+          <button class="btn btn-primary btn-sm w-full" onclick="navigateTo('quiz')">Training fortsetzen</button>
+        </div>
+
+        <!-- Countdown -->
+        <div class="card countdown-card">
+          <div style="font-size:13px;font-weight:700;opacity:0.85;margin-bottom:4px">⏱ Nächste Prüfung</div>
+          <div style="font-size:22px;font-weight:900;margin-bottom:4px">IHK §34d GewO</div>
+          <div style="font-size:12px;opacity:0.7;margin-bottom:12px">Countdown bis zum Prüfungstermin</div>
+          <div class="countdown-grid">
+            <div class="countdown-unit">
+              <span class="countdown-num" id="cdDays">38</span>
+              <span class="countdown-lbl">Tage</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="cdHours">12</span>
+              <span class="countdown-lbl">Std</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="cdMins">00</span>
+              <span class="countdown-lbl">Min</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="cdSecs">00</span>
+              <span class="countdown-lbl">Sek</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent history -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">Zuletzt gelernt</span>
+          <span class="section-link" onclick="navigateTo('quiz')">Weiter üben →</span>
+        </div>
+        <div id="recentHistory">
+          <p class="text-sm text-muted" style="padding:16px 0">Noch keine Fragen beantwortet. Starte das Training!</p>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Quiz / Training                                   -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page" id="page-quiz">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.5px">Training</h2>
+          <p class="text-sm text-muted">§34d GewO Prüfungsvorbereitung · A/B/C/D Tastaturkürzel</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-size:12px;color:var(--text-3)">⌨️ A–D wählen · Enter bestätigen</span>
+          <button class="btn btn-secondary btn-sm" onclick="initQuizPage()">🔄 Neu starten</button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="quiz-filter-bar" id="quizFilterBar">
+        <!-- Built by JS -->
+      </div>
+
+      <!-- Dynamic quiz content -->
+      <div id="quizContent">
+        <!-- Built by JS -->
+      </div>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Leaderboard / Liga                                -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page" id="page-leaderboard">
+
+      <div style="margin-bottom:24px">
+        <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px">
+          🏆 Liga-Rangliste
+        </h2>
+        <p class="text-sm text-muted">Vergleiche dich mit anderen Lernenden aus ganz Deutschland</p>
+      </div>
+
+      <!-- Top 3 hero -->
+      <div class="grid-3 mb-6" id="top3Hero">
+
+        <!-- Gold -->
+        <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(245,158,11,0.15) 0%,rgba(245,158,11,0.05) 100%);border-color:rgba(245,158,11,0.3)">
+          <div style="font-size:40px;margin-bottom:8px">🥇</div>
+          <div class="lb-avatar" style="background:#7C3AED;width:48px;height:48px;font-size:16px;margin:0 auto 10px">SK</div>
+          <div style="font-weight:800;font-size:16px">Sarah K.</div>
+          <div style="color:var(--gold);font-weight:700;font-size:18px;margin-top:4px">4.820 XP</div>
+          <div class="text-xs text-muted mt-1">96% Trefferquote</div>
+        </div>
+
+        <!-- Silver -->
+        <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(148,163,184,0.15) 0%,rgba(148,163,184,0.05) 100%);border-color:rgba(148,163,184,0.3)">
+          <div style="font-size:40px;margin-bottom:8px">🥈</div>
+          <div class="lb-avatar" style="background:#2563EB;width:48px;height:48px;font-size:16px;margin:0 auto 10px">JM</div>
+          <div style="font-weight:800;font-size:16px">Jonas M.</div>
+          <div style="color:var(--silver);font-weight:700;font-size:18px;margin-top:4px">4.410 XP</div>
+          <div class="text-xs text-muted mt-1">94% Trefferquote</div>
+        </div>
+
+        <!-- Bronze -->
+        <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(180,83,9,0.15) 0%,rgba(180,83,9,0.05) 100%);border-color:rgba(180,83,9,0.3)">
+          <div style="font-size:40px;margin-bottom:8px">🥉</div>
+          <div class="lb-avatar" style="background:#059669;width:48px;height:48px;font-size:16px;margin:0 auto 10px">LB</div>
+          <div style="font-weight:800;font-size:16px">Lena B.</div>
+          <div style="color:var(--bronze);font-weight:700;font-size:18px;margin-top:4px">3.980 XP</div>
+          <div class="text-xs text-muted mt-1">91% Trefferquote</div>
+        </div>
+
+      </div>
+
+      <!-- Full table -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th style="width:60px">#</th>
+              <th>Lernender</th>
+              <th>XP</th>
+              <th>Fortschritt</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody">
+            <!-- Built by JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Billing / Abo                                     -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page" id="page-billing">
+
+      <div style="text-align:center;margin-bottom:36px">
+        <div style="display:inline-block;background:var(--blue-dim);color:var(--blue);font-size:12px;font-weight:700;padding:4px 14px;border-radius:99px;margin-bottom:12px">💎 Upgrade verfügbar</div>
+        <h2 style="font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:8px">
+          Wähle deinen <span class="gradient-text">Plan</span>
+        </h2>
+        <p class="text-muted" style="font-size:15px;max-width:480px;margin:0 auto">Lerne effizienter mit KI-gestützter Vorbereitung für die §34d GewO Prüfung</p>
+        <div style="margin-top:16px;font-size:14px;font-weight:700;color:var(--green);background:var(--green-dim);padding:6px 16px;border-radius:99px;display:inline-block" id="savingsCalc">
+          Du sparst 90€ pro Jahr mit dem Jahresabo!
+        </div>
+      </div>
+
+      <!-- Plans -->
+      <div class="plan-grid">
+
+        <!-- Free -->
+        <div class="plan-card">
+          <div class="plan-name">Kostenlos</div>
+          <div class="plan-price">0<span>€</span></div>
+          <div class="plan-period">für immer</div>
+          <ul class="plan-features">
+            <li>10 Fragen pro Tag</li>
+            <li>Basisstatistiken</li>
+            <li>Community-Zugang</li>
+            <li class="disabled">KI-Coach</li>
+            <li class="disabled">Alle Kapitel</li>
+            <li class="disabled">Offline-Modus</li>
+            <li class="disabled">Lernkalender</li>
+          </ul>
+          <button class="btn btn-secondary w-full mt-4" style="margin-top:20px">Aktueller Plan</button>
+        </div>
+
+        <!-- Pro (featured) -->
+        <div class="plan-card featured" style="position:relative">
+          <span class="plan-badge">⭐ Beliebtester Plan</span>
+          <div class="plan-name" style="color:var(--blue)">Pro</div>
+          <div class="plan-price">19<span>.99€</span></div>
+          <div class="plan-period">pro Monat</div>
+          <div class="plan-savings">Spare 37% mit Jahresabo</div>
+          <ul class="plan-features">
+            <li>Unbegrenzte Fragen</li>
+            <li>KI-Coach "Max"</li>
+            <li>Alle 6 Kapitel</li>
+            <li>Detaillierte Statistiken</li>
+            <li>Lernkalender & Streak</li>
+            <li>Offline-Modus</li>
+            <li>Priority Support</li>
+          </ul>
+          <button class="btn btn-primary w-full" style="margin-top:20px;box-shadow:var(--shadow-blue)">Jetzt upgraden</button>
+        </div>
+
+        <!-- Team -->
+        <div class="plan-card">
+          <div class="plan-name">Team</div>
+          <div class="plan-price">49<span>€</span></div>
+          <div class="plan-period">pro Monat / bis 10 Nutzer</div>
+          <ul class="plan-features">
+            <li>Alles aus Pro</li>
+            <li>Team-Ranglisten</li>
+            <li>Admin-Dashboard</li>
+            <li>Fortschrittsberichte</li>
+            <li>Custom Branding</li>
+            <li>Dedizierter Support</li>
+            <li>SSO & LDAP</li>
+          </ul>
+          <button class="btn btn-secondary w-full" style="margin-top:20px">Team kontaktieren</button>
+        </div>
+
+      </div>
+
+      <!-- Feature comparison table -->
+      <div class="card mb-6" style="padding:0;overflow:hidden">
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border)">
+          <div class="section-title">Funktionsvergleich</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th style="text-align:left">Feature</th>
+                <th>Kostenlos</th>
+                <th style="color:var(--blue)">Pro</th>
+                <th>Team</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Fragenanzahl</td><td>10/Tag</td><td class="ft-check">∞</td><td class="ft-check">∞</td></tr>
+              <tr><td>KI-Coach</td><td class="ft-cross">✗</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+              <tr><td>Alle Kapitel §34d</td><td class="ft-cross">✗</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+              <tr><td>Erklärungen</td><td class="ft-check">✓</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+              <tr><td>Streak & Gamification</td><td class="ft-cross">✗</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+              <tr><td>Offline-Modus</td><td class="ft-cross">✗</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+              <tr><td>Team-Dashboard</td><td class="ft-cross">✗</td><td class="ft-cross">✗</td><td class="ft-check">✓</td></tr>
+              <tr><td>Export (PDF)</td><td class="ft-cross">✗</td><td class="ft-check">✓</td><td class="ft-check">✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <div style="margin-bottom:8px">
+        <div class="section-title mb-4">Was unsere Nutzer sagen</div>
+        <div class="grid-3">
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Dank SkillPilot habe ich meine IHK-Prüfung beim ersten Versuch bestanden. Die Fragen sind super realistisch und die KI-Erklärungen haben mir wirklich geholfen!"</p>
+            <div class="testimonial-author">
+              <div class="lb-avatar" style="background:#7C3AED;width:36px;height:36px;font-size:13px">MK</div>
+              <div>
+                <div class="testimonial-name">Maria K.</div>
+                <div class="testimonial-role">Versicherungsmaklerin, München</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Die Gamification-Elemente haben mich motiviert, täglich zu lernen. Der Streak-Modus ist genial – ich habe jetzt einen 21-Tages-Streak!"</p>
+            <div class="testimonial-author">
+              <div class="lb-avatar" style="background:#2563EB;width:36px;height:36px;font-size:13px">TS</div>
+              <div>
+                <div class="testimonial-name">Thomas S.</div>
+                <div class="testimonial-role">Versicherungsberater, Hamburg</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★☆</div>
+            <p class="testimonial-text">"Als Quereinsteiger war ich anfangs überfordert. SkillPilot hat mir die komplexen Themen Schritt für Schritt erklärt. Sehr zu empfehlen!"</p>
+            <div class="testimonial-author">
+              <div class="lb-avatar" style="background:#059669;width:36px;height:36px;font-size:13px">AR</div>
+              <div>
+                <div class="testimonial-name">Anna R.</div>
+                <div class="testimonial-role">Quereinsteigerin, Berlin</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Account / Konto                                   -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page" id="page-account">
+
+      <!-- Profile header -->
+      <div class="card mb-4">
+        <div class="profile-header">
+          <div class="profile-avatar-lg" id="profileAvatar">AM</div>
+          <div>
+            <div class="profile-name">Alex Müller</div>
+            <div class="profile-level">⚡ Level 5 · Fortgeschrittener Lernender</div>
+            <div class="text-sm text-muted mt-1">Mitglied seit März 2024</div>
+          </div>
+          <div style="margin-left:auto">
+            <div class="streak-badge"><span class="streak-fire">🔥</span> <span id="streakCount3">7</span> Tage Streak</div>
+          </div>
+        </div>
+
+        <!-- XP Level bar -->
+        <div class="xp-level-wrap">
+          <div class="xp-level-header">
+            <span class="xp-level-num">Level 5 → Level 6</span>
+            <span class="xp-to-next">760 XP noch nötig</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar" style="width:62%"></div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <span class="text-xs text-muted">1.240 / 2.000 XP</span>
+            <span class="text-xs text-muted">62% zum nächsten Level</span>
+          </div>
+        </div>
+
+        <!-- Streak calendar -->
+        <div style="margin-top:16px">
+          <div class="text-xs font-bold text-muted mb-2" style="text-transform:uppercase;letter-spacing:0.06em">Lernaktivität letzte 7 Tage</div>
+          <div class="streak-calendar" id="streakCalendar"></div>
+        </div>
+      </div>
+
+      <div class="grid-2 mb-4">
+
+        <!-- Edit profile -->
+        <div class="card">
+          <div class="section-title mb-4">Profil bearbeiten</div>
+          <div class="form-group">
+            <label class="form-label">Anzeigename</label>
+            <input type="text" class="form-input" id="nickInput" value="Alex Müller" placeholder="Dein Name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-Mail</label>
+            <input type="email" class="form-input" value="alex@example.de" placeholder="E-Mail Adresse">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prüfungsdatum</label>
+            <input type="date" class="form-input" value="2026-07-15">
+          </div>
+          <button class="btn btn-primary w-full mt-2" onclick="saveAccount()">Speichern</button>
+        </div>
+
+        <!-- Stats card -->
+        <div class="card">
+          <div class="section-title mb-4">Meine Statistiken</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
+              <span class="text-sm text-2">Fragen gesamt</span>
+              <span class="font-bold" id="statAnswered">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
+              <span class="text-sm text-2">Richtig beantwortet</span>
+              <span class="font-bold" style="color:var(--green)" id="statCorrect">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
+              <span class="text-sm text-2">Trefferquote</span>
+              <span class="font-bold" style="color:var(--blue)" id="statAccuracy">0%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
+              <span class="text-sm text-2">Gesamte XP</span>
+              <span class="font-bold" style="color:var(--violet)">1.240 XP</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="text-sm text-2">Längster Streak</span>
+              <span class="font-bold" style="color:var(--amber)">🔥 7 Tage</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Achievements -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">🏅 Achievements & Abzeichen</span>
+          <span class="text-sm text-muted">5 / 12 freigeschaltet</span>
+        </div>
+        <div class="badges-grid">
+          <div class="badge-item unlocked" title="Erste Frage beantwortet">
+            <span class="badge-icon">🎯</span>
+            <span class="badge-name">Erstes Ziel</span>
+          </div>
+          <div class="badge-item unlocked" title="7-Tages-Streak">
+            <span class="badge-icon">🔥</span>
+            <span class="badge-name">Streak 7</span>
+          </div>
+          <div class="badge-item unlocked" title="50 Fragen beantwortet">
+            <span class="badge-icon">💪</span>
+            <span class="badge-name">50 Fragen</span>
+          </div>
+          <div class="badge-item unlocked" title="Level 5 erreicht">
+            <span class="badge-icon">⭐</span>
+            <span class="badge-name">Level 5</span>
+          </div>
+          <div class="badge-item unlocked" title="Alle Kapitel gestartet">
+            <span class="badge-icon">📚</span>
+            <span class="badge-name">Allrounder</span>
+          </div>
+          <div class="badge-item locked" title="100 Fragen beantwortet">
+            <span class="badge-icon">🎖️</span>
+            <span class="badge-name">100 Fragen</span>
+          </div>
+          <div class="badge-item locked" title="14-Tages-Streak">
+            <span class="badge-icon">🌟</span>
+            <span class="badge-name">Streak 14</span>
+          </div>
+          <div class="badge-item locked" title="90% Trefferquote">
+            <span class="badge-icon">🎓</span>
+            <span class="badge-name">Experte</span>
+          </div>
+          <div class="badge-item locked" title="Level 10 erreicht">
+            <span class="badge-icon">👑</span>
+            <span class="badge-name">Level 10</span>
+          </div>
+          <div class="badge-item locked" title="Alle Fragen richtig">
+            <span class="badge-icon">💎</span>
+            <span class="badge-name">Perfekt</span>
+          </div>
+          <div class="badge-item locked" title="30-Tages-Streak">
+            <span class="badge-icon">🚀</span>
+            <span class="badge-name">Streak 30</span>
+          </div>
+          <div class="badge-item locked" title="Prüfung bestanden">
+            <span class="badge-icon">🏆</span>
+            <span class="badge-name">Bestanden!</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div><!-- /.main -->
+
+</div><!-- /.app-shell -->
+
+<!-- ── Mobile Bottom Tabs ──────────────────────────────────── -->
+<nav class="bottom-tabs" id="bottomTabs">
+  <button class="bottom-tab active" data-page="dashboard">
+    <span class="bottom-tab-icon">🏠</span>
+    <span>Zentrale</span>
+  </button>
+  <button class="bottom-tab" data-page="quiz">
+    <span class="bottom-tab-icon">🧠</span>
+    <span>Training</span>
+  </button>
+  <button class="bottom-tab" data-page="leaderboard">
+    <span class="bottom-tab-icon">🏆</span>
+    <span>Liga</span>
+  </button>
+  <button class="bottom-tab" data-page="billing">
+    <span class="bottom-tab-icon">💳</span>
+    <span>Abo</span>
+  </button>
+  <button class="bottom-tab" data-page="account">
+    <span class="bottom-tab-icon">👤</span>
+    <span>Konto</span>
+  </button>
+</nav>
+
+<!-- ── AI Coach ───────────────────────────────────────────── -->
+<div class="ai-coach-panel" id="aiCoachPanel">
+  <div class="ai-coach-title">🤖 KI-Coach Max</div>
+  <div class="ai-coach-sub">Dein persönlicher Prüfungscoach</div>
+  <div class="ai-coach-msg">
+    Hallo Alex! Du hast heute noch <strong>0 Fragen</strong> beantwortet.
+    Probiere heute 10 Fragen zu §34d GewO – du hast in diesem Kapitel noch Verbesserungspotenzial! 💪
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button class="btn btn-primary btn-sm" style="flex:1" onclick="navigateTo('quiz');document.getElementById('aiCoachPanel').classList.remove('open')">Training starten</button>
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('aiCoachPanel').classList.remove('open')">Später</button>
+  </div>
+</div>
+<button class="ai-coach-btn" id="aiCoachBtn" title="KI-Coach öffnen" aria-label="KI-Coach">🤖</button>
+
+<!-- ── Cookie Banner ─────────────────────────────────────── -->
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">
+    🍪 Wir verwenden Cookies, um dein Lernerlebnis zu verbessern und deinen Fortschritt zu speichern.
+    <a href="#">Mehr erfahren</a>
+  </p>
+  <div class="cookie-btns">
+    <button class="btn btn-secondary btn-sm" id="cookieDecline">Ablehnen</button>
+    <button class="btn btn-primary btn-sm" id="cookieAccept">Alle akzeptieren</button>
+  </div>
+</div>
+
+<!-- ── Toast Container ────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
