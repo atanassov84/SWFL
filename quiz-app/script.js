@@ -581,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCookie();
   initAICoach();
   initThemeToggle();
+  initNotifications();
   initSidebarCollapse();
   buildDashboard();
   buildLeaderboard();
@@ -668,11 +669,64 @@ function loginUser() {
 }
 
 function toggleTopbarMenu(menu) {
-  const targetId = menu === 'usage' ? 'usagePopover' : 'profilePopover';
-  const target = document.getElementById(targetId);
+  const ids = { usage: 'usagePopover', profile: 'profilePopover', notif: 'notifPopover' };
+  const target = document.getElementById(ids[menu]);
   const willOpen = target && !target.classList.contains('open');
   closeTopbarMenus();
   if (willOpen) target.classList.add('open');
+}
+
+// ── Notifications ─────────────────────────────────────────────
+let notifState = JSON.parse(localStorage.getItem('sp-notifs') || 'null') || { dismissed: [], read: [] };
+
+function saveNotifState() { localStorage.setItem('sp-notifs', JSON.stringify(notifState)); }
+
+function updateNotifBadge() {
+  const unread = document.querySelectorAll('#notifList .notif-item.unread').length;
+  const badge = document.getElementById('notifBadge');
+  if (badge) { badge.textContent = unread > 0 ? unread : ''; badge.style.display = unread > 0 ? '' : 'none'; }
+}
+
+function dismissNotif(btn, id) {
+  const item = btn.closest('.notif-item');
+  item.style.transition = 'opacity .18s, max-height .22s';
+  item.style.opacity = '0';
+  item.style.maxHeight = '0';
+  item.style.overflow = 'hidden';
+  setTimeout(() => {
+    item.remove();
+    notifState.dismissed.push(id);
+    saveNotifState();
+    updateNotifBadge();
+    checkNotifEmpty();
+  }, 220);
+}
+
+function markAllNotifRead() {
+  document.querySelectorAll('#notifList .notif-item.unread').forEach(el => el.classList.remove('unread'));
+  notifState.read = Array.from(document.querySelectorAll('#notifList .notif-item')).map(el => +el.dataset.id);
+  saveNotifState();
+  updateNotifBadge();
+}
+
+function checkNotifEmpty() {
+  const list = document.getElementById('notifList');
+  if (list && list.children.length === 0) {
+    list.innerHTML = '<div class="notif-empty">Keine neuen Benachrichtigungen</div>';
+  }
+}
+
+function initNotifications() {
+  notifState.dismissed.forEach(id => {
+    const el = document.querySelector(`#notifList [data-id="${id}"]`);
+    if (el) el.remove();
+  });
+  notifState.read.forEach(id => {
+    const el = document.querySelector(`#notifList [data-id="${id}"]`);
+    if (el) el.classList.remove('unread');
+  });
+  checkNotifEmpty();
+  updateNotifBadge();
 }
 
 function closeTopbarMenus() {
@@ -1845,6 +1899,8 @@ window.logoutUser = logoutUser;
 window.loginUser = loginUser;
 window.toggleTopbarMenu = toggleTopbarMenu;
 window.closeTopbarMenus = closeTopbarMenus;
+window.dismissNotif = dismissNotif;
+window.markAllNotifRead = markAllNotifRead;
 window.toggleSidebarCollapse = toggleSidebarCollapse;
 window.checkAnswer = checkAnswer;
 window.nextQuestion = nextQuestion;

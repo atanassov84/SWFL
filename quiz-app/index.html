@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-23">
+  <link rel="stylesheet" href="styles.css?v=20260608-24">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -124,7 +124,63 @@
           </div>
         </div>
         <button class="topbar-btn topbar-theme-btn" id="topbarThemeBtnMobile" onclick="applyTheme(state.theme==='dark'?'light':'dark')" title="Design wechseln" aria-label="Design wechseln">🌙</button>
-        <button class="topbar-btn" title="Benachrichtigungen">🔔</button>
+        <div class="topbar-menu-wrap" id="notifWrap">
+          <button class="topbar-btn notif-btn" id="notifBtn" onclick="toggleTopbarMenu('notif')" title="Benachrichtigungen" aria-label="Benachrichtigungen">
+            🔔
+            <span class="notif-badge" id="notifBadge">3</span>
+          </button>
+          <div class="topbar-popover notif-popover" id="notifPopover">
+            <div class="notif-header">
+              <span class="notif-header-title">Benachrichtigungen</span>
+              <button class="notif-mark-all" onclick="markAllNotifRead()">Alle gelesen</button>
+            </div>
+            <div class="notif-list" id="notifList">
+              <div class="notif-item unread" data-id="1">
+                <div class="notif-icon-wrap notif-warn">⚠️</div>
+                <div class="notif-body">
+                  <div class="notif-text">Deine Prüfung ist in <strong>9 Tagen</strong> — bleib dran!</div>
+                  <div class="notif-meta">Heute</div>
+                </div>
+                <button class="notif-dismiss" onclick="dismissNotif(this,1)" aria-label="Schließen">×</button>
+              </div>
+              <div class="notif-item unread" data-id="2">
+                <div class="notif-icon-wrap notif-success">🏆</div>
+                <div class="notif-body">
+                  <div class="notif-text">Abzeichen freigeschaltet: <strong>7-Tage-Streak</strong></div>
+                  <div class="notif-meta">Gestern</div>
+                </div>
+                <button class="notif-dismiss" onclick="dismissNotif(this,2)" aria-label="Schließen">×</button>
+              </div>
+              <div class="notif-item unread" data-id="3">
+                <div class="notif-icon-wrap notif-info">📚</div>
+                <div class="notif-body">
+                  <div class="notif-text"><strong>22 neue Fragen</strong> im Bereich Haftpflichtversicherung verfügbar</div>
+                  <div class="notif-meta">Vor 2 Tagen</div>
+                </div>
+                <button class="notif-dismiss" onclick="dismissNotif(this,3)" aria-label="Schließen">×</button>
+              </div>
+              <div class="notif-item" data-id="4">
+                <div class="notif-icon-wrap notif-info">📈</div>
+                <div class="notif-body">
+                  <div class="notif-text">Deine Trefferquote stieg auf <strong>74 %</strong> — weiter so!</div>
+                  <div class="notif-meta">Vor 4 Tagen</div>
+                </div>
+                <button class="notif-dismiss" onclick="dismissNotif(this,4)" aria-label="Schließen">×</button>
+              </div>
+              <div class="notif-item" data-id="5">
+                <div class="notif-icon-wrap notif-info">💳</div>
+                <div class="notif-body">
+                  <div class="notif-text">Testphase endet in <strong>7 Tagen</strong> — jetzt upgraden</div>
+                  <div class="notif-meta">Vor 5 Tagen</div>
+                </div>
+                <button class="notif-dismiss" onclick="dismissNotif(this,5)" aria-label="Schließen">×</button>
+              </div>
+            </div>
+            <div class="notif-footer">
+              <button onclick="setAccountPanel('notifications');navigateTo('account');closeTopbarMenus()">Einstellungen verwalten ↗</button>
+            </div>
+          </div>
+        </div>
         <div class="topbar-menu-wrap" id="searchWrap">
           <button class="topbar-btn" id="searchBtn" onclick="toggleSearch()" title="Suche" aria-label="Suche">🔍</button>
           <div class="topbar-popover search-popover" id="searchPopover">
