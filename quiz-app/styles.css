@@ -2219,7 +2219,6 @@ body.auth-mode .page {
 
 .account-detail-card {
   padding-bottom: 0;
-  overflow: hidden;
 }
 
 .detail-table {
@@ -2246,7 +2245,7 @@ body.auth-mode .page {
   font-weight: 700;
 }
 
-.detail-table button {
+.detail-table button:not(.btn) {
   width: 34px;
   height: 34px;
   border: 1px solid var(--border);
@@ -2256,7 +2255,7 @@ body.auth-mode .page {
   cursor: pointer;
 }
 
-.detail-table button:disabled {
+.detail-table button:not(.btn):disabled {
   cursor: default;
   opacity: .65;
 }
