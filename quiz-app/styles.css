@@ -4004,6 +4004,38 @@ body.auth-mode .page {
 /* Mobile: bottom tabs handle all navigation — hide hamburger entirely */
 @media (max-width: 640px) {
   .mobile-menu-btn { display: none !important; }
+  .topbar-title { display: none; }
+  .topbar-theme-btn { display: flex !important; }
+}
+
+/* Hide mobile-only topbar elements on desktop */
+@media (min-width: 641px) {
+  .topbar-brand-mobile { display: none !important; }
+  .topbar-theme-btn { display: none !important; }
+}
+
+/* Mobile brand logo in topbar */
+.topbar-brand-mobile {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px 4px 0;
+  flex-shrink: 0;
+}
+.topbar-brand-mobile .brand-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.brand-name-mobile {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────── */

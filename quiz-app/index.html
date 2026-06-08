@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-20">
+  <link rel="stylesheet" href="styles.css?v=20260608-21">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -93,7 +93,10 @@
 
     <!-- Topbar -->
     <header class="topbar">
-      <button class="topbar-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü">☰</button>
+      <button class="topbar-brand-mobile" onclick="navigateTo('dashboard')" aria-label="Zur Zentrale">
+        <div class="brand-icon" aria-hidden="true"></div>
+        <span class="brand-name-mobile">SkillPilot</span>
+      </button>
       <div class="topbar-title" id="topbarTitle">Zentrale</div>
       <div class="topbar-actions">
         <div class="topbar-menu-wrap">
@@ -120,6 +123,7 @@
             </div>
           </div>
         </div>
+        <button class="topbar-btn topbar-theme-btn" id="topbarThemeBtnMobile" onclick="applyTheme(state.theme==='dark'?'light':'dark')" title="Design wechseln" aria-label="Design wechseln">🌙</button>
         <button class="topbar-btn" title="Benachrichtigungen">🔔</button>
         <div class="topbar-menu-wrap" id="searchWrap">
           <button class="topbar-btn" id="searchBtn" onclick="toggleSearch()" title="Suche" aria-label="Suche">🔍</button>

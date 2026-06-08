@@ -598,6 +598,8 @@ function applyTheme(t) {
   storage.set('sp-theme', t);
   const icon = document.getElementById('themeIcon');
   if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
+  const mobileBtn = document.getElementById('topbarThemeBtnMobile');
+  if (mobileBtn) mobileBtn.textContent = t === 'dark' ? '☀️' : '🌙';
 }
 
 function initThemeToggle() {
