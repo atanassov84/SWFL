@@ -331,10 +331,27 @@ body.sidebar-collapsed .brand-link .brand-icon {
   transition: opacity var(--t-base), transform var(--t-base);
 }
 
+/* collapsed: hide collapse btn normally, show it as overlay on brand-icon hover */
 body.sidebar-collapsed .sidebar-collapse-btn {
-  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  box-shadow: var(--shadow-md);
   opacity: 0;
   pointer-events: none;
+  transition: opacity var(--t-base);
+  z-index: 10;
+}
+
+body.sidebar-collapsed .sidebar-brand:hover .sidebar-collapse-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 body.sidebar-collapsed .nav-item,
@@ -3832,8 +3849,9 @@ body.auth-mode .page {
   .mobile-menu-btn { display: none; }
 }
 
-body.sidebar-collapsed .mobile-menu-btn {
-  display: flex;
+/* collapsed sidebar: never show the hamburger on desktop */
+@media (min-width: 641px) {
+  body.sidebar-collapsed .mobile-menu-btn { display: none; }
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────── */
