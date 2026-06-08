@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260608-8">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -27,41 +27,51 @@
   <nav class="sidebar" id="sidebar">
 
     <!-- Brand -->
-    <a class="sidebar-brand" href="#" onclick="navigateTo('dashboard');return false;">
-      <div class="brand-icon">🎯</div>
-      <span class="brand-name">SkillPilot</span>
-    </a>
+    <div class="sidebar-brand">
+      <button class="brand-link" onclick="navigateTo('dashboard')" aria-label="Zur Zentrale">
+        <div class="brand-icon" aria-hidden="true"></div>
+        <span class="brand-name">SkillPilot</span>
+      </button>
+      <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse(event)" title="Navigation ein-/ausklappen" aria-label="Navigation ein-/ausklappen">
+        <span class="nav-icon icon-sidebar" aria-hidden="true"></span>
+      </button>
+    </div>
 
     <!-- Nav -->
     <div class="sidebar-nav">
       <div class="nav-section-label">Hauptmenü</div>
 
       <button class="nav-item active" data-page="dashboard">
-        <span class="nav-icon">🏠</span>
+        <span class="nav-icon icon-home" aria-hidden="true"></span>
         <span>Zentrale</span>
       </button>
 
       <button class="nav-item" data-page="quiz">
-        <span class="nav-icon">🧠</span>
+        <span class="nav-icon icon-training" aria-hidden="true"></span>
         <span>Training</span>
         <span class="nav-badge">22</span>
       </button>
 
       <button class="nav-item" data-page="leaderboard">
-        <span class="nav-icon">🏆</span>
+        <span class="nav-icon icon-trophy" aria-hidden="true"></span>
         <span>Liga</span>
       </button>
 
       <div class="nav-section-label" style="margin-top:8px">Konto</div>
 
       <button class="nav-item" data-page="billing">
-        <span class="nav-icon">💳</span>
+        <span class="nav-icon icon-card" aria-hidden="true"></span>
         <span>Abo</span>
       </button>
 
       <button class="nav-item" data-page="account">
-        <span class="nav-icon">👤</span>
+        <span class="nav-icon icon-user" aria-hidden="true"></span>
         <span>Konto</span>
+      </button>
+
+      <button class="nav-item logout-nav" onclick="logoutUser()">
+        <span class="nav-icon logout-icon" aria-hidden="true"></span>
+        <span>Abmelden</span>
       </button>
     </div>
 
@@ -86,11 +96,164 @@
       <button class="topbar-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü">☰</button>
       <div class="topbar-title" id="topbarTitle">Zentrale</div>
       <div class="topbar-actions">
+        <div class="topbar-menu-wrap">
+          <button class="usage-topbar-btn" onclick="toggleTopbarMenu('usage')" aria-expanded="false">
+            <span>⌁</span>
+            Nutzung
+          </button>
+          <div class="topbar-popover usage-popover" id="usagePopover">
+            <button class="popover-close" onclick="closeTopbarMenus()">×</button>
+            <h3>Kampagne – Nutzung und Paket</h3>
+            <div class="usage-popover-block">
+              <strong>Trainingsplan</strong>
+              <span>30 verbleibende Testfragen bis 17.06.2026</span>
+              <button onclick="setAccountPanel('subscription');navigateTo('account')">Paket und Guthaben verwalten ↗</button>
+            </div>
+            <div class="usage-popover-block">
+              <strong>KI-Erklärungen</strong>
+              <span>5 Erklärungen im kostenlosen Testzugang</span>
+              <button onclick="startCheckout('pro')">Mehr Guthaben erwerben ↗</button>
+            </div>
+            <div class="usage-popover-note">
+              <span>i</span>
+              <p>Gehe zu Abo, Rechnungen oder Datenschutz, um zu sehen, wie dein Paket und dein Guthaben genutzt werden.</p>
+            </div>
+          </div>
+        </div>
         <button class="topbar-btn" title="Benachrichtigungen">🔔</button>
         <button class="topbar-btn" title="Suche">🔍</button>
-        <div class="avatar" onclick="navigateTo('account')" title="Konto" id="topbarAvatar">AM</div>
+        <div class="topbar-menu-wrap">
+          <button class="profile-menu-btn" onclick="toggleTopbarMenu('profile')" aria-expanded="false">
+            <span class="profile-mini">AM</span>
+            <span class="profile-org">Alex Müller</span>
+            <span class="profile-chevron">⌄</span>
+          </button>
+          <div class="topbar-popover profile-popover" id="profilePopover">
+            <button class="profile-menu-row profile-head" onclick="setAccountPanel('profile');navigateTo('account')">
+              <span class="profile-menu-avatar">AM</span>
+              <span><strong>Mein Profil</strong><small>alex@example.de</small></span>
+            </button>
+            <button class="profile-menu-row" onclick="setAccountPanel('subscription');navigateTo('account')"><span class="menu-icon icon-card" aria-hidden="true"></span><strong>Abo & Zahlung</strong></button>
+            <button class="profile-menu-row" onclick="setAccountPanel('invoices');navigateTo('account')"><span class="menu-icon icon-receipt" aria-hidden="true"></span><strong>Rechnungen</strong></button>
+            <button class="profile-menu-row" onclick="setAccountPanel('notifications');navigateTo('account')"><span class="menu-icon icon-bell" aria-hidden="true"></span><strong>Benachrichtigungen</strong></button>
+            <button class="profile-menu-row" onclick="setAccountPanel('general');navigateTo('account')"><span class="menu-icon icon-settings" aria-hidden="true"></span><strong>Einstellungen</strong></button>
+            <button class="profile-menu-row" onclick="setAccountPanel('privacy');navigateTo('account')"><span class="menu-icon icon-shield" aria-hidden="true"></span><strong>Daten & Datenschutz</strong></button>
+            <button class="profile-menu-row logout-row profile-menu-danger" onclick="logoutUser()"><span class="logout-icon" aria-hidden="true"></span><strong>Abmelden</strong></button>
+          </div>
+        </div>
       </div>
     </header>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Public Home                                       -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page public-home" id="page-home">
+      <nav class="public-nav">
+        <a class="auth-brand" href="#" onclick="navigateTo('home');return false;">
+          <div class="brand-icon" aria-hidden="true"></div>
+          <span class="brand-name">SkillPilot</span>
+        </a>
+        <div class="public-nav-links">
+          <a href="#features">Features</a>
+          <a href="#pricing">Preise</a>
+          <a href="#exam">Die Prüfung</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="public-nav-actions">
+          <button class="btn btn-secondary btn-sm" onclick="navigateTo('login')">Login</button>
+          <button class="btn btn-primary btn-sm" onclick="loginUser()">Zum Demo-Account</button>
+        </div>
+      </nav>
+
+      <section class="public-hero">
+        <div>
+          <span class="smart-pill">IHK Sachkundeprüfung §34d GewO</span>
+          <h1>Registrieren. Lernen. Prüfung bestehen.</h1>
+          <p>Die Trainingsplattform für angehende Versicherungsvermittler: strukturierte Kapitel, adaptive Quizfragen, Prüfungssimulation, Lernfortschritt und Rechnungen im Konto.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="loginUser()">Kostenlos testen</button>
+            <button class="btn btn-secondary" onclick="navigateTo('login')">Einloggen</button>
+          </div>
+        </div>
+        <div class="public-hero-preview">
+          <div class="preview-top">
+            <span>Prüfungsbereit</span>
+            <strong>68%</strong>
+          </div>
+          <div class="preview-question">
+            <small>Kap. 1 · Rechtliche Grundlagen</small>
+            <strong>Welche Voraussetzungen gelten für die Erlaubnis nach §34d GewO?</strong>
+            <span>✓ Sachkunde · ✓ Zuverlässigkeit · ✓ Vermögensverhältnisse</span>
+          </div>
+          <div class="preview-bars">
+            <i style="width:76%"></i>
+            <i style="width:54%"></i>
+            <i style="width:88%"></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="public-stats">
+        <div><strong>70+</strong><span>Übungsfragen</span></div>
+        <div><strong>10</strong><span>Lernbereiche</span></div>
+        <div><strong>90 Min.</strong><span>Simulation</span></div>
+        <div><strong>KI</strong><span>Erklärungen</span></div>
+      </section>
+
+      <section class="public-section" id="features">
+        <div class="public-section-head">
+          <h2>Alles für deine Prüfungsvorbereitung</h2>
+          <p>Gebaut wie eine echte SaaS-Plattform: lernen, messen, verbessern, bezahlen und verwalten.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card"><span>▦</span><strong>Kapitelweise lernen</strong><p>Wähle Haftpflicht, Hausrat, Kfz, Krankenversicherung oder ganze Kapitel.</p></div>
+          <div class="feature-card"><span>⏱</span><strong>Prüfungssimulation</strong><p>Trainiere mit Zeitdruck und realistischem Prüfungsgefühl.</p></div>
+          <div class="feature-card"><span>◇</span><strong>KI-Erklärungen</strong><p>Erhalte verständliche Begründungen und Rechtsgrundlagen.</p></div>
+          <div class="feature-card"><span>↗</span><strong>Lernfortschritt</strong><p>Dashboard, Skill-Gaps, Aktivität und nächste Schritte.</p></div>
+          <div class="feature-card"><span>☰</span><strong>Konto & Rechnungen</strong><p>Abo, sichere Zahlung, Rechnungsdownloads und Datenschutz.</p></div>
+          <div class="feature-card"><span>🏆</span><strong>Liga</strong><p>Motivation durch Punkte, Rangliste und Fortschrittsziele.</p></div>
+        </div>
+      </section>
+
+      <section class="public-section" id="pricing">
+        <div class="public-section-head">
+          <h2>Einfache, transparente Preise</h2>
+          <p>Starte kostenlos und schalte Pro frei, wenn du intensiver lernen willst.</p>
+        </div>
+        <div class="public-pricing">
+          <div class="price-card"><strong>Free</strong><span>0€</span><p>30 Fragen gratis, Basisstatistiken, Kapitelstart.</p><button class="btn btn-secondary btn-sm" onclick="loginUser()">Starten</button></div>
+          <div class="price-card featured"><strong>Pro</strong><span>19,99€</span><p>Unbegrenzte Fragen, Simulation, KI-Coach und Rechnungen.</p><button class="btn btn-primary btn-sm" onclick="loginUser();startCheckout('pro')">Pro sichern</button></div>
+          <div class="price-card"><strong>Team</strong><span>49€</span><p>Mehrere Lernende, Reporting, Compliance-Nachweis.</p><button class="btn btn-secondary btn-sm" onclick="loginUser();startCheckout('team')">Team anfragen</button></div>
+        </div>
+      </section>
+
+      <section class="public-section exam-section" id="exam">
+        <h2>Die IHK-Sachkundeprüfung §34d GewO</h2>
+        <p>Die Prüfung besteht aus einem schriftlichen Teil und einer praktischen Beratungssimulation. SkillPilot hilft dir, die Themengebiete strukturiert zu trainieren und deine Schwächen früh zu sehen.</p>
+        <div class="exam-grid">
+          <div><strong>Rechtliche Grundlagen</strong><span>GewO, VersVermV, Registrierung</span></div>
+          <div><strong>Altersvorsorge</strong><span>Private und betriebliche Vorsorge</span></div>
+          <div><strong>Krankenversicherung</strong><span>GKV, PKV, Pflege</span></div>
+          <div><strong>Sachversicherungen</strong><span>Hausrat, Haftpflicht, Kfz, Rechtsschutz</span></div>
+        </div>
+      </section>
+
+      <section class="public-section" id="faq">
+        <div class="public-section-head">
+          <h2>Häufige Fragen</h2>
+        </div>
+        <div class="faq-list">
+          <details open><summary>Ist eine echte Zahlung möglich?</summary><p>Das Interface ist vorbereitet. Für echte Zahlungen brauchst du einen Backend-Endpunkt, der sichere Checkout-Sitzungen erzeugt.</p></details>
+          <details><summary>Kann ich Rechnungen herunterladen?</summary><p>Ja, im Konto gibt es einen Rechnungsbereich. Produktiv kommen diese PDFs aus deinem Zahlungs- oder Abrechnungssystem.</p></details>
+          <details><summary>Kann ich Kundendaten sicher behalten?</summary><p>Ja, wenn Code, Datenbank und Backups sauber getrennt sind. Details dazu erkläre ich dir unten.</p></details>
+        </div>
+      </section>
+
+      <footer class="public-footer">
+        <strong>SkillPilot</strong>
+        <span>Datenschutz · Impressum · AGB · Kontakt</span>
+      </footer>
+    </main>
 
     <!-- ══════════════════════════════════════════════════════ -->
     <!-- PAGE: Dashboard                                         -->
@@ -109,7 +272,7 @@
       </div>
 
       <!-- Stats row -->
-      <div class="grid-4 mb-6">
+      <div class="grid-4 dashboard-stats mb-6">
 
         <!-- XP Card -->
         <div class="card stat-card card-gradient-border">
@@ -166,6 +329,59 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="card activity-card mb-6">
+        <div class="section-header">
+          <span class="section-title">Lernaktivität</span>
+          <div class="period-toggle">
+            <button class="active" data-period="week">Woche</button>
+            <button data-period="month">Monat</button>
+          </div>
+        </div>
+        <div class="activity-metrics">
+          <div><span>Fragen</span><strong id="activityQuestions">0</strong><small id="activityPeriodLabel">diese Woche</small></div>
+          <div><span>Richtig</span><strong id="activityCorrect">0</strong><small>Antworten</small></div>
+          <div><span>Quote</span><strong id="activityAccuracy">0%</strong><small>Trefferquote</small></div>
+          <div><span>Zeit</span><strong id="activityTime">42m</strong><small>Lernzeit</small></div>
+          <div><span>KI-Hilfe</span><strong id="activityAi">3</strong><small>Erklärungen</small></div>
+          <div><span>Risiko</span><strong id="activityRisk">2</strong><small>Themen offen</small></div>
+        </div>
+        <div class="activity-chart" id="activityChart" aria-hidden="true">
+          <!-- Built by JS -->
+        </div>
+      </div>
+
+      <!-- Skill OS: next best action + gaps -->
+      <div class="grid-2 mb-6">
+        <div class="card focus-card">
+          <div class="section-header">
+            <span class="section-title">Heute lernen</span>
+            <span class="smart-pill">Smart Plan</span>
+          </div>
+          <div class="focus-main">
+            <div class="focus-score">
+              <span id="readinessScore">68</span>
+              <small>% prüfungsbereit</small>
+            </div>
+            <div>
+              <h3 id="nextBestTitle">Beratung & Dokumentation auffrischen</h3>
+              <p id="nextBestCopy">12 Minuten reichen heute: 8 Fragen, 1 Fallbeispiel, danach eine Mini-Simulation.</p>
+              <div class="focus-actions">
+                <button class="btn btn-primary btn-sm" onclick="startSmartSession()">Smart Session starten</button>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Lernplan für diese Woche vorgemerkt', '📅')">Plan merken</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card gap-card">
+          <div class="section-header">
+            <span class="section-title">Skill-Gaps</span>
+            <span class="section-link" onclick="navigateTo('billing')">KI-Analyse freischalten →</span>
+          </div>
+          <div id="gapList"></div>
+        </div>
       </div>
 
       <!-- Middle row: Radar + Ring + Countdown -->
@@ -230,6 +446,30 @@
 
       </div>
 
+      <div class="card next-steps-card mb-6">
+        <div class="section-header">
+          <span class="section-title">Wichtige nächste Schritte</span>
+          <span class="section-link" onclick="showToast('Checkliste aktualisiert', '✓')">Ausblenden</span>
+        </div>
+        <div class="next-steps-grid">
+          <div class="next-step">
+            <strong>Prüfungstermin prüfen</strong>
+            <p>Countdown und Lernplan bleiben nur so wirklich präzise.</p>
+            <button class="btn btn-secondary btn-sm" onclick="setAccountPanel('general');navigateTo('account')">Öffnen</button>
+          </div>
+          <div class="next-step">
+            <strong>Schwächstes Kapitel starten</strong>
+            <p>Beratung und Dokumentation hat aktuell das höchste Risiko.</p>
+            <button class="btn btn-primary btn-sm" onclick="startGapSession('Beratung & Dokumentation')">Start</button>
+          </div>
+          <div class="next-step">
+            <strong>Rechnungen & Abo vorbereiten</strong>
+            <p>Für echte Kunden brauchst du einen sauberen Billing-Bereich.</p>
+            <button class="btn btn-secondary btn-sm" onclick="setAccountPanel('subscription');navigateTo('account')">Ansehen</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Recent history -->
       <div class="card">
         <div class="section-header">
@@ -239,6 +479,15 @@
         <div id="recentHistory">
           <p class="text-sm text-muted" style="padding:16px 0">Noch keine Fragen beantwortet. Starte das Training!</p>
         </div>
+      </div>
+
+      <div class="card mt-6 conversion-strip">
+        <div>
+          <span class="smart-pill">Business-Idee</span>
+          <h3>Für Teams wird daraus ein Compliance-Nachweis.</h3>
+          <p>Admin sieht Lernstand, Risikothemen, Zertifikate und Export für HR oder Vertriebspartner.</p>
+        </div>
+        <button class="btn btn-primary" onclick="navigateTo('billing')">Team-Paket ansehen</button>
       </div>
 
     </main>
@@ -255,13 +504,29 @@
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <span style="font-size:12px;color:var(--text-3)">⌨️ A–D wählen · Enter bestätigen</span>
-          <button class="btn btn-secondary btn-sm" onclick="initQuizPage()">🔄 Neu starten</button>
+          <button class="btn btn-secondary btn-sm" onclick="showCategoryLobby()">▦ Kategorien anzeigen</button>
         </div>
+      </div>
+
+      <div id="categoryLobby">
+        <!-- Built by JS -->
       </div>
 
       <!-- Filter bar -->
       <div class="quiz-filter-bar" id="quizFilterBar">
         <!-- Built by JS -->
+      </div>
+
+      <div class="training-modes">
+        <button class="mode-tile active" onclick="setQuizMode('all')">
+          <span>🧠</span><strong>Adaptiv</strong><small>Fragenmix nach Fortschritt</small>
+        </button>
+        <button class="mode-tile" onclick="startWeaknessMode()">
+          <span>🎯</span><strong>Schwächen</strong><small>Nur riskante Themen</small>
+        </button>
+        <button class="mode-tile premium-mode" onclick="navigateTo('billing')">
+          <span>⏱</span><strong>Prüfung live</strong><small>90 Min. Simulation</small>
+        </button>
       </div>
 
       <!-- Dynamic quiz content -->
@@ -386,7 +651,7 @@
             <li>Offline-Modus</li>
             <li>Priority Support</li>
           </ul>
-          <button class="btn btn-primary w-full" style="margin-top:20px;box-shadow:var(--shadow-blue)">Jetzt upgraden</button>
+          <button class="btn btn-primary w-full" style="margin-top:20px;box-shadow:var(--shadow-blue)" onclick="startCheckout('pro')">Jetzt upgraden</button>
         </div>
 
         <!-- Team -->
@@ -403,9 +668,21 @@
             <li>Dedizierter Support</li>
             <li>SSO & LDAP</li>
           </ul>
-          <button class="btn btn-secondary w-full" style="margin-top:20px">Team kontaktieren</button>
+          <button class="btn btn-secondary w-full" style="margin-top:20px" onclick="startCheckout('team')">Team kaufen</button>
         </div>
 
+      </div>
+
+      <div class="card mb-6 enterprise-card">
+        <div>
+          <div class="section-title">Neu: Prüfungs- und Team-Cockpit</div>
+          <p class="text-muted">Monetarisierungsidee für Firmenkunden: aktive Nutzer abrechnen, Pflichtmodule zuweisen, Zertifikate exportieren und Lernrisiken früh erkennen.</p>
+        </div>
+        <div class="enterprise-grid">
+          <div><strong>Aktive Nutzer</strong><span>Pay-per-seat oder Kontingent</span></div>
+          <div><strong>Pflichtmodule</strong><span>Fristen, Erinnerungen, Nachweise</span></div>
+          <div><strong>Audit Export</strong><span>PDF/CSV für Compliance</span></div>
+        </div>
       </div>
 
       <!-- Feature comparison table -->
@@ -487,148 +764,294 @@
     <!-- PAGE: Account / Konto                                   -->
     <!-- ══════════════════════════════════════════════════════ -->
     <main class="page" id="page-account">
+      <div class="settings-shell">
+        <section class="settings-content">
+          <div class="settings-head">
+            <div>
+              <span class="text-xs text-muted">Mein Konto</span>
+              <h2 id="accountPanelTitle">Profil</h2>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="startCheckout('pro')">Pro aktivieren</button>
+          </div>
 
-      <!-- Profile header -->
-      <div class="card mb-4">
-        <div class="profile-header">
-          <div class="profile-avatar-lg" id="profileAvatar">AM</div>
+          <div class="settings-tabs card">
+            <button class="settings-link active" data-panel="profile" onclick="setAccountPanel('profile')">Profil</button>
+            <button class="settings-link" data-panel="general" onclick="setAccountPanel('general')">Allgemein</button>
+            <button class="settings-link" data-panel="subscription" onclick="setAccountPanel('subscription')">Nutzung & Paket</button>
+            <button class="settings-link" data-panel="invoices" onclick="setAccountPanel('invoices')">Rechnungen</button>
+            <button class="settings-link" data-panel="notifications" onclick="setAccountPanel('notifications')">Benachrichtigungen</button>
+            <button class="settings-link" data-panel="privacy" onclick="setAccountPanel('privacy')">Datenschutz</button>
+          </div>
+
+          <div class="settings-panel active" data-panel="profile">
+            <div class="card mb-4">
+              <div class="profile-header">
+                <div class="profile-avatar-lg" id="profileAvatar">AM</div>
+                <div>
+                  <div class="profile-name">Alex Müller</div>
+                  <div class="profile-level">Level 5 · Fortgeschrittener Lernender</div>
+                  <div class="text-sm text-muted mt-1">Mitglied seit März 2024</div>
+                </div>
+                <div style="margin-left:auto">
+                  <div class="streak-badge"><span id="streakCount3">7</span> Tage Streak</div>
+                </div>
+              </div>
+              <div class="xp-level-wrap">
+                <div class="xp-level-header">
+                  <span class="xp-level-num">Level 5 → Level 6</span>
+                  <span class="xp-to-next">760 XP noch nötig</span>
+                </div>
+                <div class="progress-wrap"><div class="progress-bar" style="width:62%"></div></div>
+                <div style="display:flex;justify-content:space-between;margin-top:6px">
+                  <span class="text-xs text-muted">1.240 / 2.000 XP</span>
+                  <span class="text-xs text-muted">62% zum nächsten Level</span>
+                </div>
+              </div>
+              <div style="margin-top:16px">
+                <div class="text-xs font-bold text-muted mb-2" style="text-transform:uppercase">Lernaktivität letzte 7 Tage</div>
+                <div class="streak-calendar" id="streakCalendar"></div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="card">
+                <div class="section-title mb-4">Profil bearbeiten</div>
+                <div class="form-group">
+                  <label class="form-label">Anzeigename</label>
+                  <input type="text" class="form-input" id="nickInput" value="Alex Müller" placeholder="Dein Name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">E-Mail</label>
+                  <input type="email" class="form-input" value="alex@example.de" placeholder="E-Mail Adresse">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Prüfungsdatum</label>
+                  <input type="date" class="form-input" id="examDateInput" value="2026-07-15">
+                </div>
+                <button class="btn btn-primary w-full mt-2" onclick="saveAccount()">Profil aktualisieren</button>
+              </div>
+
+              <div class="card">
+                <div class="section-title mb-4">Lernstatistik</div>
+                <div class="usage-metrics">
+                  <div><strong id="statAnswered">0</strong><span>Fragen gesamt</span></div>
+                  <div><strong id="statCorrect">0</strong><span>Richtig</span></div>
+                  <div><strong id="statAccuracy">0%</strong><span>Quote</span></div>
+                  <div><strong>1.240</strong><span>XP</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card account-detail-card mt-6">
+              <div class="section-header">
+                <span class="section-title">Account Details</span>
+                <span class="section-link" onclick="showToast('Bearbeiten vorbereitet', '✎')">Alles bearbeiten</span>
+              </div>
+              <div class="detail-table">
+                <div><strong>Persönliche Info</strong><span>Alex Müller<br>alex@example.de</span><button>✎</button></div>
+                <div><strong>Benutzername</strong><span>alex@example.de</span><button>✎</button></div>
+                <div><strong>Passwort</strong><span>••••••••••••••</span><button>✎</button></div>
+                <div><strong>Konto-ID</strong><span>SP-2026-0738</span><button disabled>🔒</button></div>
+                <div><strong>Zeitzone</strong><span>GMT+02:00 · Europe/Berlin</span><button>✎</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-panel" data-panel="general">
+            <div class="card settings-form-card">
+              <h3>Datum und Prüfung</h3>
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">Zeitzone</label>
+                  <select class="form-input"><option>(GMT+02:00) Berlin</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Datumsformat</label>
+                  <select class="form-input"><option>TT.MM.JJJJ</option><option>JJJJ-MM-TT</option></select>
+                </div>
+              </div>
+              <div class="settings-toggle-row">
+                <div><strong>24-Stunden-Format</strong><span>Zeigt Prüfungssimulation und Lernplan im deutschen Format.</span></div>
+                <label class="switch"><input type="checkbox" checked><span></span></label>
+              </div>
+              <div class="settings-toggle-row">
+                <div><strong>Automatischer Lernplan</strong><span>Plant Wiederholungen nach Fehlerquote und Prüfungstermin.</span></div>
+                <label class="switch"><input type="checkbox" checked><span></span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-panel" data-panel="notifications">
+            <div class="card settings-form-card">
+              <h3>Benachrichtigungen</h3>
+              <div class="settings-toggle-row">
+                <div><strong>Tägliche Lern-Erinnerung</strong><span>Eine kurze Erinnerung, wenn dein Tagesziel noch offen ist.</span></div>
+                <label class="switch"><input type="checkbox" checked><span></span></label>
+              </div>
+              <div class="settings-toggle-row">
+                <div><strong>Prüfungs-Countdown</strong><span>Wöchentliche Zusammenfassung bis zum Prüfungstermin.</span></div>
+                <label class="switch"><input type="checkbox" checked><span></span></label>
+              </div>
+              <div class="settings-toggle-row">
+                <div><strong>Produkt-Updates</strong><span>Neue Kapitel, Funktionen und Sonderaktionen.</span></div>
+                <label class="switch"><input type="checkbox"><span></span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-panel" data-panel="subscription">
+            <div class="grid-2">
+              <div class="card subscription-card">
+                <div class="section-header">
+                  <span class="section-title">Nutzung und Paket</span>
+                  <span class="plan-status">Testphase</span>
+                </div>
+                <div class="subscription-current">
+                  <div>
+                    <strong>Kostenloser Testzugang</strong>
+                    <span>30 Fragen frei · kein aktives Zahlungsmittel</span>
+                  </div>
+                  <button class="btn btn-primary btn-sm" onclick="startCheckout('pro')">Pro aktivieren</button>
+                </div>
+                <div class="usage-bars">
+                  <div><span>Testfragen</span><strong>0 / 30</strong><div class="mini-progress"><i style="width:0%"></i></div></div>
+                  <div><span>KI-Erklärungen</span><strong>0 / 5</strong><div class="mini-progress"><i style="width:0%"></i></div></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="section-title mb-4">Zahlungsmethode</div>
+                <div class="payment-method-empty">
+                  <span>💳</span>
+                  <div>
+                    <strong>Noch keine Zahlungsmethode</strong>
+                    <p>Nach dem sicheren Checkout wird deine Karte hier als Standard-Zahlungsmittel angezeigt.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-panel" data-panel="invoices">
+            <div class="card invoice-card">
+              <div class="section-header">
+                <span class="section-title">Rechnungen</span>
+                <button class="btn btn-secondary btn-sm" onclick="downloadAllInvoices()">Alle herunterladen</button>
+              </div>
+              <div id="invoiceList"></div>
+            </div>
+          </div>
+
+          <div class="settings-panel" data-panel="privacy">
+            <div class="card settings-form-card">
+              <h3>Datenschutz und Export</h3>
+              <p class="text-sm text-muted mb-4">Exportiere deine Lernhistorie oder passe Tracking für Qualitätsverbesserung an.</p>
+              <div class="settings-toggle-row">
+                <div><strong>Verhaltens-Tracking aktiv</strong><span>Lernmodus, Fehlerquote und KI-Nutzung für Produktverbesserung erfassen.</span></div>
+                <label class="switch"><input type="checkbox" checked><span></span></label>
+              </div>
+              <button class="btn btn-secondary">Daten als JSON herunterladen</button>
+            <div class="danger-zone">
+              <strong>Gefahrenzone</strong>
+              <p>Konto und Lernhistorie dauerhaft löschen.</p>
+                <div class="danger-actions">
+                  <button class="btn btn-secondary btn-sm" onclick="logoutUser()">Abmelden</button>
+                  <button class="btn btn-danger btn-sm">Konto löschen</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Login / Logout                                    -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page auth-page" id="page-login">
+      <div class="auth-shell">
+        <a class="auth-brand" href="#" onclick="loginUser();return false;">
+          <div class="brand-icon" aria-hidden="true"></div>
+          <span class="brand-name">SkillPilot</span>
+        </a>
+        <div class="logout-notice" id="logoutNotice">Du wurdest ausgeloggt.</div>
+        <section class="card auth-card">
+          <h2>Login</h2>
+          <p>Logge dich ein, um dein Training fortzusetzen.</p>
+          <div class="form-group">
+            <label class="form-label">E-Mail-Adresse</label>
+            <input type="email" class="form-input" value="alex@example.de">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Passwort</label>
+            <input type="password" class="form-input" value="skillpilot">
+          </div>
+          <button class="btn btn-primary" onclick="loginUser()">Einloggen</button>
+          <button class="btn btn-ghost auth-link" onclick="showToast('Passwort-Reset vorbereitet', '✉')">Passwort vergessen?</button>
+        </section>
+        <div class="auth-footer">
+          <span>Die Prüfungsexperten für Versicherungsvermittlung.</span>
           <div>
-            <div class="profile-name">Alex Müller</div>
-            <div class="profile-level">⚡ Level 5 · Fortgeschrittener Lernender</div>
-            <div class="text-sm text-muted mt-1">Mitglied seit März 2024</div>
-          </div>
-          <div style="margin-left:auto">
-            <div class="streak-badge"><span class="streak-fire">🔥</span> <span id="streakCount3">7</span> Tage Streak</div>
-          </div>
-        </div>
-
-        <!-- XP Level bar -->
-        <div class="xp-level-wrap">
-          <div class="xp-level-header">
-            <span class="xp-level-num">Level 5 → Level 6</span>
-            <span class="xp-to-next">760 XP noch nötig</span>
-          </div>
-          <div class="progress-wrap"><div class="progress-bar" style="width:62%"></div></div>
-          <div style="display:flex;justify-content:space-between;margin-top:6px">
-            <span class="text-xs text-muted">1.240 / 2.000 XP</span>
-            <span class="text-xs text-muted">62% zum nächsten Level</span>
-          </div>
-        </div>
-
-        <!-- Streak calendar -->
-        <div style="margin-top:16px">
-          <div class="text-xs font-bold text-muted mb-2" style="text-transform:uppercase;letter-spacing:0.06em">Lernaktivität letzte 7 Tage</div>
-          <div class="streak-calendar" id="streakCalendar"></div>
-        </div>
-      </div>
-
-      <div class="grid-2 mb-4">
-
-        <!-- Edit profile -->
-        <div class="card">
-          <div class="section-title mb-4">Profil bearbeiten</div>
-          <div class="form-group">
-            <label class="form-label">Anzeigename</label>
-            <input type="text" class="form-input" id="nickInput" value="Alex Müller" placeholder="Dein Name">
-          </div>
-          <div class="form-group">
-            <label class="form-label">E-Mail</label>
-            <input type="email" class="form-input" value="alex@example.de" placeholder="E-Mail Adresse">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Prüfungsdatum</label>
-            <input type="date" class="form-input" value="2026-07-15">
-          </div>
-          <button class="btn btn-primary w-full mt-2" onclick="saveAccount()">Speichern</button>
-        </div>
-
-        <!-- Stats card -->
-        <div class="card">
-          <div class="section-title mb-4">Meine Statistiken</div>
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
-              <span class="text-sm text-2">Fragen gesamt</span>
-              <span class="font-bold" id="statAnswered">0</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
-              <span class="text-sm text-2">Richtig beantwortet</span>
-              <span class="font-bold" style="color:var(--green)" id="statCorrect">0</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
-              <span class="text-sm text-2">Trefferquote</span>
-              <span class="font-bold" style="color:var(--blue)" id="statAccuracy">0%</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)">
-              <span class="text-sm text-2">Gesamte XP</span>
-              <span class="font-bold" style="color:var(--violet)">1.240 XP</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <span class="text-sm text-2">Längster Streak</span>
-              <span class="font-bold" style="color:var(--amber)">🔥 7 Tage</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Achievements -->
-      <div class="card">
-        <div class="section-header">
-          <span class="section-title">🏅 Achievements & Abzeichen</span>
-          <span class="text-sm text-muted">5 / 12 freigeschaltet</span>
-        </div>
-        <div class="badges-grid">
-          <div class="badge-item unlocked" title="Erste Frage beantwortet">
-            <span class="badge-icon">🎯</span>
-            <span class="badge-name">Erstes Ziel</span>
-          </div>
-          <div class="badge-item unlocked" title="7-Tages-Streak">
-            <span class="badge-icon">🔥</span>
-            <span class="badge-name">Streak 7</span>
-          </div>
-          <div class="badge-item unlocked" title="50 Fragen beantwortet">
-            <span class="badge-icon">💪</span>
-            <span class="badge-name">50 Fragen</span>
-          </div>
-          <div class="badge-item unlocked" title="Level 5 erreicht">
-            <span class="badge-icon">⭐</span>
-            <span class="badge-name">Level 5</span>
-          </div>
-          <div class="badge-item unlocked" title="Alle Kapitel gestartet">
-            <span class="badge-icon">📚</span>
-            <span class="badge-name">Allrounder</span>
-          </div>
-          <div class="badge-item locked" title="100 Fragen beantwortet">
-            <span class="badge-icon">🎖️</span>
-            <span class="badge-name">100 Fragen</span>
-          </div>
-          <div class="badge-item locked" title="14-Tages-Streak">
-            <span class="badge-icon">🌟</span>
-            <span class="badge-name">Streak 14</span>
-          </div>
-          <div class="badge-item locked" title="90% Trefferquote">
-            <span class="badge-icon">🎓</span>
-            <span class="badge-name">Experte</span>
-          </div>
-          <div class="badge-item locked" title="Level 10 erreicht">
-            <span class="badge-icon">👑</span>
-            <span class="badge-name">Level 10</span>
-          </div>
-          <div class="badge-item locked" title="Alle Fragen richtig">
-            <span class="badge-icon">💎</span>
-            <span class="badge-name">Perfekt</span>
-          </div>
-          <div class="badge-item locked" title="30-Tages-Streak">
-            <span class="badge-icon">🚀</span>
-            <span class="badge-name">Streak 30</span>
-          </div>
-          <div class="badge-item locked" title="Prüfung bestanden">
-            <span class="badge-icon">🏆</span>
-            <span class="badge-name">Bestanden!</span>
+            <a href="#">FAQ</a>
+            <a href="#">Datenschutz</a>
+            <a href="#">Impressum</a>
+            <a href="#" onclick="showToast('Kündigungsformular vorbereitet', '📄');return false;">Vertrag kündigen</a>
           </div>
         </div>
       </div>
+    </main>
 
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!-- PAGE: Checkout                                          -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <main class="page" id="page-checkout">
+      <div class="checkout-shell">
+        <button class="btn btn-secondary btn-sm mb-4" onclick="navigateTo('billing')">← Zurück zu den Plänen</button>
+        <div class="checkout-grid">
+          <section class="card checkout-form">
+            <div class="section-header">
+              <span class="section-title">Sicherer Checkout</span>
+              <span class="payment-badge">Sicher</span>
+            </div>
+            <div class="checkout-steps">
+              <span class="active">1 Konto</span>
+              <span class="active">2 Plan</span>
+              <span>3 Zahlung</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">E-Mail für Rechnung</label>
+              <input type="email" class="form-input" id="checkoutEmail" value="alex@example.de">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Rechnungsname</label>
+              <input type="text" class="form-input" id="checkoutName" value="Alex Müller">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Land</label>
+              <input type="text" class="form-input" value="Deutschland">
+            </div>
+            <div class="payment-placeholder">
+              <span>🔒</span>
+              <div>
+                <strong>Sicherer Zahlungsbereich</strong>
+                <p>In Produktion ruft dieser Button dein Backend auf und leitet danach zum sicheren Zahlungsfenster weiter.</p>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-lg w-full" id="paymentCheckoutBtn" onclick="redirectToPaymentCheckout()">Weiter zur sicheren Zahlung</button>
+            <p class="checkout-note">Demo-Modus: Es wird keine echte Zahlung ausgelöst. Für echte Zahlungen brauchst du Produkt-Preis-IDs und einen Backend-Endpunkt.</p>
+          </section>
+
+          <aside class="card order-summary">
+            <div class="section-title mb-4">Bestellübersicht</div>
+            <div id="checkoutSummary"></div>
+            <div class="trust-list">
+              <span>✓ 14 Tage Geld-zurück</span>
+              <span>✓ Rechnungen automatisch im Konto</span>
+              <span>✓ Kündbar monatlich</span>
+              <span>✓ DSGVO-konforme Zahlungsabwicklung</span>
+            </div>
+          </aside>
+        </div>
+      </div>
     </main>
 
   </div><!-- /.main -->
@@ -689,6 +1112,6 @@
 <!-- ── Toast Container ────────────────────────────────────── -->
 <div class="toast-container" id="toastContainer"></div>
 
-<script src="script.js"></script>
+  <script src="script.js?v=20260608-8"></script>
 </body>
 </html>

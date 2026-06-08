@@ -5,13 +5,35 @@
 
 'use strict';
 
+const memoryStore = {};
+const storage = {
+  get(key, fallback = null) {
+    try {
+      const store = globalThis.localStorage;
+      if (store) return store.getItem(key) ?? fallback;
+    } catch (_) {}
+    return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : fallback;
+  },
+  set(key, value) {
+    const stringValue = String(value);
+    try {
+      const store = globalThis.localStorage;
+      if (store) {
+        store.setItem(key, stringValue);
+        return;
+      }
+    } catch (_) {}
+    memoryStore[key] = stringValue;
+  }
+};
+
 // ── State ────────────────────────────────────────────────────
 const state = {
   page: 'dashboard',
-  theme: localStorage.getItem('sp-theme') || 'light',
-  nickname: localStorage.getItem('sp-nick') || 'Alex M.',
-  xp: parseInt(localStorage.getItem('sp-xp') || '1240'),
-  streak: parseInt(localStorage.getItem('sp-streak') || '7'),
+  theme: storage.get('sp-theme', 'light'),
+  nickname: storage.get('sp-nick', 'Alex M.'),
+  xp: parseInt(storage.get('sp-xp', '1240')),
+  streak: parseInt(storage.get('sp-streak', '7')),
   quizStreak: 0,
   currentQ: 0,
   selected: [],
@@ -21,9 +43,15 @@ const state = {
   countdownInterval: null,
   quizMode: 'all',
   quizSearch: '',
-  history: JSON.parse(localStorage.getItem('sp-history') || '[]'),
-  totalCorrect: parseInt(localStorage.getItem('sp-correct') || '0'),
-  totalAnswered: parseInt(localStorage.getItem('sp-answered') || '0'),
+  selectedCategory: null,
+  showLobby: true,
+  checkoutPlan: 'pro',
+  accountPanel: 'profile',
+  activityPeriod: 'week',
+  examDate: storage.get('sp-exam-date', '2026-07-15'),
+  history: JSON.parse(storage.get('sp-history', '[]')),
+  totalCorrect: parseInt(storage.get('sp-correct', '0')),
+  totalAnswered: parseInt(storage.get('sp-answered', '0')),
   filteredQuestions: [],
   quizActive: false,
 };
@@ -393,6 +421,81 @@ const QUESTIONS = [
   },
 ];
 
+const CATEGORY_META = {
+  grundlagen: {
+    title: '§34d Grundlagen',
+    subtitle: 'Erlaubnis, Register, Makler vs. Vertreter',
+    icon: '⚖️',
+    color: 'blue',
+    search: '',
+  },
+  beratung: {
+    title: 'Beratung & Dokumentation',
+    subtitle: 'Bedarfsermittlung, Protokoll, Vergütung',
+    icon: '📝',
+    color: 'violet',
+    search: '',
+  },
+  leben: {
+    title: 'Lebensversicherung',
+    subtitle: 'Risiko, Kapitalbildung, Überschüsse',
+    icon: '🛡️',
+    color: 'green',
+    search: '',
+  },
+  bu: {
+    title: 'Berufsunfähigkeit',
+    subtitle: 'BU, BUZ, Leistungsvoraussetzungen',
+    icon: '🧑‍⚕️',
+    color: 'amber',
+    search: '',
+  },
+  altersvorsorge: {
+    title: 'Altersvorsorge',
+    subtitle: 'bAV, Rentenversicherung, Entgeltumwandlung',
+    icon: '🏦',
+    color: 'red',
+    search: '',
+  },
+  haftpflicht: {
+    title: 'Haftpflicht',
+    subtitle: 'Privathaftpflicht, Ansprüche, Ausschlüsse',
+    icon: '🤝',
+    color: 'teal',
+    chapterKey: 'sach',
+    search: 'haftpflicht',
+  },
+  hausrat: {
+    title: 'Hausrat',
+    subtitle: 'Einbruch, Leitungswasser, Feuer, Sturm',
+    icon: '🏠',
+    color: 'blue',
+    chapterKey: 'sach',
+    search: 'hausrat',
+  },
+  sach: {
+    title: 'Sachversicherung gesamt',
+    subtitle: 'Hausrat, Gebäude, Haftpflicht gemischt',
+    icon: '📦',
+    color: 'violet',
+    search: '',
+  },
+  kfz: {
+    title: 'Kfz-Versicherung',
+    subtitle: 'Haftpflicht, Teilkasko, Vollkasko',
+    icon: '🚗',
+    color: 'green',
+    search: '',
+  },
+  kranken: {
+    title: 'Krankenversicherung',
+    subtitle: 'GKV, PKV, Leistungen, Grenzen',
+    icon: '🏥',
+    color: 'red',
+    search: '',
+  },
+};
+
 // ── Leaderboard data ─────────────────────────────────────────
 const LEADERBOARD = [
   { name: 'Sarah K.',  xp: 4820, score: 96, delta: +2, color: '#7C3AED' },
@@ -410,8 +513,66 @@ const LEADERBOARD = [
 // Sort leaderboard
 LEADERBOARD.sort((a, b) => b.xp - a.xp);
 
-// Exam countdown target
-const EXAM_DATE = new Date(Date.now() + 38 * 24 * 3600 * 1000);
+const PLANS = {
+  pro: {
+    name: 'SkillPilot Pro',
+    price: '19,99€',
+    interval: 'Monat',
+    priceId: 'price_pro_monthly_demo',
+    features: ['Unbegrenzte Fragen', 'KI-Coach Max', 'Alle Kapitel', 'PDF-Rechnungen'],
+  },
+  team: {
+    name: 'SkillPilot Team',
+    price: '49,00€',
+    interval: 'Monat',
+    priceId: 'price_team_monthly_demo',
+    features: ['Bis 10 Nutzer', 'Team-Ranglisten', 'Admin-Dashboard', 'Fortschrittsberichte'],
+  },
+};
+
+const INVOICES = [
+  { id: 'SP-2026-0003', date: '07.06.2026', plan: 'Testphase', amount: '0,00€', status: 'Bezahlt' },
+  { id: 'SP-2026-0002', date: '07.05.2026', plan: 'Pro Demo', amount: '19,99€', status: 'Entwurf' },
+  { id: 'SP-2026-0001', date: '07.04.2026', plan: 'Pro Demo', amount: '19,99€', status: 'Bezahlt' },
+];
+
+const ACTIVITY_DATA = {
+  week: {
+    label: 'diese Woche',
+    questions: 6,
+    correct: 0,
+    time: '42m',
+    ai: 3,
+    risk: 2,
+    bars: [
+      ['Mo', 34],
+      ['Di', 52],
+      ['Mi', 22],
+      ['Do', 72],
+      ['Fr', 44],
+      ['Sa', 64],
+      ['So', 88],
+    ],
+  },
+  month: {
+    label: 'diesen Monat',
+    questions: 28,
+    correct: 17,
+    time: '3h 20m',
+    ai: 12,
+    risk: 5,
+    bars: [
+      ['KW 1', 46],
+      ['KW 2', 68],
+      ['KW 3', 52],
+      ['KW 4', 84],
+    ],
+  },
+};
+
+function getExamDate() {
+  return new Date(`${state.examDate}T09:00:00`);
+}
 
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -420,20 +581,21 @@ document.addEventListener('DOMContentLoaded', () => {
   initCookie();
   initAICoach();
   initThemeToggle();
+  initSidebarCollapse();
   buildDashboard();
   buildLeaderboard();
   buildBilling();
   buildAccount();
   initMobileMenu();
   startCountdown();
-  navigateTo('dashboard');
+  navigateTo(storage.get('sp-demo-auth') === 'logged-in' ? 'dashboard' : 'home');
 });
 
 // ── Theme ─────────────────────────────────────────────────────
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   state.theme = t;
-  localStorage.setItem('sp-theme', t);
+  storage.set('sp-theme', t);
   const icon = document.getElementById('themeIcon');
   if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
 }
@@ -449,10 +611,16 @@ function initNav() {
   document.querySelectorAll('[data-page]').forEach(el => {
     el.addEventListener('click', () => navigateTo(el.dataset.page));
   });
+  document.querySelectorAll('.period-toggle button[data-period]').forEach(btn => {
+    btn.addEventListener('click', () => setActivityPeriod(btn.dataset.period));
+  });
 }
 
 function navigateTo(pageId) {
   state.page = pageId;
+  const isPublicPage = pageId === 'home' || pageId === 'login';
+  document.body.classList.toggle('auth-mode', isPublicPage);
+  closeTopbarMenus();
 
   // Update nav items
   document.querySelectorAll('.nav-item, .bottom-tab').forEach(el => {
@@ -473,9 +641,11 @@ function navigateTo(pageId) {
   if (pageId === 'quiz') initQuizPage();
   if (pageId === 'dashboard') refreshDashboard();
   if (pageId === 'leaderboard') animateLeaderboard();
+  if (pageId === 'account') buildAccount();
+  if (pageId === 'checkout') renderCheckout();
 
   // Update topbar title
-  const titles = { dashboard: 'Zentrale', quiz: 'Training', leaderboard: 'Liga', billing: 'Abo', account: 'Konto' };
+  const titles = { home: 'Startseite', dashboard: 'Zentrale', quiz: 'Training', leaderboard: 'Liga', billing: 'Abo', account: 'Konto', checkout: 'Checkout', login: 'Login' };
   const titleEl = document.getElementById('topbarTitle');
   if (titleEl) titleEl.textContent = titles[pageId] || pageId;
 
@@ -483,14 +653,42 @@ function navigateTo(pageId) {
   document.querySelector('.sidebar').classList.remove('mobile-open');
 }
 
+function logoutUser() {
+  storage.set('sp-demo-auth', 'logged-out');
+  navigateTo('home');
+}
+
+function loginUser() {
+  storage.set('sp-demo-auth', 'logged-in');
+  document.body.classList.remove('auth-mode');
+  showToast('Willkommen zurück!', '✓');
+  navigateTo('dashboard');
+}
+
+function toggleTopbarMenu(menu) {
+  const targetId = menu === 'usage' ? 'usagePopover' : 'profilePopover';
+  const target = document.getElementById(targetId);
+  const willOpen = target && !target.classList.contains('open');
+  closeTopbarMenus();
+  if (willOpen) target.classList.add('open');
+}
+
+function closeTopbarMenus() {
+  document.querySelectorAll('.topbar-popover.open').forEach(popover => popover.classList.remove('open'));
+}
+
+document.addEventListener('click', event => {
+  if (!event.target.closest('.topbar-menu-wrap')) closeTopbarMenus();
+});
+
 // ── Cookie Banner ──────────────────────────────────────────────
 function initCookie() {
-  if (localStorage.getItem('sp-cookie')) return;
+  if (storage.get('sp-cookie')) return;
   const banner = document.getElementById('cookieBanner');
   setTimeout(() => banner.classList.add('show'), 800);
   document.getElementById('cookieAccept').addEventListener('click', () => {
     banner.style.transform = 'translateY(100%)';
-    localStorage.setItem('sp-cookie', '1');
+    storage.set('sp-cookie', '1');
   });
   document.getElementById('cookieDecline').addEventListener('click', () => {
     banner.style.transform = 'translateY(100%)';
@@ -514,9 +712,39 @@ function initMobileMenu() {
   const btn = document.getElementById('mobileMenuBtn');
   if (btn) {
     btn.addEventListener('click', () => {
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+      if (document.body.classList.contains('sidebar-collapsed')) {
+        document.body.classList.remove('sidebar-collapsed');
+        const collapseBtn = document.getElementById('sidebarCollapseBtn');
+        if (collapseBtn) collapseBtn.classList.remove('is-collapsed');
+        storage.set('sp-sidebar-collapsed', '0');
+        if (!isMobile) return;
+      }
       document.querySelector('.sidebar').classList.toggle('mobile-open');
     });
   }
+}
+
+function initSidebarCollapse() {
+  const btn = document.getElementById('sidebarCollapseBtn');
+  if (!btn) return;
+  if (storage.get('sp-sidebar-collapsed') === '1') {
+    document.body.classList.add('sidebar-collapsed');
+    btn.classList.add('is-collapsed');
+  }
+}
+
+function toggleSidebarCollapse(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const btn = document.getElementById('sidebarCollapseBtn');
+  document.body.classList.toggle('sidebar-collapsed');
+  const collapsed = document.body.classList.contains('sidebar-collapsed');
+  if (collapsed) document.querySelector('.sidebar').classList.remove('mobile-open');
+  if (btn) btn.classList.toggle('is-collapsed', collapsed);
+  storage.set('sp-sidebar-collapsed', collapsed ? '1' : '0');
 }
 
 // ── Toast ─────────────────────────────────────────────────────
@@ -534,15 +762,26 @@ function showToast(msg, icon = '✅', duration = 2800) {
 
 // ── Countdown ─────────────────────────────────────────────────
 function startCountdown() {
+  if (state.countdownInterval) clearInterval(state.countdownInterval);
   function tick() {
-    const diff = EXAM_DATE - Date.now();
-    if (diff <= 0) return;
+    const diff = getExamDate() - Date.now();
+    if (diff <= 0) {
+      ['cdDays', 'cdHours', 'cdMins', 'cdSecs'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '00';
+      });
+      const small = document.getElementById('cdDaysSmall');
+      if (small) small.textContent = '0';
+      return;
+    }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
     const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = String(val).padStart(2, '0'); };
     setEl('cdDays', d); setEl('cdHours', h); setEl('cdMins', m); setEl('cdSecs', s);
+    const small = document.getElementById('cdDaysSmall');
+    if (small) small.textContent = String(d);
   }
   tick();
   state.countdownInterval = setInterval(tick, 1000);
@@ -552,6 +791,7 @@ function startCountdown() {
 function buildDashboard() {
   buildRadarChart();
   buildProgressRing();
+  buildGapList();
 }
 
 function refreshDashboard() {
@@ -571,13 +811,130 @@ function refreshDashboard() {
 
   // Accuracy
   const accEl = document.getElementById('dashAccuracy');
+  const acc = state.totalAnswered > 0 ? Math.round((state.totalCorrect / state.totalAnswered) * 100) : 0;
   if (accEl) {
-    const acc = state.totalAnswered > 0 ? Math.round((state.totalCorrect / state.totalAnswered) * 100) : 0;
     accEl.textContent = acc + '%';
   }
+  renderActivity();
 
   buildRecentHistory();
   buildProgressRing();
+  buildGapList();
+  updateReadiness();
+}
+
+function setActivityPeriod(period = 'week') {
+  state.activityPeriod = ACTIVITY_DATA[period] ? period : 'week';
+  renderActivity();
+}
+
+function renderActivity() {
+  const base = ACTIVITY_DATA[state.activityPeriod] || ACTIVITY_DATA.week;
+  const bonusQuestions = state.activityPeriod === 'week'
+    ? Math.min(state.totalAnswered, 48)
+    : Math.min(state.totalAnswered + 22, 160);
+  const bonusCorrect = state.activityPeriod === 'week'
+    ? Math.min(state.totalCorrect, 41)
+    : Math.min(state.totalCorrect + 17, 128);
+  const questions = Math.max(base.questions, bonusQuestions);
+  const correct = Math.min(questions, Math.max(base.correct, bonusCorrect));
+  const accuracy = questions > 0 ? Math.round((correct / questions) * 100) : 0;
+
+  document.querySelectorAll('.period-toggle button[data-period]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.period === state.activityPeriod);
+  });
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+  setText('activityQuestions', questions);
+  setText('activityCorrect', correct);
+  setText('activityAccuracy', accuracy + '%');
+  setText('activityPeriodLabel', base.label);
+  setText('activityTime', base.time);
+  setText('activityAi', base.ai);
+  setText('activityRisk', base.risk);
+
+  const chart = document.getElementById('activityChart');
+  if (chart) {
+    chart.innerHTML = base.bars.map(([label, height]) => (
+      `<div style="height:${height}%"><span>${label}</span></div>`
+    )).join('');
+  }
+}
+
+function updateReadiness() {
+  const el = document.getElementById('readinessScore');
+  if (!el) return;
+  const base = 58;
+  const accuracy = state.totalAnswered > 0 ? Math.round((state.totalCorrect / state.totalAnswered) * 24) : 0;
+  const streakBoost = Math.min(state.streak, 10);
+  el.textContent = Math.min(96, base + accuracy + streakBoost);
+}
+
+function buildGapList() {
+  const container = document.getElementById('gapList');
+  if (!container) return;
+  const gaps = getSkillGaps();
+  container.innerHTML = gaps.map(g => `
+    <button class="gap-row" onclick="startGapSession('${g.key}')">
+      <span class="gap-meter" style="--gap:${g.risk}%"><i></i></span>
+      <span><strong>${g.label}</strong><small>${g.copy}</small></span>
+      <em>${g.risk}% Risiko</em>
+    </button>
+  `).join('');
+}
+
+function getSkillGaps() {
+  const misses = state.history.filter(h => !h.correct);
+  const byChapter = misses.reduce((acc, h) => {
+    acc[h.chapter] = (acc[h.chapter] || 0) + 1;
+    return acc;
+  }, {});
+  const defaults = [
+    { key: 'Beratung & Dokumentation', label: 'Beratung & Dokumentation', risk: 74, copy: 'Dokumentationspflichten und Bedarfsermittlung' },
+    { key: 'Berufsunfähigkeit', label: 'Berufsunfähigkeit', risk: 61, copy: 'Definition, Leistungsvoraussetzungen, BUZ' },
+    { key: 'Altersvorsorge', label: 'Altersvorsorge', risk: 48, copy: 'bAV, Entgeltumwandlung, Besteuerung' },
+  ];
+  return defaults.map(item => ({
+    ...item,
+    risk: Math.min(92, item.risk + (byChapter[item.key] || 0) * 6),
+  }));
+}
+
+function startSmartSession() {
+  state.quizMode = 'Beratung & Dokumentation';
+  state.quizSearch = '';
+  state.selectedCategory = 'beratung';
+  state.showLobby = false;
+  navigateTo('quiz');
+}
+
+function startGapSession(chapter) {
+  state.quizMode = chapter;
+  state.quizSearch = '';
+  state.selectedCategory = null;
+  state.showLobby = false;
+  navigateTo('quiz');
+}
+
+function startWeaknessMode() {
+  state.quizMode = 'wrong';
+  state.quizSearch = '';
+  state.showLobby = false;
+  applyFilter();
+  renderQuizFilter();
+  showToast('Schwächenmodus aktiviert', '🎯');
+}
+
+function setQuizMode(mode) {
+  state.quizMode = mode;
+  state.quizSearch = '';
+  state.selectedCategory = null;
+  state.showLobby = false;
+  applyFilter();
+  renderQuizFilter();
 }
 
 function buildRecentHistory() {
@@ -683,16 +1040,124 @@ function initQuizPage() {
   state.currentQ = 0;
   state.quizStreak = 0;
   state.quizActive = false;
+  if (state.showLobby) {
+    showCategoryLobby();
+    return;
+  }
   renderQuizFilter();
+  if (state.quizMode !== 'all' || state.quizSearch) {
+    applyFilter();
+    return;
+  }
   renderQuestion();
+}
+
+function showCategoryLobby() {
+  state.showLobby = true;
+  state.selectedCategory = null;
+  clearTimer();
+  const lobby = document.getElementById('categoryLobby');
+  const filterBar = document.getElementById('quizFilterBar');
+  const content = document.getElementById('quizContent');
+  if (filterBar) filterBar.innerHTML = '';
+  if (content) content.innerHTML = '';
+  if (!lobby) return;
+
+  const categories = buildCategoryCards();
+  lobby.innerHTML = `
+    <div class="category-hero card">
+      <div>
+        <span class="smart-pill">Themen auswählen</span>
+        <h3>Wähle erst dein Lerngebiet.</h3>
+        <p>Starte gezielt mit Haftpflicht, Hausrat, Kfz, Krankenversicherung oder einem ganzen Kapitel. So fühlt sich das Training wieder kontrolliert an.</p>
+      </div>
+      <button class="btn btn-primary" onclick="startMixedTraining()">Alle Fragen mischen</button>
+    </div>
+    <div class="course-status">
+      <span>✓ Sehr gut, du hast ${categories.filter(cat => cat.total > 0).length} Lernbereiche zur Auswahl.</span>
+      <small>Wähle ein Feld oder starte direkt einen gemischten Test.</small>
+    </div>
+    <div class="category-grid">
+      ${categories.map(renderCategoryCard).join('')}
+    </div>
+  `;
+}
+
+function buildCategoryCards() {
+  const base = Object.entries(CATEGORY_META).map(([key, meta]) => {
+    const qs = questionsForCategory(key);
+    const answered = state.history.filter(h => qs.some(q => q.id === h.id)).length;
+    const correct = state.history.filter(h => h.correct && qs.some(q => q.id === h.id)).length;
+    const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
+    return { key, ...meta, total: qs.length, answered, accuracy };
+  });
+  return base.filter(cat => cat.total > 0 || ['haftpflicht', 'hausrat'].includes(cat.key));
+}
+
+function questionsForCategory(key) {
+  const meta = CATEGORY_META[key] || {};
+  return QUESTIONS.filter(q => {
+    const chapterMatch = meta.chapterKey ? q.chapterKey === meta.chapterKey : q.chapterKey === key;
+    const search = (meta.search || '').toLowerCase();
+    const searchMatch = search ? (q.text + ' ' + q.options.join(' ') + ' ' + q.explanation).toLowerCase().includes(search) : true;
+    return chapterMatch && searchMatch;
+  });
+}
+
+function renderCategoryCard(cat) {
+  const progress = cat.total ? Math.round((cat.answered / cat.total) * 100) : 0;
+  const locked = cat.total === 0;
+  return `
+    <button class="category-card ${cat.color || 'blue'} ${locked ? 'locked' : ''}" onclick="${locked ? "showToast('Für dieses Thema fehlen noch Fragen im Pool', 'ℹ️')" : `startCategory('${cat.key}')`}">
+      <div class="category-icon">${cat.icon}</div>
+      <div class="category-body">
+        <strong>${cat.title}</strong>
+        <span>${cat.subtitle}</span>
+        <div class="category-meta">
+          <small>${cat.total} Fragen</small>
+          <small>${cat.answered} bearbeitet</small>
+          <small>${cat.accuracy || '—'}% Quote</small>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:${progress}%"></div></div>
+      </div>
+      <em>${locked ? 'leer' : 'Starten →'}</em>
+    </button>
+  `;
+}
+
+function startCategory(key) {
+  state.showLobby = false;
+  state.selectedCategory = key;
+  const meta = CATEGORY_META[key] || {};
+  const chapterKey = meta.chapterKey || key;
+  const chapter = QUESTIONS.find(q => q.chapterKey === chapterKey)?.chapter || 'all';
+  state.quizMode = chapter;
+  state.quizSearch = meta.search || '';
+  state.currentQ = 0;
+  renderQuizFilter();
+  applyFilter();
+  showToast(`${meta.title || 'Kategorie'} gestartet`, meta.icon || '✅', 1500);
+}
+
+function startMixedTraining() {
+  state.showLobby = false;
+  state.selectedCategory = null;
+  state.quizMode = 'all';
+  state.quizSearch = '';
+  state.currentQ = 0;
+  renderQuizFilter();
+  applyFilter();
 }
 
 function renderQuizFilter() {
   const chapters = [...new Set(QUESTIONS.map(q => q.chapter))];
   const filterBar = document.getElementById('quizFilterBar');
   if (!filterBar) return;
+  const selectedMeta = state.selectedCategory ? CATEGORY_META[state.selectedCategory] : null;
 
   filterBar.innerHTML = `
+    <button class="filter-chip" onclick="showCategoryLobby()">▦ Kategorien</button>
+    ${selectedMeta ? `<span class="active-category-pill">${selectedMeta.icon} ${selectedMeta.title}</span>` : ''}
     <input type="text" class="search-input" id="quizSearch" placeholder="Fragen durchsuchen…" value="${state.quizSearch}">
     <button class="filter-chip ${state.quizMode === 'all' ? 'active' : ''}" data-mode="all">Alle</button>
     ${chapters.slice(0, 4).map(ch => `
@@ -734,6 +1199,8 @@ function applyFilter() {
 }
 
 function renderQuestion() {
+  const lobby = document.getElementById('categoryLobby');
+  if (lobby) lobby.innerHTML = '';
   clearTimer();
   state.answered = false;
   state.selected = [];
@@ -797,6 +1264,7 @@ function renderQuestion() {
 
     <div class="explanation-box" id="explanationBox">
       <strong>💡 Erklärung:</strong> ${q.explanation}
+      <div class="ai-review" id="aiReviewBox"></div>
     </div>
 
     <div class="quiz-controls">
@@ -852,6 +1320,12 @@ function checkAnswer() {
   });
 
   document.getElementById('explanationBox').classList.add('show');
+  const aiReview = document.getElementById('aiReviewBox');
+  if (aiReview) {
+    aiReview.innerHTML = isCorrect
+      ? '<strong>KI-Review:</strong> Sehr gut. Speichere diese Frage als sichere Kompetenz und gehe zur nächsten Schwierigkeit.'
+      : `<strong>KI-Review:</strong> Dein nächster Schritt: wiederhole "${q.chapter}" mit 5 kurzen Drill-Fragen. <button class="btn btn-primary btn-sm" onclick="startGapSession('${q.chapter.replace(/'/g, "\\'")}')">Drill starten</button>`;
+  }
   document.getElementById('checkBtn').style.display = 'none';
   document.getElementById('nextBtn').style.display = 'inline-flex';
 
@@ -861,8 +1335,8 @@ function checkAnswer() {
     state.totalCorrect++;
     state.quizStreak++;
     state.xp += 10;
-    localStorage.setItem('sp-correct', state.totalCorrect);
-    localStorage.setItem('sp-xp', state.xp);
+    storage.set('sp-correct', state.totalCorrect);
+    storage.set('sp-xp', state.xp);
     showXpFloat();
     if (state.quizStreak > 1) showToast(`${state.quizStreak}× Streak! 🔥`, '⚡', 2000);
     else showToast('Richtig! +10 XP', '✅', 1800);
@@ -872,7 +1346,7 @@ function checkAnswer() {
     state.quizStreak = 0;
     showToast('Leider falsch. Schau dir die Erklärung an.', '❌', 2500);
   }
-  localStorage.setItem('sp-answered', state.totalAnswered);
+  storage.set('sp-answered', state.totalAnswered);
 
   const streakNumEl = document.getElementById('streakNum');
   if (streakNumEl) streakNumEl.textContent = state.quizStreak;
@@ -881,7 +1355,7 @@ function checkAnswer() {
   const time = new Date().toLocaleTimeString('de', { hour: '2-digit', minute: '2-digit' });
   state.history.push({ id: q.id, question: q.text.slice(0, 55) + '…', chapter: q.chapter, correct: isCorrect, time });
   if (state.history.length > 50) state.history = state.history.slice(-50);
-  localStorage.setItem('sp-history', JSON.stringify(state.history));
+  storage.set('sp-history', JSON.stringify(state.history));
 }
 
 function nextQuestion() {
@@ -963,7 +1437,7 @@ function checkAnswerForced() {
   document.getElementById('nextBtn').style.display = 'inline-flex';
   state.quizStreak = 0;
   state.totalAnswered++;
-  localStorage.setItem('sp-answered', state.totalAnswered);
+  storage.set('sp-answered', state.totalAnswered);
 }
 
 function clearTimer() {
@@ -1057,9 +1531,112 @@ function buildBilling() {
   }
 }
 
+function startCheckout(planKey = 'pro') {
+  state.checkoutPlan = PLANS[planKey] ? planKey : 'pro';
+  navigateTo('checkout');
+}
+
+function renderCheckout() {
+  const plan = PLANS[state.checkoutPlan] || PLANS.pro;
+  const summary = document.getElementById('checkoutSummary');
+  if (!summary) return;
+  summary.innerHTML = `
+    <div class="summary-plan">
+      <div>
+        <span class="text-xs text-muted">Ausgewählter Plan</span>
+        <strong>${plan.name}</strong>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('billing')">Ändern</button>
+    </div>
+    <div class="summary-price">
+      <span>${plan.price}</span>
+      <small>pro ${plan.interval}</small>
+    </div>
+    <ul class="summary-features">
+      ${plan.features.map(f => `<li>✓ ${f}</li>`).join('')}
+    </ul>
+    <div class="summary-row"><span>Zwischensumme</span><strong>${plan.price}</strong></div>
+    <div class="summary-row"><span>MwSt. inkl.</span><strong>enthalten</strong></div>
+    <div class="summary-total"><span>Heute fällig</span><strong>${plan.price}</strong></div>
+    <div class="payment-config">
+      <code>PREIS_ID=${plan.priceId}</code>
+    </div>
+  `;
+}
+
+function redirectToPaymentCheckout() {
+  const plan = PLANS[state.checkoutPlan] || PLANS.pro;
+  showToast('Sichere Zahlung wird vorbereitet …', '💳', 1800);
+  setTimeout(() => {
+    showToast(`Demo: Backend würde jetzt den Zahlungsanbieter mit ${plan.priceId} öffnen`, '🔒', 4200);
+  }, 700);
+}
+
 // ── Account ───────────────────────────────────────────────────
 function buildAccount() {
   buildStreakCalendar();
+  renderInvoices();
+  const examInput = document.getElementById('examDateInput');
+  if (examInput) examInput.value = state.examDate;
+  setAccountPanel(state.accountPanel || 'profile');
+}
+
+function setAccountPanel(panel = 'profile') {
+  const titles = {
+    profile: 'Profil',
+    general: 'Allgemein',
+    notifications: 'Benachrichtigungen',
+    subscription: 'Nutzung und Paket',
+    invoices: 'Rechnungen',
+    privacy: 'Datenschutz'
+  };
+  state.accountPanel = titles[panel] ? panel : 'profile';
+  document.querySelectorAll('.settings-link').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.panel === state.accountPanel);
+  });
+  document.querySelectorAll('.settings-panel').forEach(panelEl => {
+    panelEl.classList.toggle('active', panelEl.dataset.panel === state.accountPanel);
+  });
+  const title = document.getElementById('accountPanelTitle');
+  if (title) title.textContent = titles[state.accountPanel];
+  if (state.accountPanel === 'invoices') renderInvoices();
+  if (state.accountPanel === 'profile') buildStreakCalendar();
+}
+
+function renderInvoices() {
+  const container = document.getElementById('invoiceList');
+  if (!container) return;
+  container.innerHTML = INVOICES.map(inv => `
+    <div class="invoice-row">
+      <div>
+        <strong>${inv.id}</strong>
+        <span>${inv.date} · ${inv.plan}</span>
+      </div>
+      <em>${inv.amount}</em>
+      <button class="btn btn-secondary btn-sm" onclick="downloadInvoice('${inv.id}')">Download</button>
+    </div>
+  `).join('');
+}
+
+function downloadInvoice(invoiceId) {
+  const inv = INVOICES.find(item => item.id === invoiceId);
+  if (!inv) return;
+  const html = `<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><title>Rechnung ${inv.id}</title>
+<style>body{font-family:Arial,sans-serif;margin:40px;color:#111827} .box{border:1px solid #d1d5db;padding:24px;border-radius:8px} h1{margin-top:0}.row{display:flex;justify-content:space-between;border-top:1px solid #e5e7eb;padding:12px 0}.total{font-size:22px;font-weight:700}</style></head>
+<body><div class="box"><h1>Rechnung ${inv.id}</h1><p><strong>SkillPilot GmbH</strong><br>Demo-Rechnung für Alex Müller</p><div class="row"><span>Datum</span><strong>${inv.date}</strong></div><div class="row"><span>Plan</span><strong>${inv.plan}</strong></div><div class="row"><span>Status</span><strong>${inv.status}</strong></div><div class="row total"><span>Betrag</span><strong>${inv.amount}</strong></div><p>Hinweis: In Produktion wird diese Rechnung aus deinem Abrechnungssystem oder Backend als PDF bereitgestellt.</p></div></body></html>`;
+  const blob = new Blob([html], { type: 'text/html' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${inv.id}.html`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  showToast(`Rechnung ${inv.id} heruntergeladen`, '📄');
+}
+
+function downloadAllInvoices() {
+  INVOICES.forEach((inv, index) => setTimeout(() => downloadInvoice(inv.id), index * 250));
 }
 
 function buildStreakCalendar() {
@@ -1082,18 +1659,41 @@ function buildStreakCalendar() {
 // ── Account Form Save ─────────────────────────────────────────
 function saveAccount() {
   const nick = document.getElementById('nickInput').value.trim();
+  const examInput = document.getElementById('examDateInput');
   if (nick) {
     state.nickname = nick;
-    localStorage.setItem('sp-nick', nick);
+    storage.set('sp-nick', nick);
     const av = document.getElementById('profileAvatar');
     if (av) av.textContent = nick.slice(0, 2).toUpperCase();
+  }
+  if (examInput && examInput.value) {
+    state.examDate = examInput.value;
+    storage.set('sp-exam-date', state.examDate);
+    startCountdown();
   }
   showToast('Gespeichert!', '✅');
 }
 
 // ── Expose globals ────────────────────────────────────────────
 window.navigateTo = navigateTo;
+window.logoutUser = logoutUser;
+window.loginUser = loginUser;
+window.toggleTopbarMenu = toggleTopbarMenu;
+window.closeTopbarMenus = closeTopbarMenus;
+window.toggleSidebarCollapse = toggleSidebarCollapse;
 window.checkAnswer = checkAnswer;
 window.nextQuestion = nextQuestion;
 window.initQuizPage = initQuizPage;
 window.saveAccount = saveAccount;
+window.setAccountPanel = setAccountPanel;
+window.showCategoryLobby = showCategoryLobby;
+window.startCategory = startCategory;
+window.startMixedTraining = startMixedTraining;
+window.startSmartSession = startSmartSession;
+window.startGapSession = startGapSession;
+window.startWeaknessMode = startWeaknessMode;
+window.setQuizMode = setQuizMode;
+window.startCheckout = startCheckout;
+window.redirectToPaymentCheckout = redirectToPaymentCheckout;
+window.downloadInvoice = downloadInvoice;
+window.downloadAllInvoices = downloadAllInvoices;
