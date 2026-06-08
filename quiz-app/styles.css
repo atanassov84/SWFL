@@ -3803,6 +3803,38 @@ body.auth-mode .page {
     left: 12px;
     width: auto;
   }
+  .usage-popover {
+    padding: 20px 18px 18px;
+  }
+  .usage-popover h3 {
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+  .usage-popover-block {
+    margin-bottom: 14px;
+  }
+  .usage-popover-block strong {
+    font-size: 14px;
+  }
+  .usage-popover-block span {
+    font-size: 13px;
+  }
+  .usage-popover-block button {
+    font-size: 13px;
+  }
+  .usage-popover-note {
+    grid-template-columns: 32px 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+  .usage-popover-note span {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+  .usage-popover-note p {
+    font-size: 12px;
+  }
   .profile-popover {
     left: auto;
     width: min(304px, calc(100vw - 24px));
