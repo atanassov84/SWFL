@@ -603,17 +603,17 @@ body.sidebar-collapsed .nav-icon {
 
 .usage-topbar-btn,
 .profile-menu-btn {
-  min-height: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid transparent;
+  gap: 6px;
+  border: 1px solid var(--border);
   border-radius: var(--r-full);
-  background: var(--blue-dim);
+  background: var(--surface);
   color: var(--text);
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 850;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   transition: transform var(--t-base), box-shadow var(--t-base), background var(--t-base);
   white-space: nowrap;
@@ -626,7 +626,7 @@ body.sidebar-collapsed .nav-icon {
 }
 
 .usage-topbar-btn span {
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1;
 }
 
