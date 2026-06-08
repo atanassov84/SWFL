@@ -354,6 +354,10 @@ body.sidebar-collapsed .sidebar-brand:hover .sidebar-collapse-btn {
   pointer-events: auto;
 }
 
+body.sidebar-collapsed .sidebar-collapse-btn .icon-sidebar {
+  transform: rotate(180deg);
+}
+
 body.sidebar-collapsed .nav-item,
 body.sidebar-collapsed .theme-toggle {
   width: 42px;
