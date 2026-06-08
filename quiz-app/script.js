@@ -1752,9 +1752,15 @@ function editDetailRow(btn, field, currentValue) {
   const wrap = document.createElement('div');
   wrap.className = 'detail-input-wrap';
   wrap.innerHTML = `
-    <input type="${inputType}" class="form-input detail-inline-input" value="${isPassword ? '' : currentValue}" placeholder="${isPassword ? 'Neues Passwort eingeben' : currentValue}" autocomplete="off">
-    <button class="btn btn-primary btn-sm" onclick="saveDetailRow(this,'${field}')">Speichern</button>
-    <button class="btn btn-secondary btn-sm" onclick="cancelDetailRow(this)">Abbrechen</button>
+    <input type="${inputType}" class="form-input detail-inline-input"
+      value="${isPassword ? '' : currentValue.replace(/"/g, '&quot;')}"
+      placeholder="${isPassword ? 'Neues Passwort eingeben' : ''}"
+      autocomplete="${isPassword ? 'new-password' : 'off'}"
+      data-lpignore="true" data-1p-ignore>
+    <div class="detail-inline-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveDetailRow(this,'${field}')">Speichern</button>
+      <button class="btn btn-secondary btn-sm" onclick="cancelDetailRow(this)">Abbrechen</button>
+    </div>
   `;
   row.insertBefore(wrap, btn);
   wrap.querySelector('input').focus();
