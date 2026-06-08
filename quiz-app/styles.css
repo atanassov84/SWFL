@@ -2281,12 +2281,15 @@ body.auth-mode .page {
 
 .detail-inline-input {
   width: 100%;
-  max-width: 480px;
 }
 
 .detail-inline-actions {
   display: flex;
   gap: 8px;
+}
+
+.detail-table > div {
+  grid-template-columns: 200px 1fr 44px;
 }
 
 .course-status {
