@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-14">
+  <link rel="stylesheet" href="styles.css?v=20260608-15">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -610,8 +610,18 @@
           Wähle deinen <span class="gradient-text">Plan</span>
         </h2>
         <p class="text-muted" style="font-size:15px;max-width:480px;margin:0 auto">Lerne effizienter mit KI-gestützter Vorbereitung für die §34d GewO Prüfung</p>
-        <div style="margin-top:16px;font-size:14px;font-weight:700;color:var(--green);background:var(--green-dim);padding:6px 16px;border-radius:99px;display:inline-block" id="savingsCalc">
-          Du sparst 90€ pro Jahr mit dem Jahresabo!
+
+        <!-- Billing toggle -->
+        <div class="billing-toggle-wrap">
+          <button class="billing-toggle-btn active" id="billMonthly" onclick="setBillingCycle('monthly')">Monatlich</button>
+          <button class="billing-toggle-btn" id="billAnnual" onclick="setBillingCycle('annual')">
+            Jährlich
+            <span class="billing-save-badge">Spare 37%</span>
+          </button>
+        </div>
+
+        <div id="savingsCalc" class="billing-savings-note" style="display:none">
+          Du sparst <strong id="savingsAmount">90€</strong> pro Jahr mit dem Jahresabo!
         </div>
       </div>
 
@@ -639,9 +649,9 @@
         <div class="plan-card featured" style="position:relative">
           <span class="plan-badge">⭐ Beliebtester Plan</span>
           <div class="plan-name" style="color:var(--blue)">Pro</div>
-          <div class="plan-price">19<span>.99€</span></div>
-          <div class="plan-period">pro Monat</div>
-          <div class="plan-savings">Spare 37% mit Jahresabo</div>
+          <div class="plan-price"><span id="priceProMain">19</span><span id="priceProCents">.99€</span></div>
+          <div class="plan-period" id="planProPeriod">pro Monat</div>
+          <div class="plan-savings" id="planProSavings" style="display:none">Spare 37% · <strong id="planProAnnual">149,99€/Jahr</strong></div>
           <ul class="plan-features">
             <li>Unbegrenzte Fragen</li>
             <li>KI-Coach "Max"</li>
@@ -657,8 +667,9 @@
         <!-- Team -->
         <div class="plan-card">
           <div class="plan-name">Team</div>
-          <div class="plan-price">49<span>€</span></div>
-          <div class="plan-period">pro Monat / bis 10 Nutzer</div>
+          <div class="plan-price"><span id="priceTeamMain">49</span><span id="priceTeamCents">€</span></div>
+          <div class="plan-period" id="planTeamPeriod">pro Monat / bis 10 Nutzer</div>
+          <div class="plan-savings" id="planTeamSavings" style="display:none">Spare 17% · <strong id="planTeamAnnual">490€/Jahr</strong></div>
           <ul class="plan-features">
             <li>Alles aus Pro</li>
             <li>Team-Ranglisten</li>
@@ -1112,6 +1123,6 @@
 <!-- ── Toast Container ────────────────────────────────────── -->
 <div class="toast-container" id="toastContainer"></div>
 
-  <script src="script.js?v=20260608-9"></script>
+  <script src="script.js?v=20260608-15"></script>
 </body>
 </html>

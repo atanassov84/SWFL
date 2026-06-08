@@ -1520,14 +1520,48 @@ function animateLeaderboard() {
 }
 
 // ── Billing ───────────────────────────────────────────────────
+const BILLING = {
+  monthly: {
+    pro:  { main: '19', cents: ',99€', period: 'pro Monat' },
+    team: { main: '49', cents: '€',   period: 'pro Monat / bis 10 Nutzer' },
+  },
+  annual: {
+    pro:  { main: '12', cents: ',59€', period: 'pro Monat, jährlich abgerechnet' },
+    team: { main: '41', cents: '€',   period: 'pro Monat, jährlich abgerechnet' },
+  },
+};
+
 function buildBilling() {
-  // Savings calc
-  const calcEl = document.getElementById('savingsCalc');
-  if (calcEl) {
-    const monthly = 19.99;
-    const annual = 149.99;
-    const savings = (monthly * 12 - annual).toFixed(0);
-    calcEl.textContent = `Du sparst ${savings}€ pro Jahr mit dem Jahresabo!`;
+  setBillingCycle(state.billingCycle || 'monthly');
+}
+
+function setBillingCycle(cycle) {
+  state.billingCycle = cycle;
+  const isAnnual = cycle === 'annual';
+
+  document.querySelectorAll('.billing-toggle-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.id === (isAnnual ? 'billAnnual' : 'billMonthly'));
+  });
+
+  const prices = BILLING[cycle];
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const show = (id, visible) => { const el = document.getElementById(id); if (el) el.style.display = visible ? '' : 'none'; };
+
+  set('priceProMain',   prices.pro.main);
+  set('priceProCents',  prices.pro.cents);
+  set('planProPeriod',  prices.pro.period);
+  set('priceTeamMain',  prices.team.main);
+  set('priceTeamCents', prices.team.cents);
+  set('planTeamPeriod', prices.team.period);
+
+  show('planProSavings',  isAnnual);
+  show('planTeamSavings', isAnnual);
+  show('savingsCalc', isAnnual);
+
+  if (isAnnual) {
+    const proSavings = Math.round(19.99 * 12 - 12.59 * 12);
+    set('savingsAmount', proSavings + '€');
   }
 }
 
@@ -1694,6 +1728,7 @@ window.startGapSession = startGapSession;
 window.startWeaknessMode = startWeaknessMode;
 window.setQuizMode = setQuizMode;
 window.startCheckout = startCheckout;
+window.setBillingCycle = setBillingCycle;
 window.redirectToPaymentCheckout = redirectToPaymentCheckout;
 window.downloadInvoice = downloadInvoice;
 window.downloadAllInvoices = downloadAllInvoices;

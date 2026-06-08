@@ -3149,6 +3149,61 @@ body.auth-mode .page {
   animation: progress-fill 1s ease forwards;
 }
 
+/* ── Billing toggle ─────────────────────────────────────────── */
+.billing-toggle-wrap {
+  display: inline-flex;
+  margin-top: 20px;
+  padding: 4px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  gap: 2px;
+}
+
+.billing-toggle-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: var(--r-full);
+  background: transparent;
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-base);
+}
+
+.billing-toggle-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+.billing-save-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  background: var(--green-dim);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.billing-savings-note {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--green-dim);
+  padding: 6px 16px;
+  border-radius: 99px;
+  display: inline-block;
+}
+
 /* ── Billing ────────────────────────────────────────────────── */
 .plan-grid {
   display: grid;
