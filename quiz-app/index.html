@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-16">
+  <link rel="stylesheet" href="styles.css?v=20260608-17">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -866,14 +866,39 @@
             <div class="card account-detail-card mt-6">
               <div class="section-header">
                 <span class="section-title">Account Details</span>
-                <span class="section-link" onclick="showToast('Bearbeiten vorbereitet', '✎')">Alles bearbeiten</span>
+                <span class="section-link" onclick="editAllDetails()">Alles bearbeiten</span>
               </div>
               <div class="detail-table">
-                <div><strong>Persönliche Info</strong><span>Alex Müller<br>alex@example.de</span><button>✎</button></div>
-                <div><strong>Benutzername</strong><span>alex@example.de</span><button>✎</button></div>
-                <div><strong>Passwort</strong><span>••••••••••••••</span><button>✎</button></div>
-                <div><strong>Konto-ID</strong><span>SP-2026-0738</span><button disabled>🔒</button></div>
-                <div><strong>Zeitzone</strong><span>GMT+02:00 · Europe/Berlin</span><button>✎</button></div>
+                <div data-field="name">
+                  <strong>Persönliche Info</strong>
+                  <span class="detail-value">Alex Müller</span>
+                  <button class="detail-edit-btn" onclick="editDetailRow(this,'name','Alex Müller')" aria-label="Bearbeiten">✎</button>
+                </div>
+                <div data-field="email">
+                  <strong>E-Mail</strong>
+                  <span class="detail-value">alex@example.de</span>
+                  <button class="detail-edit-btn" onclick="editDetailRow(this,'email','alex@example.de')" aria-label="Bearbeiten">✎</button>
+                </div>
+                <div data-field="username">
+                  <strong>Benutzername</strong>
+                  <span class="detail-value">alex@example.de</span>
+                  <button class="detail-edit-btn" onclick="editDetailRow(this,'username','alex@example.de')" aria-label="Bearbeiten">✎</button>
+                </div>
+                <div data-field="password">
+                  <strong>Passwort</strong>
+                  <span class="detail-value">••••••••••••••</span>
+                  <button class="detail-edit-btn" onclick="editDetailRow(this,'password','')" aria-label="Bearbeiten">✎</button>
+                </div>
+                <div data-field="id">
+                  <strong>Konto-ID</strong>
+                  <span class="detail-value">SP-2026-0738</span>
+                  <button disabled aria-label="Gesperrt">🔒</button>
+                </div>
+                <div data-field="timezone">
+                  <strong>Zeitzone</strong>
+                  <span class="detail-value">GMT+02:00 · Europe/Berlin</span>
+                  <button class="detail-edit-btn" onclick="editDetailRow(this,'timezone','GMT+02:00 · Europe/Berlin')" aria-label="Bearbeiten">✎</button>
+                </div>
               </div>
             </div>
           </div>

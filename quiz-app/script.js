@@ -1737,6 +1737,82 @@ function buildStreakCalendar() {
   container.innerHTML = html;
 }
 
+// ── Account Detail Inline Edit ────────────────────────────────
+function editDetailRow(btn, field, currentValue) {
+  const row = btn.closest('[data-field]');
+  if (!row || row.querySelector('.detail-input-wrap')) return;
+
+  const valueSpan = row.querySelector('.detail-value');
+  const isPassword = field === 'password';
+  const inputType = isPassword ? 'password' : (field === 'email' || field === 'username' ? 'email' : 'text');
+
+  valueSpan.style.display = 'none';
+  btn.style.display = 'none';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'detail-input-wrap';
+  wrap.innerHTML = `
+    <input type="${inputType}" class="form-input detail-inline-input" value="${isPassword ? '' : currentValue}" placeholder="${isPassword ? 'Neues Passwort eingeben' : currentValue}" autocomplete="off">
+    <button class="btn btn-primary btn-sm" onclick="saveDetailRow(this,'${field}')">Speichern</button>
+    <button class="btn btn-secondary btn-sm" onclick="cancelDetailRow(this)">Abbrechen</button>
+  `;
+  row.insertBefore(wrap, btn);
+  wrap.querySelector('input').focus();
+
+  wrap.querySelector('input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveDetailRow(wrap.querySelector('.btn-primary'), field);
+    if (e.key === 'Escape') cancelDetailRow(wrap.querySelector('.btn-secondary'));
+  });
+}
+
+function saveDetailRow(btn, field) {
+  const row = btn.closest('[data-field]');
+  const wrap = row.querySelector('.detail-input-wrap');
+  const input = wrap.querySelector('input');
+  const newValue = input.value.trim();
+
+  if (!newValue) { showToast('Feld darf nicht leer sein', '⚠️', 2000); return; }
+
+  const valueSpan = row.querySelector('.detail-value');
+  const editBtn = row.querySelector('.detail-edit-btn');
+
+  if (field === 'password') {
+    valueSpan.textContent = '••••••••••••••';
+    showToast('Passwort aktualisiert', '✅');
+  } else {
+    valueSpan.textContent = newValue;
+    if (field === 'name') {
+      state.nickname = newValue;
+      storage.set('sp-nick', newValue);
+      const av = document.getElementById('profileAvatar');
+      if (av) av.textContent = newValue.slice(0, 2).toUpperCase();
+      document.querySelectorAll('.profile-mini, .profile-menu-avatar').forEach(el => el.textContent = newValue.slice(0,2).toUpperCase());
+    }
+    showToast(`${row.querySelector('strong').textContent} gespeichert`, '✅');
+  }
+
+  wrap.remove();
+  valueSpan.style.display = '';
+  editBtn.style.display = '';
+}
+
+function cancelDetailRow(btn) {
+  const row = btn.closest('[data-field]');
+  const wrap = row.querySelector('.detail-input-wrap');
+  const valueSpan = row.querySelector('.detail-value');
+  const editBtn = row.querySelector('.detail-edit-btn');
+  wrap.remove();
+  valueSpan.style.display = '';
+  editBtn.style.display = '';
+}
+
+function editAllDetails() {
+  document.querySelectorAll('.detail-edit-btn:not([disabled])').forEach(btn => {
+    const row = btn.closest('[data-field]');
+    if (!row.querySelector('.detail-input-wrap')) btn.click();
+  });
+}
+
 // ── Account Form Save ─────────────────────────────────────────
 function saveAccount() {
   const nick = document.getElementById('nickInput').value.trim();
@@ -1777,6 +1853,10 @@ window.setQuizMode = setQuizMode;
 window.startCheckout = startCheckout;
 window.setBillingCycle = setBillingCycle;
 window.toggleSearch = toggleSearch;
+window.editDetailRow = editDetailRow;
+window.saveDetailRow = saveDetailRow;
+window.cancelDetailRow = cancelDetailRow;
+window.editAllDetails = editAllDetails;
 window.closeSearch = closeSearch;
 window.redirectToPaymentCheckout = redirectToPaymentCheckout;
 window.downloadInvoice = downloadInvoice;
