@@ -4006,6 +4006,7 @@ body.auth-mode .page {
   .mobile-menu-btn { display: none !important; }
   .topbar-title { display: none; }
   .topbar-theme-btn { display: flex !important; }
+  .topbar-brand-mobile { display: flex !important; }
 }
 
 /* Hide mobile-only topbar elements on desktop */
