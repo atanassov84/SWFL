@@ -3851,11 +3851,12 @@ body.auth-mode .page {
 @media (min-width: 641px) {
   .bottom-tabs { display: none; }
   .mobile-menu-btn { display: none; }
+  body.sidebar-collapsed .mobile-menu-btn { display: none; }
 }
 
-/* collapsed sidebar: never show the hamburger on desktop */
-@media (min-width: 641px) {
-  body.sidebar-collapsed .mobile-menu-btn { display: none; }
+/* Mobile: bottom tabs handle all navigation — hide hamburger entirely */
+@media (max-width: 640px) {
+  .mobile-menu-btn { display: none !important; }
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────── */
