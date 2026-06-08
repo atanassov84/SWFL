@@ -601,6 +601,8 @@ function applyTheme(t) {
   if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
   const mobileBtn = document.getElementById('topbarThemeBtnMobile');
   if (mobileBtn) mobileBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  const moreTheme = document.getElementById('moreThemeIcon');
+  if (moreTheme) moreTheme.textContent = t === 'dark' ? '☀️' : '🌙';
 }
 
 function initThemeToggle() {
@@ -624,6 +626,7 @@ function navigateTo(pageId) {
   const isPublicPage = pageId === 'home' || pageId === 'login';
   document.body.classList.toggle('auth-mode', isPublicPage);
   closeTopbarMenus();
+  closeMoreSheet();
 
   // Update nav items
   document.querySelectorAll('.nav-item, .bottom-tab').forEach(el => {
@@ -731,6 +734,57 @@ function initNotifications() {
 
 function closeTopbarMenus() {
   document.querySelectorAll('.topbar-popover.open').forEach(popover => popover.classList.remove('open'));
+}
+
+function toggleMoreSheet() {
+  const sheet = document.getElementById('mobileMoreSheet');
+  const backdrop = document.getElementById('moreBackdrop');
+  const isOpen = sheet && sheet.classList.contains('open');
+  closeTopbarMenus();
+  if (sheet) sheet.classList.toggle('open', !isOpen);
+  if (backdrop) backdrop.classList.toggle('open', !isOpen);
+  document.querySelector('.bottom-more-tab')?.classList.toggle('active', !isOpen);
+  document.body.classList.toggle('more-open', !isOpen);
+}
+
+function closeMoreSheet() {
+  const sheet = document.getElementById('mobileMoreSheet');
+  const backdrop = document.getElementById('moreBackdrop');
+  if (sheet) sheet.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  document.querySelector('.bottom-more-tab')?.classList.remove('active');
+  document.body.classList.remove('more-open');
+}
+
+function navigateAndCloseMore(page) {
+  closeMoreSheet();
+  navigateTo(page);
+}
+
+function toggleMoreTopbar(menu) {
+  closeMoreSheet();
+  setTimeout(() => toggleTopbarMenu(menu), 40);
+}
+
+function openMobileSearch() {
+  state.showLobby = false;
+  state.quizMode = 'all';
+  state.quizSearch = '';
+  navigateAndCloseMore('quiz');
+  setTimeout(() => {
+    const input = document.getElementById('quizSearch');
+    if (input) input.focus();
+  }, 80);
+}
+
+function showCategoriesFromHeader() {
+  state.showLobby = true;
+  state.selectedCategory = null;
+  navigateTo('quiz');
+  showCategoryLobby();
+  setTimeout(() => {
+    document.getElementById('categoryLobby')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
 }
 
 function toggleSearch() {
@@ -1899,6 +1953,12 @@ window.logoutUser = logoutUser;
 window.loginUser = loginUser;
 window.toggleTopbarMenu = toggleTopbarMenu;
 window.closeTopbarMenus = closeTopbarMenus;
+window.toggleMoreSheet = toggleMoreSheet;
+window.closeMoreSheet = closeMoreSheet;
+window.navigateAndCloseMore = navigateAndCloseMore;
+window.toggleMoreTopbar = toggleMoreTopbar;
+window.openMobileSearch = openMobileSearch;
+window.showCategoriesFromHeader = showCategoriesFromHeader;
 window.dismissNotif = dismissNotif;
 window.markAllNotifRead = markAllNotifRead;
 window.toggleSidebarCollapse = toggleSidebarCollapse;

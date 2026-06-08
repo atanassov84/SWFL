@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
   <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-24">
+  <link rel="stylesheet" href="styles.css?v=20260608-26">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -574,6 +574,7 @@
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <span style="font-size:12px;color:var(--text-3)">⌨️ A–D wählen · Enter bestätigen</span>
+          <button class="btn btn-secondary btn-sm" onclick="showCategoriesFromHeader()">Kategorien anzeigen</button>
 
         </div>
       </div>
@@ -1178,15 +1179,40 @@
     <span class="nav-icon icon-trophy" aria-hidden="true"></span>
     <span>Liga</span>
   </button>
-  <button class="bottom-tab" data-page="billing">
-    <span class="nav-icon icon-card" aria-hidden="true"></span>
-    <span>Abo</span>
-  </button>
   <button class="bottom-tab" data-page="account">
     <span class="nav-icon icon-user" aria-hidden="true"></span>
     <span>Konto</span>
   </button>
+  <button class="bottom-tab bottom-more-tab" onclick="toggleMoreSheet()" aria-haspopup="dialog" aria-controls="mobileMoreSheet">
+    <span class="nav-icon icon-more" aria-hidden="true"></span>
+    <span>Mehr</span>
+  </button>
 </nav>
+
+<!-- ── Mobile More Sheet ──────────────────────────────────── -->
+<div class="more-backdrop" id="moreBackdrop" onclick="closeMoreSheet()"></div>
+<section class="mobile-more-sheet" id="mobileMoreSheet" role="dialog" aria-modal="true" aria-label="Mehr">
+  <div class="more-handle" aria-hidden="true"></div>
+  <div class="more-head">
+    <div>
+      <span class="text-xs text-muted">SkillPilot</span>
+      <strong>Mehr</strong>
+    </div>
+    <button class="more-close" onclick="closeMoreSheet()" aria-label="Schließen">×</button>
+  </div>
+  <div class="more-grid">
+    <button onclick="openMobileSearch()"><span class="menu-icon icon-training"></span><strong>Fragen suchen</strong><small>Im Training filtern</small></button>
+    <button onclick="setAccountPanel('notifications');navigateAndCloseMore('account')"><span class="menu-icon icon-bell"></span><strong>Mitteilungen</strong><small>3 neue Hinweise</small></button>
+    <button onclick="setAccountPanel('subscription');navigateAndCloseMore('account')"><span class="menu-icon icon-card"></span><strong>Nutzung</strong><small>Paket & Testzugang</small></button>
+    <button onclick="navigateAndCloseMore('billing')"><span class="menu-icon icon-card"></span><strong>Abo</strong><small>Pläne & Upgrade</small></button>
+    <button onclick="setAccountPanel('invoices');navigateAndCloseMore('account')"><span class="menu-icon icon-receipt"></span><strong>Rechnungen</strong><small>Downloads</small></button>
+    <button onclick="setAccountPanel('notifications');navigateAndCloseMore('account')"><span class="menu-icon icon-settings"></span><strong>Einstellungen</strong><small>Profil & Alerts</small></button>
+  </div>
+  <div class="more-actions">
+    <button onclick="applyTheme(state.theme==='dark'?'light':'dark');closeMoreSheet()"><span id="moreThemeIcon">🌙</span> Design wechseln</button>
+    <button onclick="logoutUser();closeMoreSheet()" class="more-logout"><span class="logout-icon"></span> Abmelden</button>
+  </div>
+</section>
 
 <!-- ── AI Coach ───────────────────────────────────────────── -->
 <div class="ai-coach-panel" id="aiCoachPanel">
@@ -1218,6 +1244,6 @@
 <!-- ── Toast Container ────────────────────────────────────── -->
 <div class="toast-container" id="toastContainer"></div>
 
-  <script src="script.js?v=20260608-15"></script>
+  <script src="script.js?v=20260608-16"></script>
 </body>
 </html>
