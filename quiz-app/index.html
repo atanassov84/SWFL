@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillPilot – Versicherungsexamen Vorbereitung</title>
-  <meta name="description" content="Die Premium-Lernplattform für die IHK-Versicherungsprüfung §34d GewO">
-  <link rel="stylesheet" href="styles.css?v=20260608-26">
+  <meta name="description" content="Moderne Prüfungsvorbereitung für die IHK-Sachkunde §34d GewO mit smartem Training, Simulation und Lerncockpit.">
+  <link rel="stylesheet" href="styles.css?v=20260608-30">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563EB'/><text y='24' x='5' font-size='22'>🎯</text></svg>">
 </head>
 <body>
@@ -126,7 +126,7 @@
         <button class="topbar-btn topbar-theme-btn" id="topbarThemeBtnMobile" onclick="applyTheme(state.theme==='dark'?'light':'dark')" title="Design wechseln" aria-label="Design wechseln">🌙</button>
         <div class="topbar-menu-wrap" id="notifWrap">
           <button class="topbar-btn notif-btn" id="notifBtn" onclick="toggleTopbarMenu('notif')" title="Benachrichtigungen" aria-label="Benachrichtigungen">
-            🔔
+            <span class="menu-icon icon-bell" aria-hidden="true"></span>
             <span class="notif-badge" id="notifBadge">3</span>
           </button>
           <div class="topbar-popover notif-popover" id="notifPopover">
@@ -224,82 +224,151 @@
           <span class="brand-name">SkillPilot</span>
         </a>
         <div class="public-nav-links">
-          <a href="#features">Features</a>
+          <a href="#product-tour">Warum</a>
           <a href="#pricing">Preise</a>
-          <a href="#exam">Die Prüfung</a>
-          <a href="#faq">FAQ</a>
+          <a href="#exam">Prüfung</a>
+          <a href="#product-tour">Demo</a>
         </div>
         <div class="public-nav-actions">
           <button class="btn btn-secondary btn-sm" onclick="navigateTo('login')">Login</button>
-          <button class="btn btn-primary btn-sm" onclick="loginUser()">Zum Demo-Account</button>
+          <button class="btn btn-primary btn-sm" onclick="loginUser()">Demo starten</button>
         </div>
       </nav>
 
-      <section class="public-hero">
-        <div>
-          <span class="smart-pill">IHK Sachkundeprüfung §34d GewO</span>
-          <h1>Registrieren. Lernen. Prüfung bestehen.</h1>
-          <p>Die Trainingsplattform für angehende Versicherungsvermittler: strukturierte Kapitel, adaptive Quizfragen, Prüfungssimulation, Lernfortschritt und Rechnungen im Konto.</p>
+      <section class="public-hero landing-v2">
+        <div class="public-hero-copy">
+          <span class="smart-pill">IHK §34d Training, das nach 2026 aussieht</span>
+          <h1>Bestehe §34d mit einer App, die Lernen endlich klar macht.</h1>
+          <p>SkillPilot verwandelt trockene Fragekataloge in kurze Sessions, klare Prioritäten und echte Prüfungsbereitschaft. Öffne die Demo und du siehst sofort, was heute dran ist, wo deine Lücken sind und wie nah du am Bestehen bist.</p>
           <div class="hero-actions">
-            <button class="btn btn-primary" onclick="loginUser()">Kostenlos testen</button>
-            <button class="btn btn-secondary" onclick="navigateTo('login')">Einloggen</button>
+            <button class="btn btn-primary btn-lg" onclick="loginUser()">Demo kostenlos öffnen</button>
+            <a class="btn btn-secondary btn-lg" href="#product-tour">Produkt ansehen</a>
+          </div>
+          <div class="landing-signal-row">
+            <div><strong>30 Sek.</strong><span>bis du im Training bist</span></div>
+            <div><strong>428</strong><span>Fragen als Produktmodell</span></div>
+            <div><strong>90 Min.</strong><span>Prüfungssimulation</span></div>
           </div>
         </div>
-        <div class="public-hero-preview">
-          <div class="preview-top">
-            <span>Prüfungsbereit</span>
-            <strong>68%</strong>
+
+        <div class="hero-app-stage">
+          <div class="hero-glass-card hero-login-panel">
+            <div>
+              <small>Demo-Login</small>
+              <strong>Alex Müller</strong>
+              <span>Level 5 · Prüfung in 37 Tagen</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="loginUser()">Einsteigen</button>
           </div>
-          <div class="preview-question">
-            <small>Kap. 1 · Rechtliche Grundlagen</small>
-            <strong>Welche Voraussetzungen gelten für die Erlaubnis nach §34d GewO?</strong>
-            <span>✓ Sachkunde · ✓ Zuverlässigkeit · ✓ Vermögensverhältnisse</span>
+          <div class="hero-app-window">
+            <div class="window-top">
+              <span></span><span></span><span></span>
+              <strong>SkillPilot Cockpit</strong>
+            </div>
+            <div class="window-hero">
+              <div>
+                <small>Heute lernen</small>
+                <strong>Beratung & Dokumentation</strong>
+                <span>8 Fragen · 12 Minuten · 1 Mini-Fall</span>
+              </div>
+              <button onclick="loginUser()">Start</button>
+            </div>
+            <div class="window-grid">
+              <div><span>Bereitschaft</span><strong>68%</strong></div>
+              <div><span>Streak</span><strong>7</strong></div>
+              <div><span>Risiko</span><strong>2</strong></div>
+            </div>
+            <div class="window-question">
+              <small>Beispielfrage</small>
+              <strong>Welche Voraussetzungen gelten für die Erlaubnis nach §34d GewO?</strong>
+              <p><span></span>Sachkunde · Zuverlässigkeit · Vermögensverhältnisse</p>
+            </div>
           </div>
-          <div class="preview-bars">
-            <i style="width:76%"></i>
-            <i style="width:54%"></i>
-            <i style="width:88%"></i>
+          <div class="hero-floating-card float-a">
+            <strong>Skill-Gap erkannt</strong>
+            <span>Haftpflicht braucht 14 Minuten Fokus</span>
+          </div>
+          <div class="hero-floating-card float-b">
+            <strong>Rechnung bereit</strong>
+            <span>Download im Konto</span>
           </div>
         </div>
       </section>
 
-      <section class="public-stats">
-        <div><strong>70+</strong><span>Übungsfragen</span></div>
-        <div><strong>10</strong><span>Lernbereiche</span></div>
-        <div><strong>90 Min.</strong><span>Simulation</span></div>
-        <div><strong>KI</strong><span>Erklärungen</span></div>
+      <section class="landing-proof">
+        <span>Gebaut für Lernende, Akademien und digitale Schulungsanbieter</span>
+        <strong>Training · Simulation · Abo · Rechnungen · Mobile App-Gefühl</strong>
       </section>
 
-      <section class="public-section" id="features">
-        <div class="public-section-head">
-          <h2>Alles für deine Prüfungsvorbereitung</h2>
-          <p>Gebaut wie eine echte SaaS-Plattform: lernen, messen, verbessern, bezahlen und verwalten.</p>
+      <section class="landing-section" id="product-tour">
+        <div class="landing-section-head">
+          <span class="smart-pill">Warum Nutzer bleiben</span>
+          <h2>Nach dem Login passiert sofort etwas Sinnvolles.</h2>
+          <p>Keine leere Startseite, kein kalter Fragenkatalog. Der Account zeigt, was heute wichtig ist und wo der nächste Fortschritt entsteht.</p>
         </div>
-        <div class="feature-grid">
-          <div class="feature-card"><span>▦</span><strong>Kapitelweise lernen</strong><p>Wähle Haftpflicht, Hausrat, Kfz, Krankenversicherung oder ganze Kapitel.</p></div>
-          <div class="feature-card"><span>⏱</span><strong>Prüfungssimulation</strong><p>Trainiere mit Zeitdruck und realistischem Prüfungsgefühl.</p></div>
-          <div class="feature-card"><span>◇</span><strong>KI-Erklärungen</strong><p>Erhalte verständliche Begründungen und Rechtsgrundlagen.</p></div>
-          <div class="feature-card"><span>↗</span><strong>Lernfortschritt</strong><p>Dashboard, Skill-Gaps, Aktivität und nächste Schritte.</p></div>
-          <div class="feature-card"><span>☰</span><strong>Konto & Rechnungen</strong><p>Abo, sichere Zahlung, Rechnungsdownloads und Datenschutz.</p></div>
-          <div class="feature-card"><span>🏆</span><strong>Liga</strong><p>Motivation durch Punkte, Rangliste und Fortschrittsziele.</p></div>
+        <div class="landing-bento">
+          <article class="bento-card bento-large">
+            <span class="menu-icon icon-training"></span>
+            <h3>Trainiere gezielt nach Themen.</h3>
+            <p>Hausrat, Haftpflicht, Kfz, Krankenversicherung oder ganze Kapitel. Genau das, was du vermisst hast.</p>
+            <div class="bento-tags"><span>Haftpflicht</span><span>Hausrat</span><span>Kfz</span><span>PKV</span></div>
+          </article>
+          <article class="bento-card">
+            <span class="menu-icon icon-bell"></span>
+            <h3>Dein Tag ist vorbereitet.</h3>
+            <p>Tagesziel, Countdown und Hinweise landen sichtbar im Cockpit.</p>
+          </article>
+          <article class="bento-card dark">
+            <h3>Prüfungsmodus</h3>
+            <strong>90</strong>
+            <p>Minuten Simulation mit realistischem Druck.</p>
+          </article>
+          <article class="bento-card">
+            <span class="menu-icon icon-receipt"></span>
+            <h3>Konto, Abo, Rechnungen.</h3>
+            <p>Alles, was zahlende Kunden brauchen, ohne technische Begriffe.</p>
+          </article>
+          <article class="bento-card bento-wide">
+            <h3>Von „ich sollte lernen“ zu „ich weiß, was jetzt dran ist“.</h3>
+            <div class="mini-roadmap">
+              <span>Thema wählen</span><span>8 Fragen</span><span>Fehler verstehen</span><span>Simulation</span>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section class="public-section" id="pricing">
-        <div class="public-section-head">
-          <h2>Einfache, transparente Preise</h2>
-          <p>Starte kostenlos und schalte Pro frei, wenn du intensiver lernen willst.</p>
+      <section class="landing-split">
+        <div>
+          <span class="smart-pill">Live Demo statt Versprechen</span>
+          <h2>Der beste Grund zum Einloggen: Man sieht die App sofort.</h2>
+          <p>Ein Besucher soll nicht erst lesen müssen, warum SkillPilot gut ist. Er soll auf „Demo öffnen“ klicken und direkt Training, Konto, Mobile-Menü, Abo und Rechnungen ausprobieren.</p>
+          <button class="btn btn-primary btn-lg" onclick="loginUser()">Demo-Account öffnen</button>
         </div>
-        <div class="public-pricing">
-          <div class="price-card"><strong>Free</strong><span>0€</span><p>30 Fragen gratis, Basisstatistiken, Kapitelstart.</p><button class="btn btn-secondary btn-sm" onclick="loginUser()">Starten</button></div>
-          <div class="price-card featured"><strong>Pro</strong><span>19,99€</span><p>Unbegrenzte Fragen, Simulation, KI-Coach und Rechnungen.</p><button class="btn btn-primary btn-sm" onclick="loginUser();startCheckout('pro')">Pro sichern</button></div>
-          <div class="price-card"><strong>Team</strong><span>49€</span><p>Mehrere Lernende, Reporting, Compliance-Nachweis.</p><button class="btn btn-secondary btn-sm" onclick="loginUser();startCheckout('team')">Team anfragen</button></div>
+        <div class="demo-console">
+          <div class="demo-console-row"><span>01</span><strong>Login</strong><em>alex@example.de</em></div>
+          <div class="demo-console-row"><span>02</span><strong>Zentrale</strong><em>Smart Session bereit</em></div>
+          <div class="demo-console-row"><span>03</span><strong>Training</strong><em>Kategorien sichtbar</em></div>
+          <div class="demo-console-row"><span>04</span><strong>Konto</strong><em>Rechnungen & Abo</em></div>
         </div>
       </section>
 
-      <section class="public-section exam-section" id="exam">
-        <h2>Die IHK-Sachkundeprüfung §34d GewO</h2>
-        <p>Die Prüfung besteht aus einem schriftlichen Teil und einer praktischen Beratungssimulation. SkillPilot hilft dir, die Themengebiete strukturiert zu trainieren und deine Schwächen früh zu sehen.</p>
+      <section class="landing-section" id="pricing">
+        <div class="landing-section-head">
+          <span class="smart-pill">Preise</span>
+          <h2>Starte kostenlos. Upgrade, wenn die App dich überzeugt.</h2>
+        </div>
+        <div class="landing-pricing">
+          <div class="price-card"><strong>Free</strong><span>0€</span><p>Demo, 30 Fragen, erste Kapitel und Basisfortschritt.</p><button class="btn btn-secondary btn-sm" onclick="loginUser()">Starten</button></div>
+          <div class="price-card featured"><strong>Pro</strong><span>19,99€</span><p>Unbegrenztes Training, Simulation, KI-Coach, Rechnungen und Konto.</p><button class="btn btn-primary btn-sm" onclick="loginUser();startCheckout('pro')">Pro ansehen</button></div>
+          <div class="price-card"><strong>Team</strong><span>49€</span><p>Mehrere Lernende, Reporting und Schulungsanbieter-Workflow.</p><button class="btn btn-secondary btn-sm" onclick="loginUser();startCheckout('team')">Team testen</button></div>
+        </div>
+      </section>
+
+      <section class="landing-section" id="exam">
+        <div class="landing-section-head">
+          <span class="smart-pill">§34d Themen</span>
+          <h2>Alles dreht sich um echte Prüfungsbereiche.</h2>
+        </div>
         <div class="exam-grid">
           <div><strong>Rechtliche Grundlagen</strong><span>GewO, VersVermV, Registrierung</span></div>
           <div><strong>Altersvorsorge</strong><span>Private und betriebliche Vorsorge</span></div>
@@ -308,15 +377,22 @@
         </div>
       </section>
 
-      <section class="public-section" id="faq">
-        <div class="public-section-head">
-          <h2>Häufige Fragen</h2>
+      <section class="landing-section" id="faq">
+        <div class="landing-section-head">
+          <span class="smart-pill">FAQ</span>
+          <h2>Direkt, klar, ohne Produkt-Nebel.</h2>
         </div>
         <div class="faq-list">
-          <details open><summary>Ist eine echte Zahlung möglich?</summary><p>Das Interface ist vorbereitet. Für echte Zahlungen brauchst du einen Backend-Endpunkt, der sichere Checkout-Sitzungen erzeugt.</p></details>
-          <details><summary>Kann ich Rechnungen herunterladen?</summary><p>Ja, im Konto gibt es einen Rechnungsbereich. Produktiv kommen diese PDFs aus deinem Zahlungs- oder Abrechnungssystem.</p></details>
-          <details><summary>Kann ich Kundendaten sicher behalten?</summary><p>Ja, wenn Code, Datenbank und Backups sauber getrennt sind. Details dazu erkläre ich dir unten.</p></details>
+          <details open><summary>Kann ich sofort testen?</summary><p>Ja. Die Demo öffnet direkt das Cockpit, Training, Konto, Abo-Ansicht und Rechnungsbereich.</p></details>
+          <details><summary>Ist das nur eine Landingpage?</summary><p>Nein. Hinter dem Einstieg liegt eine klickbare App-Oberfläche mit Dashboard, Training, Liga, Konto und Checkout-Flows.</p></details>
+          <details><summary>Wirkt das seriös genug für Versicherungen?</summary><p>Ja. Die Seite nutzt moderne Produktästhetik, bleibt aber fachlich ruhig, klar und prüfungsnah.</p></details>
         </div>
+      </section>
+
+      <section class="landing-final">
+        <h2>Öffne die Demo und entscheide in der App, nicht auf einer Textseite.</h2>
+        <p>Genau so sollte sich eine moderne Prüfungsplattform verkaufen: direkt, interaktiv, messbar.</p>
+        <button class="btn btn-primary btn-lg" onclick="loginUser()">Jetzt Demo starten</button>
       </section>
 
       <footer class="public-footer">
@@ -1202,7 +1278,6 @@
   </div>
   <div class="more-grid">
     <button onclick="openMobileSearch()"><span class="menu-icon icon-training"></span><strong>Fragen suchen</strong><small>Im Training filtern</small></button>
-    <button onclick="setAccountPanel('notifications');navigateAndCloseMore('account')"><span class="menu-icon icon-bell"></span><strong>Mitteilungen</strong><small>3 neue Hinweise</small></button>
     <button onclick="setAccountPanel('subscription');navigateAndCloseMore('account')"><span class="menu-icon icon-card"></span><strong>Nutzung</strong><small>Paket & Testzugang</small></button>
     <button onclick="navigateAndCloseMore('billing')"><span class="menu-icon icon-card"></span><strong>Abo</strong><small>Pläne & Upgrade</small></button>
     <button onclick="setAccountPanel('invoices');navigateAndCloseMore('account')"><span class="menu-icon icon-receipt"></span><strong>Rechnungen</strong><small>Downloads</small></button>
@@ -1216,7 +1291,7 @@
 
 <!-- ── AI Coach ───────────────────────────────────────────── -->
 <div class="ai-coach-panel" id="aiCoachPanel">
-  <div class="ai-coach-title">🤖 KI-Coach Max</div>
+  <div class="ai-coach-title"><span class="coach-face">M</span> KI-Coach Max</div>
   <div class="ai-coach-sub">Dein persönlicher Prüfungscoach</div>
   <div class="ai-coach-msg">
     Hallo Alex! Du hast heute noch <strong>0 Fragen</strong> beantwortet.
@@ -1227,7 +1302,7 @@
     <button class="btn btn-ghost btn-sm" onclick="document.getElementById('aiCoachPanel').classList.remove('open')">Später</button>
   </div>
 </div>
-<button class="ai-coach-btn" id="aiCoachBtn" title="KI-Coach öffnen" aria-label="KI-Coach">🤖</button>
+<button class="ai-coach-btn" id="aiCoachBtn" title="KI-Coach öffnen" aria-label="KI-Coach"><span class="coach-face">M</span></button>
 
 <!-- ── Cookie Banner ─────────────────────────────────────── -->
 <div class="cookie-banner" id="cookieBanner">
@@ -1244,6 +1319,6 @@
 <!-- ── Toast Container ────────────────────────────────────── -->
 <div class="toast-container" id="toastContainer"></div>
 
-  <script src="script.js?v=20260608-16"></script>
+<script src="script.js?v=20260608-19"></script>
 </body>
 </html>
