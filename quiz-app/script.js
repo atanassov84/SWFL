@@ -677,6 +677,53 @@ function closeTopbarMenus() {
   document.querySelectorAll('.topbar-popover.open').forEach(popover => popover.classList.remove('open'));
 }
 
+function toggleSearch() {
+  const popover = document.getElementById('searchPopover');
+  const isOpen = popover.classList.contains('open');
+  closeTopbarMenus();
+  if (!isOpen) {
+    popover.classList.add('open');
+    initTopbarSearch();
+    setTimeout(() => document.getElementById('topbarSearchInput')?.focus(), 60);
+  }
+}
+
+function closeSearch() {
+  const popover = document.getElementById('searchPopover');
+  if (popover) popover.classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSearch();
+  });
+});
+
+// wire up search input after DOM ready — attach once
+function initTopbarSearch() {
+  const input = document.getElementById('topbarSearchInput');
+  if (!input || input._bound) return;
+  input._bound = true;
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const q = input.value.trim();
+      if (q) {
+        state.quizSearch = q;
+        state.quizMode = 'all';
+        state.showLobby = false;
+        closeSearch();
+        navigateTo('quiz');
+      }
+    }
+  });
+  input.addEventListener('input', () => {
+    const hint = document.getElementById('searchHint');
+    if (hint) hint.textContent = input.value.trim()
+      ? `Enter → "${input.value.trim()}" in Training suchen`
+      : 'Enter drücken → zum Training';
+  });
+}
+
 document.addEventListener('click', event => {
   if (!event.target.closest('.topbar-menu-wrap')) closeTopbarMenus();
 });
@@ -1729,6 +1776,8 @@ window.startWeaknessMode = startWeaknessMode;
 window.setQuizMode = setQuizMode;
 window.startCheckout = startCheckout;
 window.setBillingCycle = setBillingCycle;
+window.toggleSearch = toggleSearch;
+window.closeSearch = closeSearch;
 window.redirectToPaymentCheckout = redirectToPaymentCheckout;
 window.downloadInvoice = downloadInvoice;
 window.downloadAllInvoices = downloadAllInvoices;

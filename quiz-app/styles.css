@@ -3149,6 +3149,59 @@ body.auth-mode .page {
   animation: progress-fill 1s ease forwards;
 }
 
+/* ── Topbar Search ──────────────────────────────────────────── */
+.search-popover {
+  width: min(360px, calc(100vw - 32px));
+  padding: 12px;
+  right: 0;
+}
+
+.search-popover-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--blue);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  padding: 6px 10px;
+}
+
+.search-icon-inner {
+  font-size: 15px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.topbar-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+}
+
+.topbar-search-input::placeholder { color: var(--text-3); }
+
+.search-popover .popover-close {
+  position: static;
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.search-popover .popover-close:hover { opacity: 1; }
+
+.search-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+  padding: 0 4px;
+}
+
 /* ── Billing toggle ─────────────────────────────────────────── */
 .billing-toggle-wrap {
   display: inline-flex;
