@@ -1,0 +1,73 @@
+name: Distribute Projects to Separate Repos
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Which project to push (all / lumina-bank / sexnord / quiz-app)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - lumina-bank
+          - sexnord
+          - quiz-app
+
+jobs:
+  distribute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SWFL
+        uses: actions/checkout@v4
+
+      - name: Setup git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push lumina-bank
+        if: inputs.target == 'all' || inputs.target == 'lumina-bank'
+        env:
+          PAT: ${{ secrets.DEPLOY_PAT }}
+        run: |
+          mkdir /tmp/lumina-bank && cd /tmp/lumina-bank
+          git init && git checkout -b main
+          cp -r $GITHUB_WORKSPACE/bank/. .
+          git add -A
+          git commit -m "Deploy: Lumina Bank online banking app"
+          git remote add origin https://x-access-token:${PAT}@github.com/atanassov84/lumina-bank.git
+          git push -u origin main --force
+          echo "lumina-bank pushed successfully"
+
+      - name: Push sexnord
+        if: inputs.target == 'all' || inputs.target == 'sexnord'
+        env:
+          PAT: ${{ secrets.DEPLOY_PAT }}
+        run: |
+          mkdir /tmp/sexnord && cd /tmp/sexnord
+          git init && git checkout -b main
+          mkdir -p assets/css assets/js
+          cp $GITHUB_WORKSPACE/sexnord/index.html .
+          cp $GITHUB_WORKSPACE/sexnord/assets/css/style.css assets/css/
+          cp $GITHUB_WORKSPACE/sexnord/assets/js/main.js assets/js/
+          git add -A
+          git commit -m "Deploy: SexNord classifieds portal"
+          git remote add origin https://x-access-token:${PAT}@github.com/atanassov84/sexnord.git
+          git push -u origin main --force
+          echo "sexnord pushed successfully"
+
+      - name: Push quiz-app
+        if: inputs.target == 'all' || inputs.target == 'quiz-app'
+        env:
+          PAT: ${{ secrets.DEPLOY_PAT }}
+        run: |
+          mkdir /tmp/quiz-app && cd /tmp/quiz-app
+          git init && git checkout -b main
+          cp -r $GITHUB_WORKSPACE/quiz-app/. .
+          rm -rf .git
+          git add -A
+          git commit -m "Deploy: SkillPilot quiz app"
+          git remote add origin https://x-access-token:${PAT}@github.com/atanassov84/quiz-app.git
+          git push -u origin main --force
+          echo "quiz-app pushed successfully"
