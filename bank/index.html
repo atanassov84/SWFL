@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumina Bank – Sicheres Online-Banking</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-container">
+  <div class="login-card">
+    <div class="bank-logo">
+      <div class="logo-icon">L</div>
+      <div class="logo-text">
+        <span class="logo-main">LUMINA</span>
+        <span class="logo-sub">BANK</span>
+      </div>
+    </div>
+    <p class="login-headline">Online-Banking</p>
+    <div class="form-group">
+      <label>Benutzername / Kundennummer</label>
+      <input type="text" id="loginUser" placeholder="z. B. alex.atanassov" value="alex.atanassov">
+    </div>
+    <div class="form-group">
+      <label>PIN / Passwort</label>
+      <input type="password" id="loginPass" placeholder="••••••••" value="Manifest2024">
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Anmelden</button>
+    <div class="login-links">
+      <a href="#">PIN vergessen?</a>
+      <a href="#">Neukunde werden</a>
+    </div>
+    <div class="login-security">
+      <span>🔒</span> 256-Bit SSL-Verschlüsselung
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard hidden">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="bank-logo small">
+        <div class="logo-icon">L</div>
+        <div class="logo-text">
+          <span class="logo-main">LUMINA</span>
+          <span class="logo-sub">BANK</span>
+        </div>
+      </div>
+    </div>
+    <div class="topbar-center">
+      <nav class="main-nav">
+        <a href="#" class="nav-item active" onclick="showSection('overview')">Kontoübersicht</a>
+        <a href="#" class="nav-item" onclick="showSection('transfer')">Überweisung</a>
+        <a href="#" class="nav-item" onclick="showSection('cards')">Karten</a>
+        <a href="#" class="nav-item" onclick="showSection('invest')">Investments</a>
+        <a href="#" class="nav-item" onclick="showSection('settings')">Einstellungen</a>
+      </nav>
+    </div>
+    <div class="topbar-right">
+      <span class="user-greeting">Willkommen, <strong>Alexander</strong></span>
+      <div class="avatar" onclick="logout()">AA</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- OVERVIEW SECTION -->
+    <section id="overview" class="section active">
+      <div class="section-header">
+        <h1>Kontoübersicht</h1>
+        <span class="date-badge" id="currentDate"></span>
+      </div>
+
+      <!-- ACCOUNT CARDS -->
+      <div class="account-cards">
+        <div class="account-card primary" onclick="openAccountDetail()">
+          <div class="card-label">Girokonto</div>
+          <div class="card-iban">DE82 5001 0517 0648 4892 00</div>
+          <div class="card-balance">
+            <span class="balance-amount">2.847.350,00</span>
+            <span class="balance-currency">EUR</span>
+          </div>
+          <div class="card-footer">
+            <span>Alexander Atanassov</span>
+            <span class="card-arrow">›</span>
+          </div>
+        </div>
+
+        <div class="account-card secondary" onclick="openSavingsDetail()">
+          <div class="card-label">Tagesgeldkonto</div>
+          <div class="card-iban">DE44 5001 0517 5406 2137 00</div>
+          <div class="card-balance">
+            <span class="balance-amount">1.500.000,00</span>
+            <span class="balance-currency">EUR</span>
+          </div>
+          <div class="card-footer">
+            <span>3,2% p.a. Zinsen</span>
+            <span class="card-arrow">›</span>
+          </div>
+        </div>
+
+        <div class="account-card gold" onclick="openDepotDetail()">
+          <div class="card-label">Depot Premium</div>
+          <div class="card-iban">Depot-Nr. 987-654-321</div>
+          <div class="card-balance">
+            <span class="balance-amount">4.120.800,00</span>
+            <span class="balance-currency">EUR</span>
+          </div>
+          <div class="card-footer">
+            <span>▲ +8,4% YTD</span>
+            <span class="card-arrow">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOTAL WEALTH -->
+      <div class="total-wealth">
+        <div class="wealth-label">Gesamtvermögen</div>
+        <div class="wealth-amount">8.468.150,00 EUR</div>
+        <div class="wealth-sub">inkl. aller Konten & Depot</div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="showSection('transfer')">
+          <span class="qicon">↗</span> Überweisung
+        </button>
+        <button class="quick-btn" onclick="showDauerauftrag()">
+          <span class="qicon">🔄</span> Dauerauftrag
+        </button>
+        <button class="quick-btn" onclick="showSection('cards')">
+          <span class="qicon">💳</span> Karten
+        </button>
+        <button class="quick-btn" onclick="downloadPDF()">
+          <span class="qicon">⬇</span> Kontoauszug
+        </button>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <div class="transactions-panel">
+        <div class="panel-header">
+          <h2>Letzte Transaktionen</h2>
+          <button class="btn-text" onclick="showAllTransactions()">Alle anzeigen</button>
+        </div>
+        <div class="transaction-list" id="transactionList"></div>
+      </div>
+    </section>
+
+    <!-- TRANSFER SECTION -->
+    <section id="transfer" class="section">
+      <div class="section-header">
+        <h1>Überweisung</h1>
+      </div>
+      <div class="transfer-form-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Von Konto</label>
+            <select class="form-input">
+              <option>Girokonto – DE82 5001 0517 0648 4892 00 (2.847.350,00 €)</option>
+              <option>Tagesgeldkonto – DE44 5001 0517 5406 2137 00</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>Empfänger Name</label>
+            <input type="text" class="form-input" id="recipientName" placeholder="Vor- und Nachname">
+          </div>
+          <div class="form-group">
+            <label>IBAN des Empfängers</label>
+            <input type="text" class="form-input" id="recipientIban" placeholder="DE00 0000 0000 0000 0000 00">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>Betrag (EUR)</label>
+            <input type="number" class="form-input" id="transferAmount" placeholder="0,00">
+          </div>
+          <div class="form-group">
+            <label>Ausführungsdatum</label>
+            <input type="date" class="form-input" id="transferDate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Verwendungszweck</label>
+          <input type="text" class="form-input" id="transferNote" placeholder="z. B. Miete Mai 2024">
+        </div>
+        <div class="transfer-actions">
+          <button class="btn-secondary" onclick="clearTransfer()">Abbrechen</button>
+          <button class="btn-primary" onclick="executeTransfer()">Jetzt überweisen</button>
+        </div>
+      </div>
+
+      <!-- TAN INPUT (hidden initially) -->
+      <div id="tanModal" class="modal hidden">
+        <div class="modal-card">
+          <h2>TAN-Bestätigung</h2>
+          <p>Eine TAN wurde an Ihr Mobilgerät +49 *** *** 7821 gesendet.</p>
+          <div class="form-group">
+            <label>TAN eingeben</label>
+            <input type="text" class="form-input" id="tanInput" placeholder="6-stellige TAN" maxlength="6">
+          </div>
+          <div class="transfer-actions">
+            <button class="btn-secondary" onclick="closeTan()">Abbrechen</button>
+            <button class="btn-primary" onclick="confirmTan()">Bestätigen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS SECTION -->
+    <section id="cards" class="section">
+      <div class="section-header">
+        <h1>Meine Karten</h1>
+      </div>
+      <div class="cards-grid">
+        <div class="credit-card black-card">
+          <div class="cc-top">
+            <span class="cc-bank">LUMINA BANK</span>
+            <span class="cc-type">Platinum</span>
+          </div>
+          <div class="cc-chip">▬</div>
+          <div class="cc-number">5412 **** **** 8821</div>
+          <div class="cc-bottom">
+            <div>
+              <div class="cc-label">Karteninhaber</div>
+              <div class="cc-value">ALEXANDER ATANASSOV</div>
+            </div>
+            <div>
+              <div class="cc-label">Gültig bis</div>
+              <div class="cc-value">12/29</div>
+            </div>
+            <div class="cc-brand">VISA</div>
+          </div>
+          <div class="card-actions-row">
+            <button class="card-action-btn" onclick="showCardNotif('Karte gesperrt')">🔒 Sperren</button>
+            <button class="card-action-btn" onclick="showCardNotif('PIN angezeigt: ••••')">🔑 PIN</button>
+            <button class="card-action-btn" onclick="showCardNotif('Limit angepasst')">⚙ Limit</button>
+          </div>
+        </div>
+
+        <div class="credit-card gold-card">
+          <div class="cc-top">
+            <span class="cc-bank">LUMINA BANK</span>
+            <span class="cc-type">Gold Debit</span>
+          </div>
+          <div class="cc-chip">▬</div>
+          <div class="cc-number">4929 **** **** 3344</div>
+          <div class="cc-bottom">
+            <div>
+              <div class="cc-label">Karteninhaber</div>
+              <div class="cc-value">ALEXANDER ATANASSOV</div>
+            </div>
+            <div>
+              <div class="cc-label">Gültig bis</div>
+              <div class="cc-value">08/28</div>
+            </div>
+            <div class="cc-brand">Mastercard</div>
+          </div>
+          <div class="card-actions-row">
+            <button class="card-action-btn" onclick="showCardNotif('Karte entsperrt')">🔓 Freigeben</button>
+            <button class="card-action-btn" onclick="showCardNotif('Umsätze geladen')">📋 Umsätze</button>
+            <button class="card-action-btn" onclick="showCardNotif('Einstellungen geöffnet')">⚙ Settings</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVEST SECTION -->
+    <section id="invest" class="section">
+      <div class="section-header">
+        <h1>Investments & Depot</h1>
+      </div>
+      <div class="invest-summary">
+        <div class="invest-stat">
+          <div class="is-label">Depotwert</div>
+          <div class="is-value">4.120.800,00 €</div>
+        </div>
+        <div class="invest-stat green">
+          <div class="is-label">Gesamtgewinn</div>
+          <div class="is-value">+318.642,00 €</div>
+        </div>
+        <div class="invest-stat green">
+          <div class="is-label">YTD Performance</div>
+          <div class="is-value">+8,4%</div>
+        </div>
+      </div>
+      <div class="positions-list">
+        <div class="position-header">
+          <span>Wertpapier</span><span>Stück</span><span>Kurs</span><span>Wert</span><span>+/-</span>
+        </div>
+        <div class="position-row" onclick="showPositionDetail('MSCI World ETF')">
+          <span><strong>MSCI World ETF</strong><br><small>IE00B4L5Y983</small></span>
+          <span>8.500</span>
+          <span>124,30 €</span>
+          <span>1.056.550 €</span>
+          <span class="green">+12,1%</span>
+        </div>
+        <div class="position-row" onclick="showPositionDetail('Apple Inc.')">
+          <span><strong>Apple Inc.</strong><br><small>US0378331005</small></span>
+          <span>3.200</span>
+          <span>218,75 €</span>
+          <span>700.000 €</span>
+          <span class="green">+22,3%</span>
+        </div>
+        <div class="position-row" onclick="showPositionDetail('Bitcoin ETP')">
+          <span><strong>Bitcoin ETP</strong><br><small>DE000A27Z304</small></span>
+          <span>150</span>
+          <span>5.412,00 €</span>
+          <span>811.800 €</span>
+          <span class="green">+41,7%</span>
+        </div>
+        <div class="position-row" onclick="showPositionDetail('Nestlé SA')">
+          <span><strong>Nestlé SA</strong><br><small>CH0038863350</small></span>
+          <span>4.100</span>
+          <span>372,50 €</span>
+          <span>1.527.250 €</span>
+          <span class="red">-2,1%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS SECTION -->
+    <section id="settings" class="section">
+      <div class="section-header">
+        <h1>Einstellungen & Profil</h1>
+      </div>
+      <div class="settings-card">
+        <div class="profile-row">
+          <div class="profile-avatar">AA</div>
+          <div class="profile-info">
+            <div class="profile-name">Alexander Atanassov</div>
+            <div class="profile-detail">Kundennummer: 648-492-2847</div>
+            <div class="profile-detail">Kundenklasse: <span class="badge-gold">Premium Private Banking</span></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="settings-list">
+          <div class="settings-item" onclick="showSettingNotif('Kontaktdaten')">
+            <span>📧 Kontaktdaten ändern</span><span>›</span>
+          </div>
+          <div class="settings-item" onclick="showSettingNotif('PIN geändert')">
+            <span>🔑 PIN / Passwort ändern</span><span>›</span>
+          </div>
+          <div class="settings-item" onclick="showSettingNotif('Benachrichtigungen')">
+            <span>🔔 Benachrichtigungen</span><span>›</span>
+          </div>
+          <div class="settings-item" onclick="showSettingNotif('Sicherheit')">
+            <span>🛡 Sicherheitseinstellungen</span><span>›</span>
+          </div>
+          <div class="settings-item" onclick="showSettingNotif('Steuerservice')">
+            <span>📄 Steuer & Dokumente</span><span>›</span>
+          </div>
+          <div class="settings-item" onclick="showSettingNotif('Berater kontaktiert')">
+            <span>👤 Mein Berater</span><span>›</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bank-footer">
+    <span>© 2024 Lumina Bank AG – Einlagen gesichert bis 100.000 € (EdB)</span>
+    <span>BIC: LUMIDEM1XXX | BaFin-Lizenz-Nr. 124987</span>
+  </footer>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- ACCOUNT DETAIL MODAL -->
+<div id="accountModal" class="modal hidden">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <h2>Kontodetails – Girokonto</h2>
+      <button class="modal-close" onclick="closeModal('accountModal')">✕</button>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-item"><span>Kontoinhaber</span><strong>Alexander Atanassov</strong></div>
+      <div class="detail-item"><span>IBAN</span><strong>DE82 5001 0517 0648 4892 00</strong></div>
+      <div class="detail-item"><span>BIC</span><strong>LUMIDEM1XXX</strong></div>
+      <div class="detail-item"><span>Kontoart</span><strong>Girokonto Comfort Plus</strong></div>
+      <div class="detail-item"><span>Kontonummer</span><strong>0648 4892 00</strong></div>
+      <div class="detail-item"><span>Verfügbarer Saldo</span><strong class="green-text">2.847.350,00 EUR</strong></div>
+      <div class="detail-item"><span>Dispolimit</span><strong>50.000,00 EUR</strong></div>
+      <div class="detail-item"><span>Kontoführung seit</span><strong>15.03.2011</strong></div>
+    </div>
+    <button class="btn-primary" onclick="copyIBAN()">IBAN kopieren</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
