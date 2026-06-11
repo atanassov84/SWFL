@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SexNord – Erotikanzeigen & Dating im Norden Deutschlands" />
+  <title>SexNord – Erotikanzeigen & Kontakte im Norden</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== ALTERSVERIFIKATION MODAL ===== -->
+  <div class="age-gate" id="age-gate">
+    <div class="age-gate__box">
+      <div class="age-gate__logo">Sex<span>Nord</span></div>
+      <div class="age-gate__warning-icon">⚠</div>
+      <h2>Altersverifikation erforderlich</h2>
+      <p>Diese Website enthält Inhalte, die ausschließlich für Erwachsene ab 18 Jahren bestimmt sind.</p>
+      <p class="age-gate__sub">Mit dem Betreten der Seite bestätigst du, dass du mindestens 18 Jahre alt bist und erotische Inhalte für Erwachsene sehen möchtest.</p>
+      <div class="age-gate__buttons">
+        <button class="btn-enter" id="btn-enter">Ja, ich bin 18+ Jahre alt</button>
+        <a href="https://www.google.de" class="btn-leave">Nein, ich bin unter 18</a>
+      </div>
+      <p class="age-gate__legal">Mit dem Zugang akzeptierst du unsere <a href="#">AGB</a> und <a href="#">Datenschutzrichtlinie</a>.</p>
+    </div>
+  </div>
+
+  <!-- ===== HEADER / NAVIGATION ===== -->
+  <header class="site-header" id="site-header">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top__inner">
+          <a href="index.html" class="site-logo">Sex<span>Nord</span></a>
+          <div class="header-search">
+            <input type="text" placeholder="Suche nach Ort, Name, Kategorie…" class="header-search__input" />
+            <button class="header-search__btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <div class="header-actions">
+            <a href="#" class="btn-login">Einloggen</a>
+            <a href="#" class="btn-register">Kostenlos registrieren</a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menü">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav" id="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="#">Alle Anzeigen</a></li>
+          <li class="nav-item"><a href="#">Escorts</a></li>
+          <li class="nav-item"><a href="#">Kontaktanzeigen</a></li>
+          <li class="nav-item"><a href="#">Webcam</a></li>
+          <li class="nav-item"><a href="#">Massage</a></li>
+          <li class="nav-item"><a href="#">Swingerclubs</a></li>
+          <li class="nav-item"><a href="#">Sexkinos</a></li>
+          <li class="nav-item has-dropdown">
+            <a href="#">Regionen <span class="nav-arrow">▾</span></a>
+            <ul class="dropdown">
+              <li><a href="#">Hamburg</a></li>
+              <li><a href="#">Bremen</a></li>
+              <li><a href="#">Schleswig-Holstein</a></li>
+              <li><a href="#">Niedersachsen</a></li>
+              <li><a href="#">Mecklenburg-Vorpommern</a></li>
+              <li><a href="#">Lübeck</a></li>
+              <li><a href="#">Kiel</a></li>
+              <li><a href="#">Rostock</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--cta"><a href="#">+ Anzeige aufgeben</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== BANNER / HERO ===== -->
+  <section class="hero-banner">
+    <div class="container">
+      <div class="hero-banner__inner">
+        <div class="hero-banner__text">
+          <h1>Erotikanzeigen &amp; Kontakte<br/><span>im Norden Deutschlands</span></h1>
+          <p>Tausende Anzeigen von Escorts, Damen und Paaren in Hamburg, Bremen, Kiel, Rostock und dem gesamten Norden.</p>
+          <div class="hero-banner__stats">
+            <div class="hb-stat"><span class="hb-stat__num">12.400+</span><span class="hb-stat__label">Aktive Anzeigen</span></div>
+            <div class="hb-stat"><span class="hb-stat__num">3.200+</span><span class="hb-stat__label">Neue diese Woche</span></div>
+            <div class="hb-stat"><span class="hb-stat__num">8</span><span class="hb-stat__label">Bundesländer</span></div>
+          </div>
+        </div>
+        <div class="hero-banner__search-box">
+          <h3>Schnellsuche</h3>
+          <div class="quick-search-form">
+            <div class="qs-field">
+              <label>Kategorie</label>
+              <select>
+                <option>Alle Kategorien</option>
+                <option>Escorts</option>
+                <option>Kontaktanzeigen</option>
+                <option>Webcam</option>
+                <option>Massage</option>
+                <option>Swingerclubs</option>
+              </select>
+            </div>
+            <div class="qs-field">
+              <label>Region</label>
+              <select>
+                <option>Alle Regionen</option>
+                <option>Hamburg</option>
+                <option>Bremen</option>
+                <option>Schleswig-Holstein</option>
+                <option>Niedersachsen</option>
+                <option>Mecklenburg-Vorpommern</option>
+              </select>
+            </div>
+            <div class="qs-field">
+              <label>Alter</label>
+              <select>
+                <option>Alle Altersgruppen</option>
+                <option>18–25 Jahre</option>
+                <option>26–35 Jahre</option>
+                <option>36–45 Jahre</option>
+                <option>46+ Jahre</option>
+              </select>
+            </div>
+            <button class="btn-search-big">Jetzt suchen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="#">Startseite</a> <span>›</span> <span>Alle Anzeigen</span>
+      </nav>
+      <div class="result-count">12.487 Anzeigen gefunden</div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    <div class="container">
+      <div class="content-layout">
+
+        <!-- ===== SIDEBAR FILTER ===== -->
+        <aside class="sidebar">
+          <div class="filter-box">
+            <h3 class="filter-box__title">Filter</h3>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Kategorie</label>
+              <div class="filter-checkboxes">
+                <label><input type="checkbox" checked /> Alle <span class="count">(12.487)</span></label>
+                <label><input type="checkbox" /> Escorts <span class="count">(4.231)</span></label>
+                <label><input type="checkbox" /> Kontaktanzeigen <span class="count">(3.890)</span></label>
+                <label><input type="checkbox" /> Webcam <span class="count">(2.100)</span></label>
+                <label><input type="checkbox" /> Massage <span class="count">(1.456)</span></label>
+                <label><input type="checkbox" /> Swingerclubs <span class="count">(810)</span></label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Alter</label>
+              <div class="range-slider-wrap">
+                <input type="range" min="18" max="65" value="18" class="range-slider" id="age-min" />
+                <input type="range" min="18" max="65" value="55" class="range-slider" id="age-max" />
+                <div class="range-display"><span id="age-min-val">18</span> – <span id="age-max-val">55</span> Jahre</div>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Region</label>
+              <div class="filter-checkboxes">
+                <label><input type="checkbox" checked /> Alle Regionen</label>
+                <label><input type="checkbox" /> Hamburg</label>
+                <label><input type="checkbox" /> Bremen</label>
+                <label><input type="checkbox" /> Kiel</label>
+                <label><input type="checkbox" /> Lübeck</label>
+                <label><input type="checkbox" /> Rostock</label>
+                <label><input type="checkbox" /> Hannover</label>
+                <label><input type="checkbox" /> Schwerin</label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Körperbau</label>
+              <div class="filter-checkboxes">
+                <label><input type="checkbox" /> Schlank</label>
+                <label><input type="checkbox" /> Kurvig</label>
+                <label><input type="checkbox" /> Sportlich</label>
+                <label><input type="checkbox" /> Mollig</label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Anbieter</label>
+              <div class="filter-checkboxes">
+                <label><input type="radio" name="provider" checked /> Damen</label>
+                <label><input type="radio" name="provider" /> Herren</label>
+                <label><input type="radio" name="provider" /> Trans</label>
+                <label><input type="radio" name="provider" /> Paare</label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-group__label">Nur mit Foto</label>
+              <label class="toggle-switch">
+                <input type="checkbox" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <button class="btn-apply-filter">Filter anwenden</button>
+            <button class="btn-reset-filter">Zurücksetzen</button>
+          </div>
+
+          <!-- SIDEBAR AD BOX -->
+          <div class="sidebar-promo">
+            <div class="sidebar-promo__inner">
+              <p class="sidebar-promo__tag">Premium</p>
+              <h4>Anzeige aufgeben</h4>
+              <p>Erreiche täglich tausende Interessenten im Norden!</p>
+              <a href="#" class="btn-promo">Jetzt inserieren</a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ===== PROFILE LISTINGS ===== -->
+        <section class="listings">
+
+          <!-- Sort Bar -->
+          <div class="sort-bar">
+            <div class="sort-bar__left">
+              <span>Sortieren:</span>
+              <select class="sort-select">
+                <option>Neueste zuerst</option>
+                <option>Beliebteste zuerst</option>
+                <option>Preis aufsteigend</option>
+                <option>Preis absteigend</option>
+              </select>
+            </div>
+            <div class="sort-bar__right">
+              <button class="view-btn active" title="Rasteransicht">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7z"/></svg>
+              </button>
+              <button class="view-btn" title="Listenansicht">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 4h18v2H3zm0 7h18v2H3zm0 7h18v2H3z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- VIP / Premium Banner -->
+          <div class="vip-strip">
+            <span class="vip-strip__label">⭐ VIP</span>
+            Werde VIP-Mitglied und erhalte unbegrenzt Kontaktmöglichkeiten &amp; Premium-Sichtbarkeit.
+            <a href="#">Mehr erfahren →</a>
+          </div>
+
+          <!-- Profile Cards Grid -->
+          <div class="profiles-grid" id="profiles-grid">
+
+            <!-- Card 1 – VIP/Featured -->
+            <article class="profile-card profile-card--vip">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#c0392b,#8e44ad)">
+                  <span class="profile-card__initials">SN</span>
+                </div>
+                <span class="profile-card__badge badge--vip">VIP</span>
+                <span class="profile-card__badge badge--online">● Online</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Sandra N.</h3>
+                  <span class="profile-card__age">26 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Hamburg, Altona</p>
+                <p class="profile-card__desc">Herzlich willkommen! Ich biete diskrete Treffen für Gentlemen an. Anrufe täglich ab 10 Uhr.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Escort</span>
+                  <span class="tag">Diskret</span>
+                  <span class="tag">GFE</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 150 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#2980b9,#6dd5fa)">
+                  <span class="profile-card__initials">LK</span>
+                </div>
+                <span class="profile-card__badge badge--new">Neu</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Laura K.</h3>
+                  <span class="profile-card__age">23 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Bremen, Findorff</p>
+                <p class="profile-card__desc">Studentin sucht nette Bekanntschaften. Nur ernsthafte Anfragen bitte.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Kontaktanzeige</span>
+                  <span class="tag">Dates</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">Auf Anfrage</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#11998e,#38ef7d)">
+                  <span class="profile-card__initials">MV</span>
+                </div>
+                <span class="profile-card__badge badge--online">● Online</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Mia V.</h3>
+                  <span class="profile-card__age">31 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Kiel, Innenstadt</p>
+                <p class="profile-card__desc">Erfahrene Masseurin bietet Wellness und Entspannung in diskreter Atmosphäre.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Massage</span>
+                  <span class="tag">Tantric</span>
+                  <span class="tag">Wellness</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 80 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 4 – VIP -->
+            <article class="profile-card profile-card--vip">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#f093fb,#f5576c)">
+                  <span class="profile-card__initials">JR</span>
+                </div>
+                <span class="profile-card__badge badge--vip">VIP</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Julia R.</h3>
+                  <span class="profile-card__age">28 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Hamburg, St. Pauli</p>
+                <p class="profile-card__desc">Blonde Schönheit mit viel Charme. Genieße unvergessliche Stunden in eleganter Umgebung.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Escort</span>
+                  <span class="tag">Dinner Date</span>
+                  <span class="tag">Reisebegleitung</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 200 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#f7971e,#ffd200)">
+                  <span class="profile-card__initials">AB</span>
+                </div>
+                <span class="profile-card__badge badge--new">Neu</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Alina B.</h3>
+                  <span class="profile-card__age">24 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Lübeck, Altstadt</p>
+                <p class="profile-card__desc">Fröhliche Russin sucht netten Mann für regelmäßige Treffen. Diskret und zuverlässig.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Kontaktanzeige</span>
+                  <span class="tag">Treffen</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">Auf Anfrage</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 6 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+                  <span class="profile-card__initials">TC</span>
+                </div>
+                <span class="profile-card__badge badge--online">● Online</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Tanja C.</h3>
+                  <span class="profile-card__age">35 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Rostock, Stadtmitte</p>
+                <p class="profile-card__desc">Reife Frau mit Erfahrung bietet live Webcam-Shows und private Chats an.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Webcam</span>
+                  <span class="tag">Chat</span>
+                  <span class="tag">Live</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 2 €/min</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 7 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
+                  <span class="profile-card__initials">NM</span>
+                </div>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Nicole M.</h3>
+                  <span class="profile-card__age">29 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Hannover, Mitte</p>
+                <p class="profile-card__desc">Zertifizierte Masseurin. Entspannung pur für gestresste Herren. Hausbesuche möglich.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Massage</span>
+                  <span class="tag">Hausbesuch</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 90 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 8 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#fd746c,#ff9068)">
+                  <span class="profile-card__initials">KS</span>
+                </div>
+                <span class="profile-card__badge badge--new">Neu</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Katja S.</h3>
+                  <span class="profile-card__age">22 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Hamburg, Eimsbüttel</p>
+                <p class="profile-card__desc">Süße Studentin, sehr diskret. Suche Sugardaddy für regelmäßige Treffen in HH.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Sugar Dating</span>
+                  <span class="tag">Diskret</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">Auf Anfrage</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 9 – VIP -->
+            <article class="profile-card profile-card--vip">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+                  <span class="profile-card__initials">EW</span>
+                </div>
+                <span class="profile-card__badge badge--vip">VIP</span>
+                <span class="profile-card__badge badge--online">● Online</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Elena W.</h3>
+                  <span class="profile-card__age">27 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Hamburg, Hafencity</p>
+                <p class="profile-card__desc">Elegante Begleitdame für Geschäftsreisen, Events und Dinner. Niveau und Stil garantiert.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Escort</span>
+                  <span class="tag">Business</span>
+                  <span class="tag">Event</span>
+                  <span class="tag">Reise</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 250 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 10 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+                  <span class="profile-card__initials">PS</span>
+                </div>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Petra S.</h3>
+                  <span class="profile-card__age">38 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Schwerin, Altstadt</p>
+                <p class="profile-card__desc">Erfahrene Frau bietet Tantra und klassische Massage. Ausbildung an seriösem Institut.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Tantra</span>
+                  <span class="tag">Massage</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 100 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 11 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#fa709a,#fee140)">
+                  <span class="profile-card__initials">DL</span>
+                </div>
+                <span class="profile-card__badge badge--online">● Online</span>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Dana L.</h3>
+                  <span class="profile-card__age">25 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Bremen, Neustadt</p>
+                <p class="profile-card__desc">Webcam Girl live für dich. Private Shows und Foto-Sets auf Anfrage verfügbar.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Webcam</span>
+                  <span class="tag">Fotos</span>
+                  <span class="tag">Videos</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 1,50 €/min</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 12 -->
+            <article class="profile-card">
+              <a href="#" class="profile-card__image-wrap">
+                <div class="profile-card__photo" style="background:linear-gradient(135deg,#30cfd0,#330867)">
+                  <span class="profile-card__initials">RF</span>
+                </div>
+                <button class="profile-card__fav" aria-label="Merken">♡</button>
+              </a>
+              <div class="profile-card__body">
+                <div class="profile-card__top">
+                  <h3 class="profile-card__name">Rosa F.</h3>
+                  <span class="profile-card__age">32 J.</span>
+                </div>
+                <p class="profile-card__location">📍 Flensburg, Mitte</p>
+                <p class="profile-card__desc">Dänisch-deutsche Begleitdame. Zweisprachig, kultiviert, diskret. Kurzfristig verfügbar.</p>
+                <div class="profile-card__tags">
+                  <span class="tag">Escort</span>
+                  <span class="tag">International</span>
+                </div>
+                <div class="profile-card__footer">
+                  <span class="profile-card__price">ab 180 €/h</span>
+                  <a href="#" class="btn-contact">Kontakt</a>
+                </div>
+              </div>
+            </article>
+
+          </div><!-- /profiles-grid -->
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="page-btn page-btn--prev" disabled>‹ Zurück</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span class="page-dots">…</span>
+            <button class="page-btn">47</button>
+            <button class="page-btn page-btn--next">Weiter ›</button>
+          </div>
+
+        </section><!-- /listings -->
+      </div><!-- /content-layout -->
+    </div><!-- /container -->
+  </main>
+
+  <!-- ===== REGIONS SECTION ===== -->
+  <section class="regions-section">
+    <div class="container">
+      <h2 class="regions-section__title">Beliebte Regionen</h2>
+      <div class="regions-grid">
+        <a href="#" class="region-card">
+          <span class="region-card__name">Hamburg</span>
+          <span class="region-card__count">4.231 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Bremen</span>
+          <span class="region-card__count">1.890 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Kiel</span>
+          <span class="region-card__count">987 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Lübeck</span>
+          <span class="region-card__count">754 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Rostock</span>
+          <span class="region-card__count">698 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Hannover</span>
+          <span class="region-card__count">1.102 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Schwerin</span>
+          <span class="region-card__count">412 Anzeigen</span>
+        </a>
+        <a href="#" class="region-card">
+          <span class="region-card__name">Flensburg</span>
+          <span class="region-card__count">320 Anzeigen</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-col--brand">
+          <div class="footer-logo">Sex<span>Nord</span></div>
+          <p>Das führende Erotik-Anzeigenportal für Norddeutschland. Diskret, sicher und kostenlos inserieren.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter" class="social-icon">𝕏</a>
+            <a href="#" aria-label="Instagram" class="social-icon">📷</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Kategorien</h4>
+          <ul>
+            <li><a href="#">Escorts</a></li>
+            <li><a href="#">Kontaktanzeigen</a></li>
+            <li><a href="#">Webcam</a></li>
+            <li><a href="#">Massage</a></li>
+            <li><a href="#">Swingerclubs</a></li>
+            <li><a href="#">Sexkinos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Regionen</h4>
+          <ul>
+            <li><a href="#">Hamburg</a></li>
+            <li><a href="#">Bremen</a></li>
+            <li><a href="#">Schleswig-Holstein</a></li>
+            <li><a href="#">Niedersachsen</a></li>
+            <li><a href="#">Mecklenburg-Vorpommern</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Service</h4>
+          <ul>
+            <li><a href="#">Anzeige aufgeben</a></li>
+            <li><a href="#">Registrieren</a></li>
+            <li><a href="#">Einloggen</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-legal-links">
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+          <a href="#">AGB</a>
+          <a href="#">Cookie-Einstellungen</a>
+          <a href="#">Jugendschutz</a>
+        </div>
+        <p class="footer-copy">© 2025 SexNord.de – Alle Rechte vorbehalten. Nur für Erwachsene ab 18 Jahren.</p>
+        <p class="footer-disclaimer">Alle Anzeigen sind private Inserate. Der Betreiber übernimmt keine Verantwortung für den Inhalt der Anzeigen.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
